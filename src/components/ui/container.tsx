@@ -3,7 +3,7 @@ import { Slot } from "@radix-ui/react-slot";
 import { cva, type VariantProps } from "class-variance-authority";
 import { forwardRef, type HTMLAttributes } from "react";
 
-const containerVariants = cva("w-full mx-auto max-w-[1440px]", {
+const containerVariants = cva("w-full  mx-auto max-w-[1440px]", {
   variants: {
     variant: {
       default: "px-4 md:px-8",
