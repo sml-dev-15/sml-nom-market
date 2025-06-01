@@ -27,6 +27,7 @@ export const DarkModeToggle = () => {
   return (
     <Button
       variant="outline"
+      className="dark:border-black/55"
       size="icon"
       onClick={toggleTheme}
       aria-label="Toggle dark mode"
@@ -39,7 +40,7 @@ export const DarkModeToggle = () => {
       <Moon
         className={`transition-transform duration-300 h-[1.2rem] w-[1.2rem] ${
           theme === "dark"
-            ? "rotate-0 scale-100"
+            ? "rotate-0 scale-100 text-black hover:bg-slate-500"
             : "-rotate-90 scale-0 absolute"
         }`}
       />

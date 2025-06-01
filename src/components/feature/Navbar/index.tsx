@@ -1,13 +1,13 @@
 import { Container } from "@/components/ui/container";
 import { DarkModeToggle } from "./components/DarkModeToggle";
+import { NomMarketLogo } from "@/components/icons/NomMarketLogo";
 
 export const Navbar = () => {
   return (
-    <div className="h-[72px] bg-white/60 ">
+    <div className="sticky top-0 z-50 h-[72px] bg-white border-b">
       <Container className="h-full">
         <div className="h-full flex items-center justify-between">
-          <p className="text-3xl font-semibold italic">SML</p>
-          <p className="text-3xl font-semibold">SML Nom Market</p>
+          <NomMarketLogo />
           <DarkModeToggle />
         </div>
       </Container>
