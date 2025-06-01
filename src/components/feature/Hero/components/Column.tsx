@@ -155,6 +155,13 @@ export const dataColumns: ColumnDef<DataProps>[] = [
         </Button>
       );
     },
-    cell: ({ row }) => <div>{row.getValue("owner")}</div>,
+    cell: ({ row }) => {
+      const { url } = row.original;
+      return (
+        <Link href={url} target="_blank">
+          <div>{row.getValue("owner")}</div>
+        </Link>
+      );
+    },
   },
 ];

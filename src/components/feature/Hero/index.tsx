@@ -32,7 +32,10 @@ const useFetchMarketData = (marketType: string) => {
           category: item.object.category,
           subCategory: item.object.subCategory,
           unitPrice: item.pricing.unitPrice,
-          availableQuantity: item.pricing.availableQuantity,
+          availableQuantity:
+            marketType === "toBuy"
+              ? item.pricing.availableQuantity
+              : item.pricing.desiredQuantity,
           owner: item.tile.owner,
           image: item.object.imageUrl,
           url: item.tile.url,
