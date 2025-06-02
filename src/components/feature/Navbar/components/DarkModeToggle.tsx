@@ -4,10 +4,12 @@ import { useEffect, useState } from "react";
 import { Button } from "@/components/ui/button";
 import { Loader, Moon, Sun } from "lucide-react";
 import { useTheme } from "next-themes";
+import { useDarkModeBgStore } from "@/hooks/use-dark-mode-bg";
 
 export const DarkModeToggle = () => {
   const { theme, setTheme } = useTheme();
   const [mounted, setMounted] = useState(false);
+  const { setDarkModeBg } = useDarkModeBgStore();
 
   useEffect(() => {
     setMounted(true);
@@ -15,6 +17,7 @@ export const DarkModeToggle = () => {
 
   const toggleTheme = () => {
     setTheme(theme === "dark" ? "light" : "dark");
+    setDarkModeBg(theme === "dark" ? true : false);
   };
 
   if (!mounted)
