@@ -4,7 +4,7 @@ import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import { Button } from "@/components/ui/button";
 import { formatGold, formatNumber } from "@/lib/format";
 import { ColumnDef } from "@tanstack/react-table";
-import { ArrowUpDown, ViewIcon } from "lucide-react";
+import { ArrowUpDown, ExternalLink } from "lucide-react";
 import Image from "next/image";
 import Link from "next/link";
 
@@ -17,10 +17,35 @@ export type DataProps = {
   availableQuantity: number;
   owner: string;
   image: string;
-  url: string;
+  visit: string;
 };
 
-export const dataColumns: ColumnDef<DataProps>[] = [
+export const dataColumns = (marketType: string): ColumnDef<DataProps>[] => [
+  {
+    accessorKey: "url",
+    header: ({ column }) => {
+      return (
+        <Button
+          variant="ghost"
+          onClick={() => column.toggleSorting(column.getIsSorted() === "asc")}
+        >
+          Visit
+          <ArrowUpDown />
+        </Button>
+      );
+    },
+    cell: ({ row }) => {
+      const { visit } = row.original;
+      return (
+        <Link href={visit} target="_blank">
+          <div className="flex items-center gap-2">
+            <ExternalLink className="size-4" />
+            <p> {marketType === "toBuy" ? "Buy" : "Sell"}</p>
+          </div>
+        </Link>
+      );
+    },
+  },
   {
     accessorKey: "name",
     header: ({ column }) => {
@@ -35,54 +60,19 @@ export const dataColumns: ColumnDef<DataProps>[] = [
       );
     },
     cell: ({ row }) => {
-      const { name, image, url } = row.original;
+      const { name, image } = row.original;
       return (
-        <Link href={url} target="_blank">
-          <div className="lowercase flex items-center gap-2">
-            <Avatar>
-              <AvatarImage src={image} />
-              <AvatarFallback>{name.slice(0, 2).toUpperCase()}</AvatarFallback>
-            </Avatar>
-            {name}
-          </div>
-        </Link>
+        <div className="lowercase flex items-center gap-2">
+          <Avatar>
+            <AvatarImage src={image} />
+            <AvatarFallback>{name.slice(0, 2).toUpperCase()}</AvatarFallback>
+          </Avatar>
+          {name}
+        </div>
       );
     },
   },
-  {
-    accessorKey: "category",
-    header: ({ column }) => {
-      return (
-        <Button
-          variant="ghost"
-          onClick={() => column.toggleSorting(column.getIsSorted() === "asc")}
-        >
-          Category
-          <ArrowUpDown />
-        </Button>
-      );
-    },
-    cell: ({ row }) => {
-      return <div className="lowercase">{row.getValue("category")}</div>;
-    },
-  },
-  {
-    accessorKey: "subCategory",
-    header: ({ column }) => {
-      return (
-        <Button
-          variant="ghost"
-          onClick={() => column.toggleSorting(column.getIsSorted() === "asc")}
-        >
-          Sub Category
-          <ArrowUpDown />
-        </Button>
-      );
-    },
-    cell: ({ row }) => (
-      <div className="lowercase">{row.getValue("subCategory")}</div>
-    ),
-  },
+
   {
     accessorKey: "unitPrice",
     header: ({ column }) => {
@@ -121,26 +111,38 @@ export const dataColumns: ColumnDef<DataProps>[] = [
     ),
   },
   {
-    accessorKey: "url",
+    accessorKey: "category",
     header: ({ column }) => {
       return (
         <Button
           variant="ghost"
           onClick={() => column.toggleSorting(column.getIsSorted() === "asc")}
         >
-          Visit
+          Category
           <ArrowUpDown />
         </Button>
       );
     },
     cell: ({ row }) => {
-      const { url } = row.original;
+      return <div className="lowercase">{row.getValue("category")}</div>;
+    },
+  },
+  {
+    accessorKey: "subCategory",
+    header: ({ column }) => {
       return (
-        <Link href={url} target="_blank">
-          <ViewIcon className="text-sm" />
-        </Link>
+        <Button
+          variant="ghost"
+          onClick={() => column.toggleSorting(column.getIsSorted() === "asc")}
+        >
+          Sub Category
+          <ArrowUpDown />
+        </Button>
       );
     },
+    cell: ({ row }) => (
+      <div className="lowercase">{row.getValue("subCategory")}</div>
+    ),
   },
   {
     accessorKey: "owner",
@@ -150,13 +152,13 @@ export const dataColumns: ColumnDef<DataProps>[] = [
           variant="ghost"
           onClick={() => column.toggleSorting(column.getIsSorted() === "asc")}
         >
-          Owner
+          {marketType === "toBuy" ? "Seller" : "Buyer"}
           <ArrowUpDown />
         </Button>
       );
     },
     cell: ({ row }) => {
-      const { url } = row.original;
+      const { visit: url } = row.original;
       return (
         <Link href={url} target="_blank">
           <div>{row.getValue("owner")}</div>

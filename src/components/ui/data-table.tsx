@@ -121,16 +121,16 @@ export function DataTable<TData, TValue>({
 
   return (
     <div className="w-full">
-      <div className="flex items-center justify-between py-4 gap-2 flex-wrap md:flex-nowrap">
+      <div className="py-4 grid lg:flex gap-2">
         {filterable && (
           <Input
             placeholder={`Filter by ${filterColumn}...`}
             value={(filterable.getFilterValue() as string) ?? ""}
             onChange={(event) => filterable.setFilterValue(event.target.value)}
-            className="w-full min-w-[180px] md:w-fit"
+            className="w-full min-w-[180px] lg:w-fit "
           />
         )}
-        <div className="flex items-center gap-2 w-full">
+        <div className="grid grid-cols-2 lg:flex gap-2 w-full lg:w-fit">
           {categoryColumn && (
             <Select
               value={(categoryColumn.getFilterValue() as string) ?? "any"}
@@ -142,7 +142,7 @@ export function DataTable<TData, TValue>({
                 subCategoryColumn?.setFilterValue(undefined);
               }}
             >
-              <SelectTrigger className=" w-full min-w-[180px] md:w-fit">
+              <SelectTrigger className=" w-full min-w-[180px] lg:w-fit ">
                 <SelectValue placeholder="Select a category" />
               </SelectTrigger>
               <SelectContent>
@@ -155,7 +155,7 @@ export function DataTable<TData, TValue>({
             </Select>
           )}
 
-          {subCategoryColumn && selectedCategory !== "any" && (
+          {subCategoryColumn && selectedCategory !== "any" ? (
             <Select
               value={(subCategoryColumn.getFilterValue() as string) ?? "any"}
               onValueChange={(value) =>
@@ -164,7 +164,7 @@ export function DataTable<TData, TValue>({
                 )
               }
             >
-              <SelectTrigger className="w-full min-w-[180px] md:w-fit">
+              <SelectTrigger className="w-full min-w-[180px] lg:w-fit ">
                 <SelectValue placeholder="Select a subcategory" />
               </SelectTrigger>
               <SelectContent>
@@ -176,14 +176,23 @@ export function DataTable<TData, TValue>({
                 ))}
               </SelectContent>
             </Select>
+          ) : (
+            <Select>
+              <SelectTrigger
+                disabled
+                className="w-full min-w-[180px] lg:w-fit "
+              >
+                <SelectValue placeholder="Select a category first" />
+              </SelectTrigger>
+            </Select>
           )}
         </div>
-        <div className="grid grid-cols-2 md:flex w-full items-center gap-2  justify-end">
+        <div className="grid grid-cols-2 lg:flex gap-2 w-full lg:w-fit">
           <Select
             value={marketType}
             onValueChange={(val) => setMarketType(val as "toBuy" | "toSell")}
           >
-            <SelectTrigger className="w-full min-w-[180px] md:w-fit">
+            <SelectTrigger className="w-full min-w-[180px] lg:w-fit ">
               <SelectValue placeholder="Market Type" />
             </SelectTrigger>
             <SelectContent>
@@ -191,7 +200,7 @@ export function DataTable<TData, TValue>({
               <SelectItem value="toSell">To Sell</SelectItem>
             </SelectContent>
           </Select>
-          <div className="w-full min-w-[180px] md:w-fit md:min-w-unset">
+          <div className="w-full min-w-[180px] lg:w-fit  md:min-w-unset">
             <DropdownMenu>
               <DropdownMenuTrigger asChild>
                 <Button
@@ -221,63 +230,6 @@ export function DataTable<TData, TValue>({
         </div>
       </div>
 
-      {/* <div className="w-full overflow-x-auto hidden">
-        <Table className="table-fixed w-full min-w-[600px]">
-          <TableHeader className=" sticky top-0 z-10">
-            {table.getHeaderGroups().map((headerGroup) => (
-              <TableRow key={headerGroup.id}>
-                {headerGroup.headers.map((header) => (
-                  <TableHead
-                    key={header.id}
-                    className="border-b border-gray-300"
-                  >
-                    {header.isPlaceholder
-                      ? null
-                      : flexRender(
-                          header.column.columnDef.header,
-                          header.getContext()
-                        )}
-                  </TableHead>
-                ))}
-              </TableRow>
-            ))}
-          </TableHeader>
-        </Table>
-
-        <div className="max-h-[500px] overflow-y-auto w-full">
-          <Table className="table-fixed w-full">
-            <TableBody>
-              {table.getRowModel().rows.length ? (
-                table.getRowModel().rows.map((row) => (
-                  <TableRow
-                    key={row.id}
-                    data-state={row.getIsSelected() && "selected"}
-                    className="border-b border-gray-200"
-                  >
-                    {row.getVisibleCells().map((cell) => (
-                      <TableCell key={cell.id}>
-                        {flexRender(
-                          cell.column.columnDef.cell,
-                          cell.getContext()
-                        )}
-                      </TableCell>
-                    ))}
-                  </TableRow>
-                ))
-              ) : (
-                <TableRow>
-                  <TableCell
-                    colSpan={columns.length}
-                    className="h-24 text-center"
-                  >
-                    No results.
-                  </TableCell>
-                </TableRow>
-              )}
-            </TableBody>
-          </Table>
-        </div>
-      </div> */}
       <div className="max-h-[300px] md:max-h-[550px] overflow-y-auto w-full">
         <Table>
           <TableHeader className="">
@@ -305,7 +257,7 @@ export function DataTable<TData, TValue>({
                 <TableRow
                   key={row.id}
                   data-state={row.getIsSelected() && "selected"}
-                  className="border-b border-gray-200"
+                  className="border-b border-gray-180"
                 >
                   {row.getVisibleCells().map((cell) => (
                     <TableCell key={cell.id}>

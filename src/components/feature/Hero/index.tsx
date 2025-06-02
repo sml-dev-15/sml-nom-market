@@ -8,7 +8,6 @@ import Link from "next/link";
 import Image from "next/image";
 import { useMarketStore } from "@/hooks/buy-toggle";
 
-// Custom hook for fetching market data
 const useFetchMarketData = (marketType: string) => {
   const [data, setData] = useState<DataProps[]>([]);
   const [loading, setLoading] = useState(true);
@@ -38,7 +37,7 @@ const useFetchMarketData = (marketType: string) => {
               : item.pricing.desiredQuantity,
           owner: item.tile.owner,
           image: item.object.imageUrl,
-          url: item.tile.url,
+          visit: item.tile.url,
         }));
 
         setData(mappedData);
@@ -109,7 +108,11 @@ export const Hero = () => {
         ) : error ? (
           <p className="text-sm text-red-500 mt-4">{error}</p>
         ) : (
-          <DataTable filterColumn="name" columns={dataColumns} data={data} />
+          <DataTable
+            filterColumn="name"
+            columns={dataColumns(marketType)}
+            data={data}
+          />
         )}
       </Container>
     </div>
