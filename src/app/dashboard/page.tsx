@@ -7,7 +7,6 @@ import { Card, CardContent } from "@/components/ui/card";
 import { Skeleton } from "@/components/ui/skeleton";
 import TopNav from "@/components/feature/dashboard/TopNav";
 import { DashboardDataTable } from "@/components/feature/dashboard/DashboardDataTable";
-
 import Image from "next/image";
 import { useDarkModeBgStore } from "@/hooks/use-dark-mode-bg";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
