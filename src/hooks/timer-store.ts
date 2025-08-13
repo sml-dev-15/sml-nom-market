@@ -2,20 +2,17 @@ import { create } from "zustand";
 
 interface Timer {
   id: string;
-  endTime: number; // timestamp in milliseconds
+  endTime: number;
   landId: string;
 }
 
 interface TimerStore {
   timers: Timer[];
-  // Core CRUD operations
   addTimer: (timer: Timer) => void;
   removeTimer: (id: string) => void;
   updateTimer: (id: string, updates: Partial<Omit<Timer, "id">>) => void;
-  // Bulk operations
   setTimers: (timers: Timer[]) => void;
   removeTimersByLandId: (landId: string) => void;
-  // Utility getters
   getTimersByLandId: (landId: string) => Timer[];
   getTimerById: (id: string) => Timer | undefined;
 }
