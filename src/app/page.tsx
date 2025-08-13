@@ -4,6 +4,7 @@ import { Footer } from "@/components/feature/Footer";
 import { Hero } from "@/components/feature/Hero";
 import { useDarkModeBgStore } from "@/hooks/use-dark-mode-bg";
 import Image from "next/image";
+import { Navbar } from "@/components/feature/Navbar";
 
 export default function Home() {
   const { isDarkModeBg } = useDarkModeBgStore();
@@ -19,6 +20,7 @@ export default function Home() {
       <div className="absolute inset-0 z-10 " />
 
       <div className="relative z-20">
+        <Navbar />
         <Hero />
         <Footer />
       </div>
