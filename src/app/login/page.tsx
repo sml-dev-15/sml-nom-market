@@ -70,7 +70,6 @@ export default function Auth() {
 
   return (
     <div className="relative flex items-center justify-center min-h-screen p-4">
-      {/* ✅ Background */}
       <Image
         src={!isDarkModeBg ? "/assets/tarven.png" : "/assets/tarven-light.png"}
         alt="Nomstead Background"
@@ -80,7 +79,6 @@ export default function Auth() {
       />
       <div className="absolute inset-0 z-10" />
 
-      {/* Card Content */}
       <div className="relative z-20">
         <Card className="w-full min-w-[400px]  ">
           <CardHeader>
