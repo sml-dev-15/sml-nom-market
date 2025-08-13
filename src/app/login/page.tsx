@@ -2,7 +2,6 @@
 
 import { useState } from "react";
 import { useRouter } from "next/navigation";
-import { supabase } from "@/lib/supabaseClient";
 import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
 import { Label } from "@/components/ui/label";
@@ -16,8 +15,10 @@ import {
 } from "@/components/ui/card";
 import Image from "next/image";
 import { useDarkModeBgStore } from "@/hooks/use-dark-mode-bg";
+import { getSupabaseClient } from "@/lib/supabaseClient";
 
 export default function Auth() {
+  const supabase = getSupabaseClient();
   const router = useRouter();
   const { isDarkModeBg } = useDarkModeBgStore();
   const [email, setEmail] = useState("");

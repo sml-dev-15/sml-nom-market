@@ -1,10 +1,11 @@
 "use client";
 
-import { supabase } from "@/lib/supabaseClient";
 import { useRouter } from "next/navigation";
 import { Button } from "@/components/ui/button";
+import { getSupabaseClient } from "@/lib/supabaseClient";
 
 export default function TopNav() {
+  const supabase = getSupabaseClient();
   const router = useRouter();
 
   const handleLogout = async () => {

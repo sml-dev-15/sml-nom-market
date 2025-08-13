@@ -16,9 +16,9 @@ import {
   DialogTitle,
   DialogTrigger,
 } from "@/components/ui/dialog";
-import { supabase } from "@/lib/supabaseClient";
 import { Session } from "@supabase/supabase-js";
 import { industryOptions, Land } from "@/types/land";
+import { getSupabaseClient } from "@/lib/supabaseClient";
 
 interface IndustryOption {
   name: string;
@@ -31,6 +31,7 @@ interface AddLandFormProps {
 }
 
 export const AddLandForm = ({ session, setLands }: AddLandFormProps) => {
+  const supabase = getSupabaseClient();
   const [landName, setLandName] = useState("");
   const [landLink, setLandLink] = useState("");
   const [selectedIndustries, setSelectedIndustries] = useState<

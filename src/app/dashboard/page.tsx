@@ -1,7 +1,6 @@
 "use client";
 
 import { useEffect, useState } from "react";
-import { supabase } from "@/lib/supabaseClient";
 import { useRouter } from "next/navigation";
 import { Card, CardContent } from "@/components/ui/card";
 import { Skeleton } from "@/components/ui/skeleton";
@@ -12,8 +11,10 @@ import { useDarkModeBgStore } from "@/hooks/use-dark-mode-bg";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { Hero } from "@/components/feature/Hero";
 import { Container } from "@/components/ui/container";
+import { getSupabaseClient } from "@/lib/supabaseClient";
 
 export default function DashboardPage() {
+  const supabase = getSupabaseClient();
   const { isDarkModeBg } = useDarkModeBgStore();
   const router = useRouter();
   const [loading, setLoading] = useState(true);
@@ -30,7 +31,7 @@ export default function DashboardPage() {
       setLoading(false);
     };
     getSession();
-  }, [router]);
+  }, [router, supabase.auth]);
 
   if (loading) {
     return (

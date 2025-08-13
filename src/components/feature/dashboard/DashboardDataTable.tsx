@@ -4,14 +4,15 @@ import { useEffect, useState } from "react";
 import { createColumns } from "./Column";
 import { RegularDataTable } from "../DataTable";
 import { useSession } from "@/hooks/useSession";
-import { supabase } from "@/lib/supabaseClient";
 import { Land } from "@/types/land";
 import { useTimerRefresherStore } from "@/hooks/use-timer-store";
 import { useTimerStore } from "@/hooks/timer-store";
 import { toast } from "sonner";
 import { Container } from "@/components/ui/container";
+import { getSupabaseClient } from "@/lib/supabaseClient";
 
 export const DashboardDataTable = () => {
+  const supabase = getSupabaseClient();
   const session = useSession();
   const [lands, setLands] = useState<Land[]>([]);
   const [loading, setLoading] = useState(true);
@@ -78,7 +79,7 @@ export const DashboardDataTable = () => {
     };
 
     fetchData();
-  }, [session, refreshCount, setTimers]);
+  }, [session, refreshCount, setTimers, supabase]);
 
   const handleDelete = async (id: string) => {
     try {

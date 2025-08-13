@@ -1,8 +1,9 @@
 import { useEffect, useState } from "react";
 import { Session } from "@supabase/supabase-js";
-import { supabase } from "@/lib/supabaseClient";
+import { getSupabaseClient } from "@/lib/supabaseClient";
 
 export function useSession() {
+  const supabase = getSupabaseClient();
   const [session, setSession] = useState<Session | null>(null);
 
   useEffect(() => {
@@ -19,7 +20,7 @@ export function useSession() {
     return () => {
       listener?.subscription.unsubscribe();
     };
-  }, []);
+  }, [supabase.auth]);
 
   return session;
 }

@@ -2,7 +2,6 @@
 
 import { useState, useEffect } from "react";
 import { useSession } from "@/hooks/useSession";
-import { supabase } from "@/lib/supabaseClient";
 import { Land } from "@/types/land";
 import { Button } from "@/components/ui/button";
 import {
@@ -24,8 +23,10 @@ import {
 import { Label } from "@/components/ui/label";
 import { toast } from "sonner";
 import { useTimerRefresherStore } from "@/hooks/use-timer-store";
+import { getSupabaseClient } from "@/lib/supabaseClient";
 
 export const AddTimer = () => {
+  const supabase = getSupabaseClient();
   const session = useSession();
   const triggerRefresh = useTimerRefresherStore(
     (state) => state.triggerRefresh
@@ -60,7 +61,7 @@ export const AddTimer = () => {
     };
 
     fetchLands();
-  }, [session, open]);
+  }, [session, open, supabase]);
 
   const handleAddTimer = async () => {
     if (!selectedLandId || !session) return;
