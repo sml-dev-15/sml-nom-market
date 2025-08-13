@@ -8,11 +8,11 @@ export const Navbar = () => {
       <Container className="h-full">
         <div className="h-full flex items-center justify-between">
           <h1 className="text-xl font-bold text-black">SML Tavern</h1>
-          <Link href="/login" passHref>
-            <Button asChild>
-              <span>Login</span>
-            </Button>
-          </Link>
+          <Button asChild>
+            <Link href="/login">
+              <Button>Login</Button>
+            </Link>
+          </Button>
         </div>
       </Container>
     </div>
