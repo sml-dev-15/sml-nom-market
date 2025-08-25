@@ -5,9 +5,7 @@ export const Footer = () => {
         <div className="flex flex-col md:flex-row items-center justify-between gap-4">
           <div className="flex items-center gap-2">
             <div className="w-2 h-2 bg-primary rounded-full animate-pulse" />
-            <p className="text-sm font-medium text-foreground">
-              SML Nom Market
-            </p>
+            <p className="text-sm font-medium text-foreground">SML Tavern</p>
           </div>
 
           <p className="text-sm text-muted-foreground flex items-center gap-1">

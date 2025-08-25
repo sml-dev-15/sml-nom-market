@@ -237,7 +237,7 @@ export const Navbar = () => {
               variant="default"
               size="sm"
               onClick={() => router.push("/login")}
-              className="hidden md:flex"
+              className="flex"
             >
               Login
             </Button>

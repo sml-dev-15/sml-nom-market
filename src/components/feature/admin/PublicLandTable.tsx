@@ -65,9 +65,9 @@ export default function PublicLandsTable({
     }
   }, [initialLands.length, fetchLands]);
 
-  // Filter and search logic
+  // Filter and search logic with Samflower pinned to top
   const filteredLands = useMemo(() => {
-    return lands.filter((land) => {
+    const filtered = lands.filter((land) => {
       // Search filter
       const matchesSearch =
         searchQuery === "" ||
@@ -81,6 +81,17 @@ export default function PublicLandsTable({
 
       return matchesSearch && matchesIndustry;
     });
+
+    // Separate Samflower lands and other lands
+    const samflowerLands = filtered.filter((land) =>
+      land.land_name.toLowerCase().includes("samflower")
+    );
+    const otherLands = filtered.filter(
+      (land) => !land.land_name.toLowerCase().includes("samflower")
+    );
+
+    // Return Samflower lands first, then others
+    return [...samflowerLands, ...otherLands];
   }, [lands, searchQuery, industryFilter]);
 
   // Pagination logic
@@ -179,38 +190,53 @@ export default function PublicLandsTable({
                 No lands found matching your criteria.
               </div>
             ) : (
-              paginatedLands.map((land) => (
-                <div
-                  key={land.id}
-                  className="grid grid-cols-1 sm:grid-cols-[1fr_1fr_2fr] p-4 hover:bg-muted/30 transition-colors"
-                >
-                  <div className="font-medium mb-2 sm:mb-0">
-                    {land.land_name}
-                  </div>
-                  <div className="mb-2 sm:mb-0">
-                    <a
-                      href={land.land_link}
-                      target="_blank"
-                      rel="noopener noreferrer"
-                      className="text-primary hover:underline break-all"
-                    >
-                      {land.land_link.length > 30
-                        ? `${land.land_link.substring(0, 30)}...`
-                        : land.land_link}
-                    </a>
-                  </div>
-                  <div className="flex flex-wrap gap-1">
-                    {land.industry.map((ind, index) => (
-                      <span
-                        key={index}
-                        className="inline-flex items-center rounded-full border px-2.5 py-0.5 text-xs font-semibold transition-colors focus:outline-none focus:ring-2 focus:ring-ring focus:ring-offset-2 bg-secondary text-secondary-foreground"
+              paginatedLands.map((land) => {
+                const isSamflower = land.land_name
+                  .toLowerCase()
+                  .includes("samflower");
+
+                return (
+                  <div
+                    key={land.id}
+                    className={`grid grid-cols-1 sm:grid-cols-[1fr_1fr_2fr] p-4 hover:bg-muted/30 transition-colors ${
+                      isSamflower
+                        ? "bg-amber-50 dark:bg-amber-950/20 border-b-2 border-amber-200 dark:border-amber-800"
+                        : ""
+                    }`}
+                  >
+                    <div className="font-medium mb-2 sm:mb-0">
+                      {land.land_name}
+                      {isSamflower && (
+                        <span className="ml-2 inline-flex items-center rounded-full bg-amber-100 px-2 py-1 text-xs font-medium text-amber-800 dark:bg-amber-900/30 dark:text-amber-200">
+                          Pinned
+                        </span>
+                      )}
+                    </div>
+                    <div className="mb-2 sm:mb-0">
+                      <a
+                        href={land.land_link}
+                        target="_blank"
+                        rel="noopener noreferrer"
+                        className="text-primary hover:underline break-all"
                       >
-                        {ind.name} ({ind.quantity})
-                      </span>
-                    ))}
+                        {land.land_link.length > 30
+                          ? `${land.land_link.substring(0, 30)}...`
+                          : land.land_link}
+                      </a>
+                    </div>
+                    <div className="flex flex-wrap gap-1">
+                      {land.industry.map((ind, index) => (
+                        <span
+                          key={index}
+                          className="inline-flex items-center rounded-full border px-2.5 py-0.5 text-xs font-semibold transition-colors focus:outline-none focus:ring-2 focus:ring-ring focus:ring-offset-2 bg-secondary text-secondary-foreground"
+                        >
+                          {ind.name} ({ind.quantity})
+                        </span>
+                      ))}
+                    </div>
                   </div>
-                </div>
-              ))
+                );
+              })
             )}
           </div>
         </div>

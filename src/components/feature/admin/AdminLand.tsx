@@ -35,6 +35,18 @@ interface PublicLand {
   created_at: string;
 }
 
+// Helper function to truncate URLs
+const truncateLink = (url: string, maxLength: number = 40) => {
+  if (url.length <= maxLength) return url;
+
+  // Remove protocol and www for cleaner truncation
+  const cleanUrl = url.replace(/^(https?:\/\/)?(www\.)?/i, "");
+
+  if (cleanUrl.length <= maxLength) return cleanUrl;
+
+  return cleanUrl.substring(0, maxLength - 3) + "...";
+};
+
 export default function AdminLand() {
   const supabase = getSupabaseClient();
   const router = useRouter();
@@ -237,10 +249,10 @@ export default function AdminLand() {
 
   return (
     <div className="min-h-screen w-full bg-gradient-to-br from-background via-background/95 to-muted/50">
-      <div className="container mx-auto p-6">
+      <div className="container mx-auto p-4 md:p-6">
         <Card>
           <CardHeader>
-            <div className="flex justify-between items-center">
+            <div className="flex flex-col md:flex-row justify-between items-start md:items-center gap-4">
               <CardTitle>All Public Lands</CardTitle>
               <AddPublicLandForm setLands={setLands} />
             </div>
@@ -260,54 +272,59 @@ export default function AdminLand() {
             {filteredLands.length === 0 ? (
               <p className="text-muted-foreground">No lands found.</p>
             ) : (
-              <table className="w-full border-collapse">
-                <thead>
-                  <tr className="border-b">
-                    <th className="text-left p-2">Name</th>
-                    <th className="text-left p-2">Link</th>
-                    <th className="text-left p-2">Industries</th>
-                    <th className="text-left p-2 w-32">Actions</th>
-                  </tr>
-                </thead>
-                <tbody>
-                  {filteredLands.map((land) => (
-                    <tr key={land.id} className="border-b hover:bg-accent/30">
-                      <td className="p-2">{land.land_name}</td>
-                      <td className="p-2">
-                        <a
-                          href={land.land_link}
-                          target="_blank"
-                          rel="noopener noreferrer"
-                          className="text-primary underline"
-                        >
-                          {land.land_link}
-                        </a>
-                      </td>
-                      <td className="p-2">
-                        {land.industry
-                          .map((i) => `${i.name} (${i.quantity})`)
-                          .join(", ")}
-                      </td>
-                      <td className="p-2 flex gap-2">
-                        <Button
-                          variant="outline"
-                          size="sm"
-                          onClick={() => handleEdit(land)}
-                        >
-                          <Pencil className="h-4 w-4" />
-                        </Button>
-                        <Button
-                          variant="destructive"
-                          size="sm"
-                          onClick={() => handleDelete(land.id)}
-                        >
-                          <Trash2 className="h-4 w-4" />
-                        </Button>
-                      </td>
+              <div className="overflow-x-auto">
+                <table className="w-full border-collapse">
+                  <thead>
+                    <tr className="border-b">
+                      <th className="text-left p-2">Name</th>
+                      <th className="text-left p-2">Link</th>
+                      <th className="text-left p-2 hidden md:table-cell">
+                        Industries
+                      </th>
+                      <th className="text-left p-2 w-32">Actions</th>
                     </tr>
-                  ))}
-                </tbody>
-              </table>
+                  </thead>
+                  <tbody>
+                    {filteredLands.map((land) => (
+                      <tr key={land.id} className="border-b hover:bg-accent/30">
+                        <td className="p-2">{land.land_name}</td>
+                        <td className="p-2">
+                          <a
+                            href={land.land_link}
+                            target="_blank"
+                            rel="noopener noreferrer"
+                            className="text-primary underline"
+                            title={land.land_link}
+                          >
+                            {truncateLink(land.land_link)}
+                          </a>
+                        </td>
+                        <td className="p-2 hidden md:table-cell">
+                          {land.industry
+                            .map((i) => `${i.name} (${i.quantity})`)
+                            .join(", ")}
+                        </td>
+                        <td className="p-2 flex gap-2">
+                          <Button
+                            variant="outline"
+                            size="sm"
+                            onClick={() => handleEdit(land)}
+                          >
+                            <Pencil className="h-4 w-4" />
+                          </Button>
+                          <Button
+                            variant="destructive"
+                            size="sm"
+                            onClick={() => handleDelete(land.id)}
+                          >
+                            <Trash2 className="h-4 w-4" />
+                          </Button>
+                        </td>
+                      </tr>
+                    ))}
+                  </tbody>
+                </table>
+              </div>
             )}
           </CardContent>
         </Card>

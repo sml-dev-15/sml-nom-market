@@ -23,4 +23,6 @@ export const industryOptions = [
   "Forestry",
   "Farm",
   "Sawmill",
+  "Barrel",
+  "Wine press",
 ] as const;
