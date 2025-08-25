@@ -198,7 +198,7 @@ export default function Auth() {
                 "Create account"
               )}
             </Button>
-            {/* 
+
             <div className="text-center">
               <button
                 className="text-sm text-muted-foreground hover:text-foreground transition-colors"
@@ -213,7 +213,7 @@ export default function Auth() {
                   ? "Don't have an account? Sign up"
                   : "Already have an account? Sign in"}
               </button>
-            </div> */}
+            </div>
           </CardContent>
         </Card>
       </div>

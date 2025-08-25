@@ -11,8 +11,7 @@ import { toast } from "sonner";
 import { Container } from "@/components/ui/container";
 import { getSupabaseClient } from "@/lib/supabaseClient";
 import { Skeleton } from "@/components/ui/skeleton";
-import { Card, CardContent } from "@/components/ui/card";
-import { AlertCircle, Clock, LandPlot, RefreshCw } from "lucide-react";
+import { AlertCircle, Clock, RefreshCw } from "lucide-react";
 import { Alert, AlertDescription, AlertTitle } from "@/components/ui/alert";
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
@@ -189,26 +188,6 @@ export const DashboardDataTable = () => {
               Please sign in to view your lands and timers
             </AlertDescription>
           </Alert>
-        </Container>
-      </div>
-    );
-  }
-
-  if (lands.length === 0) {
-    return (
-      <div className="w-full">
-        <Container>
-          <Card className="text-center py-12">
-            <CardContent className="space-y-4">
-              <div className="mx-auto bg-muted rounded-full p-4 w-fit">
-                <LandPlot className="h-8 w-8 text-muted-foreground" />
-              </div>
-              <h3 className="text-lg font-medium">No lands yet</h3>
-              <p className="text-muted-foreground">
-                Get started by adding your first land and setting up timers
-              </p>
-            </CardContent>
-          </Card>
         </Container>
       </div>
     );
