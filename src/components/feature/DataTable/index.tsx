@@ -29,13 +29,14 @@ import {
   SelectTrigger,
   SelectValue,
 } from "@/components/ui/select";
-import { Button } from "@/components/ui/button";
 import React from "react";
 import { Input } from "@/components/ui/input";
 import { Session } from "@supabase/supabase-js";
 import { Land } from "@/types/land";
 import { AddLandForm } from "../dashboard/AddLandForm";
 import { AddTimer } from "../dashboard/AddTimerForm";
+import { Search, ChevronLeft, ChevronRight } from "lucide-react";
+import { Button } from "@/components/ui/button";
 
 interface RegularDataTableProps {
   filterColumn?: string;
@@ -82,39 +83,50 @@ export const RegularDataTable = <TData, TValue>({
   const filterable = filterColumn && table.getColumn(filterColumn);
 
   return (
-    <div className="flex flex-col gap-2">
-      <div className="grid grid-cols-2 gap-2 md:grid-cols-3">
-        {filterable && (
-          <Input
-            placeholder={`Filter by ${filterColumn}...`}
-            value={(filterable.getFilterValue() as string) ?? ""}
-            onChange={(event) => filterable.setFilterValue(event.target.value)}
-            className="w-full min-w-[170px] col-span-2 md:col-span-1 "
-          />
-        )}
+    <div className="flex flex-col gap-4">
+      {/* Header Section */}
+      <div className="flex flex-col lg:flex-row gap-4 items-start lg:items-center justify-between p-4 bg-muted/20 rounded-lg border">
+        <div className="flex flex-col sm:flex-row gap-3 w-full lg:w-auto">
+          {filterable && (
+            <div className="relative w-full sm:w-64">
+              <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 w-4 h-4 text-muted-foreground" />
+              <Input
+                placeholder={`Search ${filterColumn}...`}
+                value={(filterable.getFilterValue() as string) ?? ""}
+                onChange={(event) =>
+                  filterable.setFilterValue(event.target.value)
+                }
+                className="pl-10 pr-4 py-2 w-full"
+              />
+            </div>
+          )}
+        </div>
 
-        <AddLandForm session={session} setLands={setLands} />
-
-        <AddTimer />
+        <div className="flex flex-col sm:flex-row gap-2 w-full sm:w-auto">
+          <AddLandForm session={session} setLands={setLands} />
+          <AddTimer />
+        </div>
       </div>
 
-      <div className="relative">
+      {/* Table Section */}
+      <div className="rounded-lg border overflow-hidden">
         <Table>
-          <TableHeader className="bg-muted">
+          <TableHeader className="bg-muted/40">
             {table.getHeaderGroups().map((headerGroup) => (
               <TableRow key={headerGroup.id}>
-                {headerGroup.headers.map((header) => {
-                  return (
-                    <TableHead key={header.id}>
-                      {header.isPlaceholder
-                        ? null
-                        : flexRender(
-                            header.column.columnDef.header,
-                            header.getContext()
-                          )}
-                    </TableHead>
-                  );
-                })}
+                {headerGroup.headers.map((header) => (
+                  <TableHead
+                    key={header.id}
+                    className="font-semibold py-3 px-4"
+                  >
+                    {header.isPlaceholder
+                      ? null
+                      : flexRender(
+                          header.column.columnDef.header,
+                          header.getContext()
+                        )}
+                  </TableHead>
+                ))}
               </TableRow>
             ))}
           </TableHeader>
@@ -123,13 +135,11 @@ export const RegularDataTable = <TData, TValue>({
               table.getRowModel().rows.map((row) => (
                 <Fragment key={row.id}>
                   <TableRow
-                    className="data-[expanded=true]:bg-acodei-neutral-50"
+                    className="hover:bg-muted/20 border-b"
                     data-expanded={row.getIsExpanded()}
-                    data-state={row.getIsSelected() && "selected"}
-                    key={row.id}
                   >
                     {row.getVisibleCells().map((cell) => (
-                      <TableCell key={cell.id}>
+                      <TableCell key={cell.id} className="py-3 px-4">
                         {flexRender(
                           cell.column.columnDef.cell,
                           cell.getContext()
@@ -137,65 +147,96 @@ export const RegularDataTable = <TData, TValue>({
                       </TableCell>
                     ))}
                   </TableRow>
-                  {row.getIsExpanded() ? (
+                  {row.getIsExpanded() && (
                     <>
-                      {SubComponentHeader ? (
-                        <SubComponentHeader row={row} />
-                      ) : null}
-                      {SubComponents ? <SubComponents row={row} /> : null}
+                      {SubComponentHeader && <SubComponentHeader row={row} />}
+                      {SubComponents && <SubComponents row={row} />}
                     </>
-                  ) : null}
+                  )}
                 </Fragment>
               ))
             ) : (
               <TableRow>
-                <TableCell className="text-center" colSpan={columns.length}>
-                  No results.
+                <TableCell
+                  colSpan={columns.length}
+                  className="py-8 text-center text-muted-foreground"
+                >
+                  No lands found. Create your first land to get started.
                 </TableCell>
               </TableRow>
             )}
           </TableBody>
         </Table>
       </div>
-      <div className="flex items-center justify-between py-5">
-        <div className="flex items-center gap-2">
-          <span className="text-sm">Rows per page:</span>
-          <Select
-            value={String(table.getState().pagination.pageSize)}
-            onValueChange={(value) => {
-              table.setPageSize(Number(value));
-            }}
-          >
-            <SelectTrigger className="w-[80px]">
-              <SelectValue />
-            </SelectTrigger>
-            <SelectContent>
-              {[5, 10, 20, 30, 50, 100].map((size) => (
-                <SelectItem key={size} value={String(size)}>
-                  {size}
-                </SelectItem>
-              ))}
-            </SelectContent>
-          </Select>
+
+      {/* Pagination Section */}
+      <div className="flex flex-col sm:flex-row items-center justify-between gap-4 p-4 bg-muted/20 rounded-lg border">
+        <div className="flex items-center gap-4">
+          <span className="text-sm text-muted-foreground">
+            Showing{" "}
+            {table.getState().pagination.pageIndex *
+              table.getState().pagination.pageSize +
+              1}{" "}
+            to{" "}
+            {Math.min(
+              (table.getState().pagination.pageIndex + 1) *
+                table.getState().pagination.pageSize,
+              data.length
+            )}{" "}
+            of {data.length} items
+          </span>
         </div>
 
-        <div className="space-x-2">
-          <Button
-            variant="outline"
-            size="sm"
-            onClick={() => table.previousPage()}
-            disabled={!table.getCanPreviousPage()}
-          >
-            Previous
-          </Button>
-          <Button
-            variant="outline"
-            size="sm"
-            onClick={() => table.nextPage()}
-            disabled={!table.getCanNextPage()}
-          >
-            Next
-          </Button>
+        <div className="flex items-center gap-4">
+          <div className="flex items-center gap-2">
+            <span className="text-sm text-muted-foreground">
+              Rows per page:
+            </span>
+            <Select
+              value={String(table.getState().pagination.pageSize)}
+              onValueChange={(value) => {
+                table.setPageSize(Number(value));
+              }}
+            >
+              <SelectTrigger className="w-20">
+                <SelectValue />
+              </SelectTrigger>
+              <SelectContent>
+                {[5, 10, 20, 30, 50, 100].map((size) => (
+                  <SelectItem key={size} value={String(size)}>
+                    {size}
+                  </SelectItem>
+                ))}
+              </SelectContent>
+            </Select>
+          </div>
+
+          <div className="flex items-center gap-2">
+            <Button
+              variant="outline"
+              size="sm"
+              onClick={() => table.previousPage()}
+              disabled={!table.getCanPreviousPage()}
+              className="h-8 w-8 p-0"
+            >
+              <ChevronLeft className="h-4 w-4" />
+            </Button>
+
+            <span className="text-sm text-muted-foreground">
+              Page {table.getState().pagination.pageIndex + 1} of{" "}
+              {table.getPageCount()}
+            </span>
+
+            <Button
+              variant="outline"
+              size="sm"
+              onClick={() => table.nextPage()}
+              disabled={!table.getCanNextPage()}
+              className="h-8 w-8 p-0"
+            >
+              <ChevronRight className="h-4 w-4" />
+            </Button>
+          </div>
         </div>
       </div>
     </div>

@@ -2,28 +2,26 @@
 
 import { Footer } from "@/components/feature/Footer";
 import { Hero } from "@/components/feature/Hero";
-import { useDarkModeBgStore } from "@/hooks/use-dark-mode-bg";
-import Image from "next/image";
 import { Navbar } from "@/components/feature/Navbar";
 
-export default function Home() {
-  const { isDarkModeBg } = useDarkModeBgStore();
+export default function HomePage() {
   return (
-    <div className="relative min-h-screen w-full">
-      <Image
-        src={!isDarkModeBg ? "/assets/tarven.png" : "/assets/tarven-light.png"}
-        alt="Nomstead Background"
-        fill
-        className="object-cover object-center z-0"
-        priority
-      />
-      <div className="absolute inset-0 z-10 " />
-
-      <div className="relative z-20">
+    <div className="min-h-screen w-full flex flex-col bg-gradient-to-br from-background via-background/95 to-muted/50">
+      <header className="flex-none sticky top-0 z-50 backdrop-blur-sm bg-background/80 border-b border-border/40">
         <Navbar />
+      </header>
+
+      <main
+        id="main-content"
+        className="flex-grow relative overflow-hidden p-5"
+      >
+        <div className="absolute inset-0 -z-10 bg-[radial-gradient(ellipse_80%_50%_at_50%_-20%,hsl(var(--primary)/.08),transparent)]" />
         <Hero />
+      </main>
+
+      <footer className="flex-none border-t border-border/20 bg-background/95 backdrop-blur-sm">
         <Footer />
-      </div>
+      </footer>
     </div>
   );
 }
