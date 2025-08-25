@@ -14,53 +14,30 @@ import {
   CardTitle,
 } from "@/components/ui/card";
 import { getSupabaseClient } from "@/lib/supabaseClient";
-import { Eye, EyeOff, Mail, Lock, UserPlus, LogIn } from "lucide-react";
+import { Eye, EyeOff, Mail, Lock, LogIn } from "lucide-react";
 
 export default function Auth() {
   const supabase = getSupabaseClient();
   const router = useRouter();
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
-  const [confirmPassword, setConfirmPassword] = useState("");
-  const [mode, setMode] = useState<"login" | "signup">("login");
   const [error, setError] = useState<string | null>(null);
-  const [success, setSuccess] = useState<string | null>(null);
   const [isLoading, setIsLoading] = useState(false);
   const [showPassword, setShowPassword] = useState(false);
-  const [showConfirmPassword, setShowConfirmPassword] = useState(false);
 
   const handleSubmit = async () => {
     setError(null);
-    setSuccess(null);
     setIsLoading(true);
 
     try {
-      if (mode === "signup" && password !== confirmPassword) {
-        setError("Passwords do not match");
-        return;
-      }
-
-      if (mode === "login") {
-        const { error: authError } = await supabase.auth.signInWithPassword({
-          email,
-          password,
-        });
-        if (authError) {
-          setError(authError.message);
-        } else {
-          router.push("/dashboard");
-        }
+      const { error: authError } = await supabase.auth.signInWithPassword({
+        email,
+        password,
+      });
+      if (authError) {
+        setError(authError.message);
       } else {
-        const { error: signUpError } = await supabase.auth.signUp({
-          email,
-          password,
-        });
-        if (signUpError) {
-          setError(signUpError.message);
-        } else {
-          setSuccess("Check your email for verification link.");
-          setMode("login");
-        }
+        router.push("/dashboard");
       }
     } finally {
       setIsLoading(false);
@@ -74,33 +51,23 @@ export default function Auth() {
           <CardHeader className="text-center space-y-2">
             <div className="flex justify-center mb-4">
               <div className="w-12 h-12 rounded-full bg-primary/10 flex items-center justify-center">
-                {mode === "login" ? (
-                  <LogIn className="w-6 h-6 text-primary" />
-                ) : (
-                  <UserPlus className="w-6 h-6 text-primary" />
-                )}
+                <LogIn className="w-6 h-6 text-primary" />
               </div>
             </div>
-            <CardTitle className="text-2xl font-bold">
-              {mode === "login" ? "Welcome back" : "Join us"}
-            </CardTitle>
+            <CardTitle className="text-2xl font-bold">Welcome back</CardTitle>
             <CardDescription className="text-muted-foreground">
-              {mode === "login"
-                ? "Sign in to continue your journey"
-                : "Create your account to get started"}
+              Sign in to continue your journey
             </CardDescription>
           </CardHeader>
           <CardContent className="space-y-4">
-            {(error || success) && (
+            {error && (
               <div
                 className={cn(
                   "p-3 rounded-lg text-sm border",
-                  error
-                    ? "bg-destructive/10 text-destructive border-destructive/20"
-                    : "bg-primary/10 text-primary border-primary/20"
+                  "bg-destructive/10 text-destructive border-destructive/20"
                 )}
               >
-                {error || success}
+                {error}
               </div>
             )}
 
@@ -147,40 +114,6 @@ export default function Auth() {
               </div>
             </div>
 
-            {mode === "signup" && (
-              <div className="space-y-2">
-                <Label
-                  htmlFor="confirmPassword"
-                  className="text-sm font-medium"
-                >
-                  Confirm Password
-                </Label>
-                <div className="relative">
-                  <Lock className="absolute left-3 top-1/2 transform -translate-y-1/2 w-4 h-4 text-muted-foreground" />
-                  <Input
-                    id="confirmPassword"
-                    type={showConfirmPassword ? "text" : "password"}
-                    placeholder="••••••••"
-                    value={confirmPassword}
-                    onChange={(e) => setConfirmPassword(e.target.value)}
-                    disabled={isLoading}
-                    className="pl-10 pr-12 py-6"
-                  />
-                  <button
-                    type="button"
-                    className="absolute right-3 top-1/2 transform -translate-y-1/2 text-muted-foreground hover:text-foreground"
-                    onClick={() => setShowConfirmPassword(!showConfirmPassword)}
-                  >
-                    {showConfirmPassword ? (
-                      <EyeOff size={16} />
-                    ) : (
-                      <Eye size={16} />
-                    )}
-                  </button>
-                </div>
-              </div>
-            )}
-
             <Button
               onClick={handleSubmit}
               disabled={isLoading}
@@ -192,27 +125,15 @@ export default function Auth() {
                   <div className="w-4 h-4 border-2 border-background border-t-transparent rounded-full animate-spin" />
                   Processing...
                 </div>
-              ) : mode === "login" ? (
-                "Sign in"
               ) : (
-                "Create account"
+                "Sign in"
               )}
             </Button>
 
             <div className="text-center">
-              <button
-                className="text-sm text-muted-foreground hover:text-foreground transition-colors"
-                onClick={() => {
-                  setMode(mode === "login" ? "signup" : "login");
-                  setError(null);
-                  setSuccess(null);
-                }}
-                disabled={isLoading}
-              >
-                {mode === "login"
-                  ? "Don't have an account? Sign up"
-                  : "Already have an account? Sign in"}
-              </button>
+              <p className="text-sm text-muted-foreground">
+                Sign up is currently disabled
+              </p>
             </div>
           </CardContent>
         </Card>
