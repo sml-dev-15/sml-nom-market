@@ -127,7 +127,7 @@ export function DataTable<TData, TValue>({
             placeholder={`Filter by ${filterColumn}...`}
             value={(filterable.getFilterValue() as string) ?? ""}
             onChange={(event) => filterable.setFilterValue(event.target.value)}
-            className="w-full min-w-[180px] lg:w-fit "
+            className="w-full min-w-[100px] lg:w-fit "
           />
         )}
         <div className="grid grid-cols-2 lg:flex gap-2 w-full lg:w-fit">
@@ -142,7 +142,7 @@ export function DataTable<TData, TValue>({
                 subCategoryColumn?.setFilterValue(undefined);
               }}
             >
-              <SelectTrigger className=" w-full min-w-[180px] lg:w-fit ">
+              <SelectTrigger className=" w-full min-w-[100px] lg:w-fit ">
                 <SelectValue placeholder="Select a category" />
               </SelectTrigger>
               <SelectContent>
@@ -164,7 +164,7 @@ export function DataTable<TData, TValue>({
                 )
               }
             >
-              <SelectTrigger className="w-full min-w-[180px] lg:w-fit ">
+              <SelectTrigger className="w-full min-w-[100px] lg:w-fit ">
                 <SelectValue placeholder="Select a subcategory" />
               </SelectTrigger>
               <SelectContent>
@@ -180,7 +180,7 @@ export function DataTable<TData, TValue>({
             <Select>
               <SelectTrigger
                 disabled
-                className="w-full min-w-[180px] lg:w-fit "
+                className="w-full min-w-[100px] lg:w-fit "
               >
                 <SelectValue placeholder="Select a category first" />
               </SelectTrigger>
@@ -192,7 +192,7 @@ export function DataTable<TData, TValue>({
             value={marketType}
             onValueChange={(val) => setMarketType(val as "toBuy" | "toSell")}
           >
-            <SelectTrigger className="w-full min-w-[180px] lg:w-fit ">
+            <SelectTrigger className="w-full min-w-[100px] lg:w-fit ">
               <SelectValue placeholder="Market Type" />
             </SelectTrigger>
             <SelectContent>
@@ -200,7 +200,7 @@ export function DataTable<TData, TValue>({
               <SelectItem value="toSell">To Sell</SelectItem>
             </SelectContent>
           </Select>
-          <div className="w-full min-w-[180px] lg:w-fit  md:min-w-unset">
+          <div className="w-full min-w-[100px] lg:w-fit  md:min-w-unset">
             <DropdownMenu>
               <DropdownMenuTrigger asChild>
                 <Button

@@ -13,7 +13,7 @@ export default function HomePage() {
 
       <main
         id="main-content"
-        className="flex-grow relative overflow-hidden p-5"
+        className="flex-grow relative overflow-hidden md:p-5 "
       >
         <div className="absolute inset-0 -z-10 bg-[radial-gradient(ellipse_80%_50%_at_50%_-20%,hsl(var(--primary)/.08),transparent)]" />
         <Hero />

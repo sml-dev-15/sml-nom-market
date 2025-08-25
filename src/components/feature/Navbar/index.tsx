@@ -18,6 +18,7 @@ export const Navbar = () => {
   const [userEmail, setUserEmail] = useState<string | null>(null);
   const [mounted, setMounted] = useState(false);
   const [isDark, setIsDark] = useState(false);
+  const [isLoggedIn, setIsLoggedIn] = useState(false);
   const supabase = getSupabaseClient();
   const router = useRouter();
 
@@ -36,6 +37,7 @@ export const Navbar = () => {
       const {
         data: { session },
       } = await supabase.auth.getSession();
+      setIsLoggedIn(!!session);
       setUserEmail(session?.user?.email || null);
     };
 
@@ -45,6 +47,7 @@ export const Navbar = () => {
     const {
       data: { subscription },
     } = supabase.auth.onAuthStateChange((_event, session) => {
+      setIsLoggedIn(!!session);
       setUserEmail(session?.user?.email || null);
     });
 
@@ -66,29 +69,33 @@ export const Navbar = () => {
 
   const handleLogout = async () => {
     await supabase.auth.signOut();
+    setIsLoggedIn(false);
+    setUserEmail(null);
     router.push("/login");
   };
 
-  const navItems = [
-    {
-      icon: Home,
-      label: "Dashboard",
-      href: "/dashboard",
-      onClick: () => router.push("/dashboard"),
-    },
-    {
-      icon: User,
-      label: "Profile",
-      href: "/profile",
-      onClick: () => router.push("/profile"),
-    },
-    {
-      icon: Settings,
-      label: "Settings",
-      href: "/settings",
-      onClick: () => router.push("/settings"),
-    },
-  ];
+  const navItems = isLoggedIn
+    ? [
+        {
+          icon: Home,
+          label: "Dashboard",
+          href: "/dashboard",
+          onClick: () => router.push("/dashboard"),
+        },
+        {
+          icon: User,
+          label: "Profile",
+          href: "/profile",
+          onClick: () => router.push("/profile"),
+        },
+        {
+          icon: Settings,
+          label: "Settings",
+          href: "/settings",
+          onClick: () => router.push("/settings"),
+        },
+      ]
+    : [];
 
   // Avoid hydration mismatch by not rendering until mounted
   if (!mounted) {
@@ -118,20 +125,22 @@ export const Navbar = () => {
             SML Tavern
           </Link>
 
-          <div className="hidden md:flex items-center gap-4">
-            {navItems.map((item) => (
-              <Button
-                key={item.label}
-                variant="ghost"
-                size="sm"
-                onClick={item.onClick}
-                className="text-foreground/80 hover:text-foreground"
-              >
-                <item.icon className="w-4 h-4 mr-2" />
-                {item.label}
-              </Button>
-            ))}
-          </div>
+          {isLoggedIn && (
+            <div className="hidden md:flex items-center gap-4">
+              {navItems.map((item) => (
+                <Button
+                  key={item.label}
+                  variant="ghost"
+                  size="sm"
+                  onClick={item.onClick}
+                  className="text-foreground/80 hover:text-foreground"
+                >
+                  <item.icon className="w-4 h-4 mr-2" />
+                  {item.label}
+                </Button>
+              ))}
+            </div>
+          )}
         </div>
 
         <div className="flex items-center gap-4">
@@ -146,80 +155,93 @@ export const Navbar = () => {
             {isDark ? <Sun size={20} /> : <Moon size={20} />}
           </Button>
 
-          {userEmail && (
+          {isLoggedIn && userEmail && (
             <span className="text-sm text-foreground/70 hidden lg:block">
               {userEmail}
             </span>
           )}
 
-          <Button
-            variant="outline"
-            size="sm"
-            onClick={handleLogout}
-            className="hidden md:flex text-destructive hover:text-destructive hover:bg-destructive/10 border-destructive/20"
-          >
-            <LogOut className="w-4 h-4 mr-2" />
-            Logout
-          </Button>
-
-          <Sheet>
-            <SheetTrigger asChild>
+          {isLoggedIn ? (
+            <>
               <Button
-                variant="ghost"
-                size="icon"
-                className="md:hidden text-foreground/80 hover:text-foreground"
+                variant="outline"
+                size="sm"
+                onClick={handleLogout}
+                className="hidden md:flex text-destructive hover:text-destructive hover:bg-destructive/10 border-destructive/20"
               >
-                <Menu className="w-5 h-5" />
+                <LogOut className="w-4 h-4 mr-2" />
+                Logout
               </Button>
-            </SheetTrigger>
-            <SheetContent side="right" className="w-64">
-              <SheetHeader className="mb-6">
-                <SheetTitle className="text-left">Navigation</SheetTitle>
-              </SheetHeader>
 
-              <div className="space-y-2">
-                {navItems.map((item) => (
+              <Sheet>
+                <SheetTrigger asChild>
                   <Button
-                    key={item.label}
                     variant="ghost"
-                    className="w-full justify-start text-foreground/80 hover:text-foreground"
-                    onClick={item.onClick}
+                    size="icon"
+                    className="md:hidden text-foreground/80 hover:text-foreground"
                   >
-                    <item.icon className="w-4 h-4 mr-3" />
-                    {item.label}
+                    <Menu className="w-5 h-5" />
                   </Button>
-                ))}
+                </SheetTrigger>
+                <SheetContent side="right" className="w-64">
+                  <SheetHeader className="mb-6">
+                    <SheetTitle className="text-left">Navigation</SheetTitle>
+                  </SheetHeader>
 
-                {/* Theme Toggle in Mobile Menu */}
-                <Button
-                  variant="ghost"
-                  className="w-full justify-start text-foreground/80 hover:text-foreground"
-                  onClick={toggleTheme}
-                >
-                  {isDark ? (
-                    <>
-                      <Sun className="w-4 h-4 mr-3" />
-                      Light Mode
-                    </>
-                  ) : (
-                    <>
-                      <Moon className="w-4 h-4 mr-3" />
-                      Dark Mode
-                    </>
-                  )}
-                </Button>
+                  <div className="space-y-2">
+                    {navItems.map((item) => (
+                      <Button
+                        key={item.label}
+                        variant="ghost"
+                        className="w-full justify-start text-foreground/80 hover:text-foreground"
+                        onClick={item.onClick}
+                      >
+                        <item.icon className="w-4 h-4 mr-3" />
+                        {item.label}
+                      </Button>
+                    ))}
 
-                <Button
-                  variant="outline"
-                  className="w-full justify-start text-destructive hover:text-destructive hover:bg-destructive/10 border-destructive/20 mt-4"
-                  onClick={handleLogout}
-                >
-                  <LogOut className="w-4 h-4 mr-3" />
-                  Logout
-                </Button>
-              </div>
-            </SheetContent>
-          </Sheet>
+                    {/* Theme Toggle in Mobile Menu */}
+                    <Button
+                      variant="ghost"
+                      className="w-full justify-start text-foreground/80 hover:text-foreground"
+                      onClick={toggleTheme}
+                    >
+                      {isDark ? (
+                        <>
+                          <Sun className="w-4 h-4 mr-3" />
+                          Light Mode
+                        </>
+                      ) : (
+                        <>
+                          <Moon className="w-4 h-4 mr-3" />
+                          Dark Mode
+                        </>
+                      )}
+                    </Button>
+
+                    <Button
+                      variant="outline"
+                      className="w-full justify-start text-destructive hover:text-destructive hover:bg-destructive/10 border-destructive/20 mt-4"
+                      onClick={handleLogout}
+                    >
+                      <LogOut className="w-4 h-4 mr-3" />
+                      Logout
+                    </Button>
+                  </div>
+                </SheetContent>
+              </Sheet>
+            </>
+          ) : (
+            <Button
+              variant="default"
+              size="sm"
+              onClick={() => router.push("/login")}
+              className="hidden md:flex"
+            >
+              Login
+            </Button>
+          )}
         </div>
       </div>
     </nav>

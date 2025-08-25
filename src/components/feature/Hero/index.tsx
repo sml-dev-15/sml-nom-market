@@ -25,7 +25,7 @@ export const Hero = () => {
   type MarketType = "toBuy" | "toSell";
 
   return (
-    <div className="w-full min-h-screen rounded-2xl bg-gradient-to-br from-slate-50 to-blue-50 dark:from-slate-900 dark:to-slate-800 py-8">
+    <div className="w-full min-h-screen rounded-2xl py-8">
       <Container className="relative z-20">
         {/* Header Section */}
         <div className="flex flex-col gap-4 mb-8">
@@ -33,7 +33,9 @@ export const Hero = () => {
             <div className="p-2 bg-primary rounded-lg">
               <BarChart3 className="h-6 w-6 text-primary-foreground" />
             </div>
-            <h1 className="text-3xl font-bold tracking-tight">Market Data</h1>
+            <h1 className="text-3xl font-bold tracking-tight text-accent-foreground">
+              Market Data
+            </h1>
           </div>
           <p className="text-muted-foreground max-w-2xl">
             Explore real-time market data, analyze trends, and make informed

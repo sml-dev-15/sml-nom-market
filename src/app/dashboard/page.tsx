@@ -93,7 +93,7 @@ export default function DashboardPage() {
             <div className="mt-8">
               <TabsContent value="dashboard" className="m-0">
                 <Card className="border-border/50 backdrop-blur-sm bg-background/80">
-                  <CardContent className="p-6">
+                  <CardContent className="p-0 md:p-5">
                     <DashboardDataTable />
                   </CardContent>
                 </Card>
@@ -101,7 +101,7 @@ export default function DashboardPage() {
 
               <TabsContent value="market" className="m-0">
                 <Card className="border-border/50 backdrop-blur-sm bg-background/80">
-                  <CardContent className="p-6">
+                  <CardContent className="p-0 md:p-5">
                     <Hero />
                   </CardContent>
                 </Card>
