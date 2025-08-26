@@ -213,8 +213,8 @@ export default function PublicLandsTable({
                       rel="noopener noreferrer"
                       className="text-primary hover:underline break-all"
                     >
-                      {land.land_link.length > 30
-                        ? `${land.land_link.substring(0, 30)}...`
+                      {land.land_link.length > 25
+                        ? `${land.land_link.substring(0, 25)}...`
                         : land.land_link}
                     </a>
                   </div>
@@ -222,7 +222,7 @@ export default function PublicLandsTable({
                     {land.industry.map((ind, index) => (
                       <span
                         key={index}
-                        className="inline-flex items-center rounded-full border px-2.5 py-0.5 text-xs font-semibold transition-colors focus:outline-none focus:ring-2 focus:ring-ring focus:ring-offset-2 bg-secondary text-secondary-foreground"
+                        className="inline-flex items-center h-fit rounded-full border px-2.5 py-0.5 text-xs font-semibold transition-colors focus:outline-none focus:ring-2 focus:ring-ring focus:ring-offset-2 bg-secondary text-secondary-foreground"
                       >
                         {ind.name} ({ind.quantity})
                       </span>
