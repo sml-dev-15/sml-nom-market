@@ -8,7 +8,7 @@ import { getSupabaseClient } from "@/lib/supabaseClient";
 import { AddPublicLandForm } from "./AdminAddLand";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
-import { Pencil, Trash2, Search, X, Plus, Minus } from "lucide-react";
+import { Pencil, Trash2, Search, X, Plus, Minus, Pin } from "lucide-react";
 import {
   Dialog,
   DialogContent,
@@ -19,6 +19,7 @@ import {
 import { Badge } from "@/components/ui/badge";
 import { Checkbox } from "@/components/ui/checkbox";
 import { Label } from "@/components/ui/label";
+import { Switch } from "@/components/ui/switch"; // Import Switch component
 import { industryOptions } from "@/types/land";
 import { toast } from "sonner";
 
@@ -33,6 +34,7 @@ interface PublicLand {
   land_link: string;
   industry: IndustryOption[];
   created_at: string;
+  pinned: boolean; // Added pinned field
 }
 
 // Helper function to truncate URLs
@@ -62,12 +64,14 @@ export default function AdminLand() {
   const [editLink, setEditLink] = useState("");
   const [editIndustries, setEditIndustries] = useState<IndustryOption[]>([]);
   const [editSearchQuery, setEditSearchQuery] = useState("");
+  const [editPinned, setEditPinned] = useState(false); // Added pinned state
 
   // fetch all lands
   const fetchLands = useCallback(async () => {
     const { data, error } = await supabase
       .from("public_land_list")
       .select("*")
+      .order("pinned", { ascending: false }) // Sort by pinned first
       .order("created_at", { ascending: false });
 
     if (error) {
@@ -99,6 +103,7 @@ export default function AdminLand() {
     setEditName(land.land_name);
     setEditLink(land.land_link);
     setEditIndustries(land.industry || []);
+    setEditPinned(land.pinned || false); // Set pinned state
     setEditSearchQuery("");
   };
 
@@ -160,6 +165,7 @@ export default function AdminLand() {
         land_name: editName,
         land_link: editLink,
         industry: editIndustries,
+        pinned: editPinned, // Include pinned status
       })
       .eq("id", editingLand.id);
 
@@ -177,6 +183,7 @@ export default function AdminLand() {
               land_name: editName,
               land_link: editLink,
               industry: editIndustries,
+              pinned: editPinned, // Include pinned status
             }
           : l
       )
@@ -281,6 +288,7 @@ export default function AdminLand() {
                       <th className="text-left p-2 hidden md:table-cell">
                         Industries
                       </th>
+                      <th className="text-left p-2">Pinned</th>
                       <th className="text-left p-2 w-32">Actions</th>
                     </tr>
                   </thead>
@@ -303,6 +311,17 @@ export default function AdminLand() {
                           {land.industry
                             .map((i) => `${i.name} (${i.quantity})`)
                             .join(", ")}
+                        </td>
+                        <td className="p-2">
+                          {land.pinned && (
+                            <Badge
+                              variant="secondary"
+                              className="bg-amber-100 text-amber-800 dark:bg-amber-900/30 dark:text-amber-200"
+                            >
+                              <Pin className="h-3 w-3 mr-1" />
+                              Pinned
+                            </Badge>
+                          )}
                         </td>
                         <td className="p-2 flex gap-2">
                           <Button
@@ -362,6 +381,22 @@ export default function AdminLand() {
                   value={editLink}
                   onChange={(e) => setEditLink(e.target.value)}
                   className="text-foreground"
+                />
+              </div>
+
+              {/* Pinned Toggle */}
+              <div className="flex items-center justify-between pt-2">
+                <Label
+                  htmlFor="editPinned"
+                  className="text-foreground flex items-center gap-2"
+                >
+                  <Pin className="h-4 w-4" />
+                  Pin this land to top
+                </Label>
+                <Switch
+                  id="editPinned"
+                  checked={editPinned}
+                  onCheckedChange={setEditPinned}
                 />
               </div>
             </div>

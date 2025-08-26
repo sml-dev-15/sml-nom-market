@@ -1,7 +1,16 @@
 "use client";
 
 import { useState, useMemo } from "react";
-import { X, Plus, Minus, Search, MapPin, Link, Building2 } from "lucide-react";
+import {
+  X,
+  Plus,
+  Minus,
+  Search,
+  MapPin,
+  Link,
+  Building2,
+  Pin,
+} from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
@@ -14,6 +23,7 @@ import {
 } from "@/components/ui/dialog";
 import { getSupabaseClient } from "@/lib/supabaseClient";
 import { Checkbox } from "@/components/ui/checkbox";
+import { Switch } from "@/components/ui/switch"; // Import the Switch component
 import { toast } from "sonner";
 import { industryOptions } from "@/types/land";
 
@@ -37,6 +47,7 @@ export const AddPublicLandForm = ({ setLands }: AddPublicLandFormProps) => {
   const [dialogOpen, setDialogOpen] = useState(false);
   const [searchQuery, setSearchQuery] = useState("");
   const [isSubmitting, setIsSubmitting] = useState(false);
+  const [isPinned, setIsPinned] = useState(false); // State for pinned toggle
 
   const toggleIndustry = (industry: string) => {
     setSelectedIndustries((prev) => {
@@ -116,6 +127,7 @@ export const AddPublicLandForm = ({ setLands }: AddPublicLandFormProps) => {
             land_name: landName.trim(),
             land_link: landLink.trim(),
             industry: selectedIndustries,
+            pinned: isPinned, // Include pinned status
           },
         ])
         .select();
@@ -130,6 +142,7 @@ export const AddPublicLandForm = ({ setLands }: AddPublicLandFormProps) => {
       setLandName("");
       setLandLink("");
       setSelectedIndustries([]);
+      setIsPinned(false); // Reset pinned state
       setDialogOpen(false);
     } catch {
       toast.error("An unexpected error occurred");
@@ -205,6 +218,22 @@ export const AddPublicLandForm = ({ setLands }: AddPublicLandFormProps) => {
                   />
                   <Link className="absolute left-3 top-1/2 transform -translate-y-1/2 h-4 w-4 text-muted-foreground" />
                 </div>
+              </div>
+
+              {/* Pinned Toggle */}
+              <div className="flex items-center justify-between pt-2">
+                <Label
+                  htmlFor="pinned"
+                  className="text-foreground text-sm flex items-center gap-2"
+                >
+                  <Pin className="h-4 w-4" />
+                  Pin this land to top
+                </Label>
+                <Switch
+                  id="pinned"
+                  checked={isPinned}
+                  onCheckedChange={setIsPinned}
+                />
               </div>
             </div>
           </div>

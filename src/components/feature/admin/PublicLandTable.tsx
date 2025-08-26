@@ -11,7 +11,7 @@ import {
   SelectTrigger,
   SelectValue,
 } from "@/components/ui/select";
-import { Search } from "lucide-react";
+import { Search, Pin } from "lucide-react";
 import { getSupabaseClient } from "@/lib/supabaseClient";
 import { industryOptions } from "@/types/land";
 import { Skeleton } from "@/components/ui/skeleton";
@@ -22,6 +22,7 @@ interface PublicLand {
   land_link: string;
   industry: { name: string; quantity: number }[];
   created_at: string;
+  pinned: boolean; // Added pinned field
 }
 
 interface PublicLandsTableProps {
@@ -45,6 +46,7 @@ export default function PublicLandsTable({
       const { data, error } = await supabase
         .from("public_land_list")
         .select("*")
+        .order("pinned", { ascending: false }) // Sort by pinned first
         .order("created_at", { ascending: false });
 
       if (error) {
@@ -65,7 +67,7 @@ export default function PublicLandsTable({
     }
   }, [initialLands.length, fetchLands]);
 
-  // Filter and search logic with Samflower pinned to top
+  // Filter and search logic with pinned lands at the top
   const filteredLands = useMemo(() => {
     const filtered = lands.filter((land) => {
       // Search filter
@@ -82,16 +84,12 @@ export default function PublicLandsTable({
       return matchesSearch && matchesIndustry;
     });
 
-    // Separate Samflower lands and other lands
-    const samflowerLands = filtered.filter((land) =>
-      land.land_name.toLowerCase().includes("samflower")
-    );
-    const otherLands = filtered.filter(
-      (land) => !land.land_name.toLowerCase().includes("samflower")
-    );
+    // Separate pinned lands and regular lands
+    const pinnedLands = filtered.filter((land) => land.pinned);
+    const regularLands = filtered.filter((land) => !land.pinned);
 
-    // Return Samflower lands first, then others
-    return [...samflowerLands, ...otherLands];
+    // Return pinned lands first, then regular lands
+    return [...pinnedLands, ...regularLands];
   }, [lands, searchQuery, industryFilter]);
 
   // Pagination logic
@@ -190,53 +188,48 @@ export default function PublicLandsTable({
                 No lands found matching your criteria.
               </div>
             ) : (
-              paginatedLands.map((land) => {
-                const isSamflower = land.land_name
-                  .toLowerCase()
-                  .includes("samflower");
-
-                return (
-                  <div
-                    key={land.id}
-                    className={`grid grid-cols-1 sm:grid-cols-[1fr_1fr_2fr] p-4 hover:bg-muted/30 transition-colors ${
-                      isSamflower
-                        ? "bg-amber-50 dark:bg-amber-950/20 border-b-2 border-amber-200 dark:border-amber-800"
-                        : ""
-                    }`}
-                  >
-                    <div className="font-medium mb-2 sm:mb-0">
-                      {land.land_name}
-                      {isSamflower && (
-                        <span className="ml-2 inline-flex items-center rounded-full bg-amber-100 px-2 py-1 text-xs font-medium text-amber-800 dark:bg-amber-900/30 dark:text-amber-200">
-                          Pinned
-                        </span>
-                      )}
-                    </div>
-                    <div className="mb-2 sm:mb-0">
-                      <a
-                        href={land.land_link}
-                        target="_blank"
-                        rel="noopener noreferrer"
-                        className="text-primary hover:underline break-all"
-                      >
-                        {land.land_link.length > 30
-                          ? `${land.land_link.substring(0, 30)}...`
-                          : land.land_link}
-                      </a>
-                    </div>
-                    <div className="flex flex-wrap gap-1">
-                      {land.industry.map((ind, index) => (
-                        <span
-                          key={index}
-                          className="inline-flex items-center rounded-full border px-2.5 py-0.5 text-xs font-semibold transition-colors focus:outline-none focus:ring-2 focus:ring-ring focus:ring-offset-2 bg-secondary text-secondary-foreground"
-                        >
-                          {ind.name} ({ind.quantity})
-                        </span>
-                      ))}
-                    </div>
+              paginatedLands.map((land) => (
+                <div
+                  key={land.id}
+                  className={`grid grid-cols-1 sm:grid-cols-[1fr_1fr_2fr] p-4 hover:bg-muted/30 transition-colors ${
+                    land.pinned
+                      ? "bg-amber-50 dark:bg-amber-950/20 border-b-2 border-amber-200 dark:border-amber-800"
+                      : ""
+                  }`}
+                >
+                  <div className="font-medium mb-2 sm:mb-0 flex items-center">
+                    {land.land_name}
+                    {land.pinned && (
+                      <span className="ml-2 inline-flex items-center rounded-full bg-amber-100 px-2 py-1 text-xs font-medium text-amber-800 dark:bg-amber-900/30 dark:text-amber-200">
+                        <Pin className="h-3 w-3 mr-1" />
+                        Pinned
+                      </span>
+                    )}
                   </div>
-                );
-              })
+                  <div className="mb-2 sm:mb-0">
+                    <a
+                      href={land.land_link}
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      className="text-primary hover:underline break-all"
+                    >
+                      {land.land_link.length > 30
+                        ? `${land.land_link.substring(0, 30)}...`
+                        : land.land_link}
+                    </a>
+                  </div>
+                  <div className="flex flex-wrap gap-1">
+                    {land.industry.map((ind, index) => (
+                      <span
+                        key={index}
+                        className="inline-flex items-center rounded-full border px-2.5 py-0.5 text-xs font-semibold transition-colors focus:outline-none focus:ring-2 focus:ring-ring focus:ring-offset-2 bg-secondary text-secondary-foreground"
+                      >
+                        {ind.name} ({ind.quantity})
+                      </span>
+                    ))}
+                  </div>
+                </div>
+              ))
             )}
           </div>
         </div>
