@@ -58,6 +58,9 @@ import {
   TrendingUp,
   Search,
   Menu,
+  Check,
+  X,
+  Crown,
 } from "lucide-react";
 import React from "react";
 
@@ -394,6 +397,10 @@ export default function CraftingCostComparison() {
                                   const floorPrice = getLowestBuyPrice(
                                     row.item
                                   );
+                                  const isBuyBetter =
+                                    row.calculated &&
+                                    craftCost !== null &&
+                                    directCost <= craftCost;
 
                                   return (
                                     <React.Fragment key={row.id}>
@@ -517,25 +524,41 @@ export default function CraftingCostComparison() {
                                               <DialogContent className="w-full max-w-[95vw] sm:max-w-2xl max-h-[80vh] overflow-y-auto mx-auto">
                                                 <DialogHeader>
                                                   <DialogTitle>
-                                                    Ingredient Breakdown:{" "}
+                                                    Cost Analysis:{" "}
                                                     {formatSlug(row.item)}
                                                   </DialogTitle>
                                                   <DialogDescription>
-                                                    Detailed cost analysis for{" "}
+                                                    Detailed cost comparison for{" "}
                                                     {row.quantity}x{" "}
                                                     {formatSlug(row.item)}
                                                   </DialogDescription>
                                                 </DialogHeader>
 
                                                 <div className="mt-4 space-y-4">
-                                                  {/* Direct Buy vs Crafting */}
+                                                  {/* Direct Buy vs Crafting Comparison */}
                                                   <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-                                                    <Card>
+                                                    <Card
+                                                      className={
+                                                        isBuyBetter
+                                                          ? "ring-2 ring-green-500"
+                                                          : ""
+                                                      }
+                                                    >
                                                       <CardHeader className="py-3">
-                                                        <CardTitle className="text-sm flex items-center gap-2">
-                                                          <Package className="h-4 w-4" />
-                                                          Buying Directly
-                                                        </CardTitle>
+                                                        <div className="flex items-center justify-between">
+                                                          <CardTitle className="text-sm flex items-center gap-2">
+                                                            <Package className="h-4 w-4" />
+                                                            Buying Directly
+                                                          </CardTitle>
+                                                          {isBuyBetter && (
+                                                            <div className="flex items-center text-green-600">
+                                                              <Crown className="h-4 w-4 mr-1" />
+                                                              <span className="text-xs font-medium">
+                                                                BEST
+                                                              </span>
+                                                            </div>
+                                                          )}
+                                                        </div>
                                                       </CardHeader>
                                                       <CardContent>
                                                         <p className="text-2xl font-bold">
@@ -551,15 +574,69 @@ export default function CraftingCostComparison() {
                                                             "N/A"}{" "}
                                                           gold per unit
                                                         </p>
+                                                        {row.calculated &&
+                                                          craftCost !==
+                                                            null && (
+                                                            <div className="mt-2 text-sm">
+                                                              {directCost <=
+                                                              craftCost ? (
+                                                                <div className="flex items-center text-green-600">
+                                                                  <Check className="h-4 w-4 mr-1" />
+                                                                  <span>
+                                                                    Save{" "}
+                                                                    {(
+                                                                      craftCost -
+                                                                      directCost
+                                                                    ).toLocaleString()}{" "}
+                                                                    gold vs
+                                                                    crafting
+                                                                  </span>
+                                                                </div>
+                                                              ) : (
+                                                                <div className="flex items-center text-red-600">
+                                                                  <X className="h-4 w-4 mr-1" />
+                                                                  <span>
+                                                                    Costs{" "}
+                                                                    {(
+                                                                      directCost -
+                                                                      craftCost
+                                                                    ).toLocaleString()}{" "}
+                                                                    gold more
+                                                                    than
+                                                                    crafting
+                                                                  </span>
+                                                                </div>
+                                                              )}
+                                                            </div>
+                                                          )}
                                                       </CardContent>
                                                     </Card>
 
-                                                    <Card>
+                                                    <Card
+                                                      className={
+                                                        !isBuyBetter &&
+                                                        craftCost !== null
+                                                          ? "ring-2 ring-green-500"
+                                                          : ""
+                                                      }
+                                                    >
                                                       <CardHeader className="py-3">
-                                                        <CardTitle className="text-sm flex items-center gap-2">
-                                                          <Calculator className="h-4 w-4" />
-                                                          Crafting
-                                                        </CardTitle>
+                                                        <div className="flex items-center justify-between">
+                                                          <CardTitle className="text-sm flex items-center gap-2">
+                                                            <Calculator className="h-4 w-4" />
+                                                            Crafting
+                                                          </CardTitle>
+                                                          {!isBuyBetter &&
+                                                            craftCost !==
+                                                              null && (
+                                                              <div className="flex items-center text-green-600">
+                                                                <Crown className="h-4 w-4 mr-1" />
+                                                                <span className="text-xs font-medium">
+                                                                  BEST
+                                                                </span>
+                                                              </div>
+                                                            )}
+                                                        </div>
                                                       </CardHeader>
                                                       <CardContent>
                                                         <p className="text-2xl font-bold">
@@ -579,9 +656,127 @@ export default function CraftingCostComparison() {
                                                               gold per unit
                                                             </p>
                                                           )}
+                                                        {row.calculated &&
+                                                          craftCost !==
+                                                            null && (
+                                                            <div className="mt-2 text-sm">
+                                                              {craftCost <
+                                                              directCost ? (
+                                                                <div className="flex items-center text-green-600">
+                                                                  <Check className="h-4 w-4 mr-1" />
+                                                                  <span>
+                                                                    Save{" "}
+                                                                    {(
+                                                                      directCost -
+                                                                      craftCost
+                                                                    ).toLocaleString()}{" "}
+                                                                    gold vs
+                                                                    buying
+                                                                  </span>
+                                                                </div>
+                                                              ) : (
+                                                                <div className="flex items-center text-red-600">
+                                                                  <X className="h-4 w-4 mr-1" />
+                                                                  <span>
+                                                                    Costs{" "}
+                                                                    {(
+                                                                      craftCost -
+                                                                      directCost
+                                                                    ).toLocaleString()}{" "}
+                                                                    gold more
+                                                                    than buying
+                                                                  </span>
+                                                                </div>
+                                                              )}
+                                                            </div>
+                                                          )}
                                                       </CardContent>
                                                     </Card>
                                                   </div>
+
+                                                  {/* Reward vs Crafting Comparison */}
+                                                  {row.calculated &&
+                                                    craftCost !== null && (
+                                                      <Card>
+                                                        <CardHeader className="py-3">
+                                                          <CardTitle className="text-sm flex items-center gap-2">
+                                                            <Coins className="h-4 w-4" />
+                                                            Reward vs Crafting
+                                                            Cost
+                                                          </CardTitle>
+                                                        </CardHeader>
+                                                        <CardContent>
+                                                          <div className="grid grid-cols-2 gap-4">
+                                                            <div className="text-center">
+                                                              <p className="text-sm text-muted-foreground">
+                                                                Reward
+                                                              </p>
+                                                              <p className="text-xl font-bold text-green-600">
+                                                                {row.reward.toLocaleString()}{" "}
+                                                                gold
+                                                              </p>
+                                                            </div>
+                                                            <div className="text-center">
+                                                              <p className="text-sm text-muted-foreground">
+                                                                Craft Cost
+                                                              </p>
+                                                              <p className="text-xl font-bold">
+                                                                {craftCost.toLocaleString()}{" "}
+                                                                gold
+                                                              </p>
+                                                            </div>
+                                                          </div>
+                                                          <div className="mt-3 p-3 rounded-lg bg-muted/50 text-center">
+                                                            {row.reward >
+                                                            craftCost ? (
+                                                              <div className="text-green-600">
+                                                                <Check className="h-5 w-5 mx-auto mb-1" />
+                                                                <p className="font-medium">
+                                                                  Profit:{" "}
+                                                                  {(
+                                                                    row.reward -
+                                                                    craftCost
+                                                                  ).toLocaleString()}{" "}
+                                                                  gold
+                                                                </p>
+                                                                <p className="text-sm">
+                                                                  (
+                                                                  {(
+                                                                    ((row.reward -
+                                                                      craftCost) /
+                                                                      craftCost) *
+                                                                    100
+                                                                  ).toFixed(1)}
+                                                                  % return)
+                                                                </p>
+                                                              </div>
+                                                            ) : (
+                                                              <div className="text-red-600">
+                                                                <X className="h-5 w-5 mx-auto mb-1" />
+                                                                <p className="font-medium">
+                                                                  Loss:{" "}
+                                                                  {(
+                                                                    craftCost -
+                                                                    row.reward
+                                                                  ).toLocaleString()}{" "}
+                                                                  gold
+                                                                </p>
+                                                                <p className="text-sm">
+                                                                  (
+                                                                  {(
+                                                                    ((craftCost -
+                                                                      row.reward) /
+                                                                      craftCost) *
+                                                                    100
+                                                                  ).toFixed(1)}
+                                                                  % loss)
+                                                                </p>
+                                                              </div>
+                                                            )}
+                                                          </div>
+                                                        </CardContent>
+                                                      </Card>
+                                                    )}
 
                                                   {/* Ingredients Breakdown */}
                                                   {row.calculated &&
@@ -838,6 +1033,16 @@ export default function CraftingCostComparison() {
                                 ? (profit / row.reward) * 100
                                 : 0;
                             const floorPrice = getLowestBuyPrice(row.item);
+                            const directCost = row.calculated
+                              ? getDirectCost(row.item, row.quantity)
+                              : 0;
+                            const craftCost = row.calculated
+                              ? getCraftingCost(row.item, row.quantity)
+                              : null;
+                            const isBuyBetter =
+                              row.calculated &&
+                              craftCost !== null &&
+                              directCost <= craftCost;
 
                             return (
                               <Card key={row.id} className="relative ">
@@ -916,6 +1121,48 @@ export default function CraftingCostComparison() {
                                       )}
                                     </div>
                                   </div>
+
+                                  {/* Direct comparison in summary view */}
+                                  {row.calculated && craftCost !== null && (
+                                    <div className="mt-4 p-3 bg-muted/30 rounded-lg">
+                                      <p className="text-sm font-medium mb-2">
+                                        Cost Comparison:
+                                      </p>
+                                      <div className="grid grid-cols-2 gap-2 text-sm">
+                                        <div
+                                          className={
+                                            isBuyBetter
+                                              ? "text-green-600 font-medium"
+                                              : ""
+                                          }
+                                        >
+                                          Buy: {directCost.toLocaleString()}{" "}
+                                          gold
+                                          {isBuyBetter && " ✓"}
+                                        </div>
+                                        <div
+                                          className={
+                                            !isBuyBetter
+                                              ? "text-green-600 font-medium"
+                                              : ""
+                                          }
+                                        >
+                                          Craft: {craftCost.toLocaleString()}{" "}
+                                          gold
+                                          {!isBuyBetter && " ✓"}
+                                        </div>
+                                      </div>
+                                      <p className="text-xs mt-2 text-muted-foreground">
+                                        {isBuyBetter
+                                          ? `Buying saves ${(
+                                              craftCost - directCost
+                                            ).toLocaleString()} gold`
+                                          : `Crafting saves ${(
+                                              directCost - craftCost
+                                            ).toLocaleString()} gold`}
+                                      </p>
+                                    </div>
+                                  )}
                                 </CardContent>
                                 <Button
                                   variant="ghost"
