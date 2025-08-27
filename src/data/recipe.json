@@ -101,9 +101,7 @@
     "title": "Wine",
     "source": "Crafting (Barrel)",
     "description": "Drink wine to restore 60 points of energy.",
-    "ingredients": [
-      { "item": "grape_must", "quantity": 30 }
-    ],
+    "ingredients": [{ "item": "grape_must", "quantity": 30 }],
     "produces": { "item": "wine", "quantity": 60 },
     "energyRestore": 60,
     "recipePrice": null
@@ -142,9 +140,7 @@
     "title": "Box",
     "source": "Crafting (Workbench)",
     "description": "Use a wooden box to decorate your kingdom.",
-    "ingredients": [
-      { "item": "wood_plank", "quantity": 10 }
-    ],
+    "ingredients": [{ "item": "wood_plank", "quantity": 10 }],
     "produces": { "item": "box", "quantity": 1 },
     "energyRestore": null,
     "recipePrice": "275 silver"
@@ -154,9 +150,7 @@
     "title": "Wood Table",
     "source": "Crafting (Workbench)",
     "description": "Use wooden tables to decorate your kingdom.",
-    "ingredients": [
-      { "item": "wood_plank", "quantity": 20 }
-    ],
+    "ingredients": [{ "item": "wood_plank", "quantity": 20 }],
     "produces": { "item": "wood_table", "quantity": 1 },
     "energyRestore": null,
     "recipePrice": "525 silver"
@@ -179,9 +173,7 @@
     "title": "Pillow Red",
     "source": "Crafting (Workbench)",
     "description": "Use pillows to decorate your kingdom.",
-    "ingredients": [
-      { "item": "cotton_thread_red", "quantity": 10 }
-    ],
+    "ingredients": [{ "item": "cotton_thread_red", "quantity": 10 }],
     "produces": { "item": "pillow_red", "quantity": 1 },
     "energyRestore": null,
     "recipePrice": null
@@ -191,9 +183,7 @@
     "title": "Pillow Yellow",
     "source": "Crafting (Workbench)",
     "description": "Use pillows to decorate your kingdom.",
-    "ingredients": [
-      { "item": "cotton_thread_yellow", "quantity": 10 }
-    ],
+    "ingredients": [{ "item": "cotton_thread_yellow", "quantity": 10 }],
     "produces": { "item": "pillow_yellow", "quantity": 1 },
     "energyRestore": null,
     "recipePrice": null
@@ -203,9 +193,7 @@
     "title": "Pillow Orange",
     "source": "Crafting (Workbench)",
     "description": "Use pillows to decorate your kingdom.",
-    "ingredients": [
-      { "item": "cotton_thread_orange", "quantity": 10 }
-    ],
+    "ingredients": [{ "item": "cotton_thread_orange", "quantity": 10 }],
     "produces": { "item": "pillow_orange", "quantity": 1 },
     "energyRestore": null,
     "recipePrice": null
@@ -215,9 +203,7 @@
     "title": "Pillow Grey",
     "source": "Crafting (Workbench)",
     "description": "Use pillows to decorate your kingdom.",
-    "ingredients": [
-      { "item": "cotton_thread", "quantity": 10 }
-    ],
+    "ingredients": [{ "item": "cotton_thread", "quantity": 10 }],
     "produces": { "item": "pillow_grey", "quantity": 1 },
     "energyRestore": null,
     "recipePrice": null
@@ -227,9 +213,7 @@
     "title": "Pillow Green",
     "source": "Crafting (Workbench)",
     "description": "Use pillows to decorate your kingdom.",
-    "ingredients": [
-      { "item": "cotton_thread_green", "quantity": 10 }
-    ],
+    "ingredients": [{ "item": "cotton_thread_green", "quantity": 10 }],
     "produces": { "item": "pillow_green", "quantity": 1 },
     "energyRestore": null,
     "recipePrice": null
@@ -239,9 +223,7 @@
     "title": "Wheat Flour",
     "source": "Crafting (Mill)",
     "description": "Processed wheat used for cooking various foods.",
-    "ingredients": [
-      { "item": "wheat", "quantity": 50 }
-    ],
+    "ingredients": [{ "item": "wheat", "quantity": 50 }],
     "produces": { "item": "wheat_flour", "quantity": 10 },
     "energyRestore": null,
     "recipePrice": null
@@ -251,9 +233,7 @@
     "title": "Wood Plank",
     "source": "Crafting (Sawmill)",
     "description": "Processed wood used for crafting various objects.",
-    "ingredients": [
-      { "item": "wood", "quantity": 1 }
-    ],
+    "ingredients": [{ "item": "wood", "quantity": 1 }],
     "produces": { "item": "wood_plank", "quantity": 3 },
     "energyRestore": null,
     "recipePrice": null
@@ -263,9 +243,7 @@
     "title": "Stone Brick",
     "source": "Crafting (Stonecutter)",
     "description": "Processed stone used for crafting various objects.",
-    "ingredients": [
-      { "item": "stone", "quantity": 1 }
-    ],
+    "ingredients": [{ "item": "stone", "quantity": 1 }],
     "produces": { "item": "stone_brick", "quantity": 3 },
     "energyRestore": null,
     "recipePrice": "25 silver"
@@ -286,7 +264,7 @@
     "recipePrice": "10 silver"
   },
   {
-    "slug": "silver_ingot",
+    "slug": "ingot_silver",
     "title": "Silver Ingot",
     "source": "Crafting (Furnace)",
     "description": "Processed silver used for crafting various objects.",
@@ -294,7 +272,7 @@
       { "item": "wood", "quantity": 1 },
       { "item": "silver", "quantity": 1 }
     ],
-    "produces": { "item": "silver_ingot", "quantity": 1 },
+    "produces": { "item": "ingot_silver", "quantity": 1 },
     "energyRestore": null,
     "recipePrice": "50 silver"
   },
@@ -303,15 +281,13 @@
     "title": "Grape Must",
     "source": "Crafting (Press)",
     "description": "Use grape must to produce wine.",
-    "ingredients": [
-      { "item": "grapes", "quantity": 5 }
-    ],
+    "ingredients": [{ "item": "grapes", "quantity": 5 }],
     "produces": { "item": "grape_must", "quantity": 10 },
     "energyRestore": null,
     "recipePrice": "5 silver"
   },
   {
-    "slug": "iron_ingot",
+    "slug": "ingot_iron",
     "title": "Iron Ingot",
     "source": "Crafting (Furnace)",
     "description": "Processed iron used for crafting various objects.",
@@ -319,12 +295,12 @@
       { "item": "wood", "quantity": 1 },
       { "item": "iron", "quantity": 1 }
     ],
-    "produces": { "item": "iron_ingot", "quantity": 1 },
+    "produces": { "item": "ingot_iron", "quantity": 1 },
     "energyRestore": null,
     "recipePrice": "25 silver"
   },
   {
-    "slug": "gold_ingot",
+    "slug": "ingot_gold",
     "title": "Gold Ingot",
     "source": "Crafting (Furnace)",
     "description": "Processed gold used for crafting various objects.",
@@ -332,7 +308,7 @@
       { "item": "wood", "quantity": 1 },
       { "item": "gold", "quantity": 1 }
     ],
-    "produces": { "item": "gold_ingot", "quantity": 1 },
+    "produces": { "item": "ingot_gold", "quantity": 1 },
     "energyRestore": null,
     "recipePrice": "1250 silver"
   },
@@ -423,9 +399,7 @@
     "title": "Cotton Thread",
     "source": "Crafting (Spinning Wheel)",
     "description": "Processed cotton used for crafting various objects.",
-    "ingredients": [
-      { "item": "cotton", "quantity": 3 }
-    ],
+    "ingredients": [{ "item": "cotton", "quantity": 3 }],
     "produces": { "item": "cotton_thread", "quantity": 1 },
     "energyRestore": null,
     "recipePrice": null
@@ -435,9 +409,7 @@
     "title": "Clay Brick",
     "source": "Crafting (Kiln)",
     "description": "Processed clay used for crafting various objects.",
-    "ingredients": [
-      { "item": "clay", "quantity": 1 }
-    ],
+    "ingredients": [{ "item": "clay", "quantity": 1 }],
     "produces": { "item": "clay_brick", "quantity": 3 },
     "energyRestore": null,
     "recipePrice": "25 silver"

@@ -752,15 +752,15 @@
         "thumbnailImageUrl": "https://nomstead.com/images/objects/ingot_gold.png"
       },
       {
-        "slug": "ingot_silver",
+        "slug": "ingot_silverr",
         "category": "recipes",
         "subCategory": "resources",
         "metadata": {
           "title": "Silver ingot",
           "description": "Use silver ingots to craft objects."
         },
-        "imageUrl": "https://nomstead.com/images/objects/ingot_silver_full.png",
-        "thumbnailImageUrl": "https://nomstead.com/images/objects/ingot_silver.png"
+        "imageUrl": "https://nomstead.com/images/objects/ingot_silverr_full.png",
+        "thumbnailImageUrl": "https://nomstead.com/images/objects/ingot_silverr.png"
       },
       {
         "slug": "axe_silver",
@@ -1492,7 +1492,7 @@
       "recipePrice": "10 silver"
     },
     {
-      "slug": "silver_ingot",
+      "slug": "ingot_silver",
       "title": "Silver Ingot",
       "source": "Crafting (Furnace)",
       "description": "Processed silver used for crafting various objects.",
@@ -1507,7 +1507,7 @@
         }
       ],
       "produces": {
-        "item": "silver_ingot",
+        "item": "ingot_silver",
         "quantity": 1
       },
       "energyRestore": null,
@@ -1532,7 +1532,7 @@
       "recipePrice": "5 silver"
     },
     {
-      "slug": "iron_ingot",
+      "slug": "ingot_iron",
       "title": "Iron Ingot",
       "source": "Crafting (Furnace)",
       "description": "Processed iron used for crafting various objects.",
@@ -1547,14 +1547,14 @@
         }
       ],
       "produces": {
-        "item": "iron_ingot",
+        "item": "ingot_iron",
         "quantity": 1
       },
       "energyRestore": null,
       "recipePrice": "25 silver"
     },
     {
-      "slug": "gold_ingot",
+      "slug": "ingot_gold",
       "title": "Gold Ingot",
       "source": "Crafting (Furnace)",
       "description": "Processed gold used for crafting various objects.",
@@ -1569,7 +1569,7 @@
         }
       ],
       "produces": {
-        "item": "gold_ingot",
+        "item": "ingot_gold",
         "quantity": 1
       },
       "energyRestore": null,

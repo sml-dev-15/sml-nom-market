@@ -67,7 +67,7 @@ export const slugs = [
   "fries",
   "mushroom_soup",
   "ingot_gold",
-  "ingot_silver",
+  "ingot_silverr",
   "axe_silver",
   "axe_gold",
   "pickaxe_silver",
@@ -100,9 +100,6 @@ export const slugs = [
   "pillow_grey",
   "wheat_flour",
   "soil",
-  "silver_ingot",
-  "iron_ingot",
-  "gold_ingot",
   "cotton_thread_yellow",
   "cotton_thread",
 ];
