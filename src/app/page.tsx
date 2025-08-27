@@ -4,9 +4,10 @@ import PublicLandsTable from "@/components/feature/admin/PublicLandTable";
 import { Footer } from "@/components/feature/Footer";
 import { Hero } from "@/components/feature/Hero";
 import { Navbar } from "@/components/feature/Navbar";
+import CraftingCostComparison from "@/components/feature/TaskCostCalculator";
 import { Container } from "@/components/ui/container";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
-import { Map } from "lucide-react";
+import { Map, Calculator } from "lucide-react"; // Added Calculator icon
 import { useState } from "react";
 
 export default function HomePage() {
@@ -30,9 +31,10 @@ export default function HomePage() {
             onValueChange={setActiveTab}
             className="w-full"
           >
-            <TabsList className="grid w-full max-w-md mx-auto grid-cols-2 ">
+            <TabsList className="grid w-full max-w-md mx-auto grid-cols-3">
               <TabsTrigger value="hero">Overview</TabsTrigger>
               <TabsTrigger value="lands">Public Lands</TabsTrigger>
+              <TabsTrigger value="calculator">Calculator</TabsTrigger>{" "}
             </TabsList>
 
             <TabsContent value="hero">
@@ -57,6 +59,33 @@ export default function HomePage() {
                     </p>
                   </div>
                   <PublicLandsTable />
+                </Container>
+              </div>
+            </TabsContent>
+
+            {/* New Task Cost Calculator Tab */}
+            <TabsContent value="calculator">
+              <div className="w-full rounded-2xl py-8">
+                <Container className="relative z-20">
+                  <div className="flex flex-col gap-4 mb-8">
+                    <div className="flex items-center gap-3">
+                      <div className="p-2 bg-primary rounded-lg">
+                        <Calculator className="h-6 w-6 text-primary-foreground" />
+                      </div>
+                      <h1 className="text-3xl font-bold tracking-tight text-accent-foreground">
+                        Task Cost Calculator
+                      </h1>
+                    </div>
+                    <p className="text-muted-foreground max-w-2xl">
+                      Calculate the estimated costs for various tasks and
+                      projects.
+                    </p>
+                  </div>
+
+                  {/* Add your calculator component here */}
+                  <div className="rounded-2xl border border-border">
+                    <CraftingCostComparison />
+                  </div>
                 </Container>
               </div>
             </TabsContent>

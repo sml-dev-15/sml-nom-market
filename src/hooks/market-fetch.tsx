@@ -1,8 +1,45 @@
-import { DataProps } from "@/components/feature/Hero/components/Column";
 import { useEffect, useState, useCallback } from "react";
 
-export const useFetchMarketData = (marketType: string) => {
+export interface MarketData {
+  tile: {
+    url: string;
+    owner: string;
+  };
+  object: {
+    slug: string;
+    category: string;
+    subCategory: string;
+    metadata: {
+      title: string;
+    };
+    imageUrl: string;
+    thumbnailImageUrl: string;
+  };
+  pricing: {
+    unitPrice: number;
+    availableQuantity?: number;
+    desiredQuantity?: number;
+  };
+}
+
+export interface DataProps {
+  slug: string;
+  name: string;
+  category: string;
+  subCategory: string;
+  unitPrice: number;
+  availableQuantity?: number;
+  desiredQuantity?: number;
+  owner: string;
+  image: string;
+  visit: string;
+}
+
+export const useFetchMarketDataCalculator = (
+  marketType: "toBuy" | "toSell"
+) => {
   const [data, setData] = useState<DataProps[]>([]);
+  const [rawData, setRawData] = useState<MarketData[]>([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
 
@@ -18,11 +55,15 @@ export const useFetchMarketData = (marketType: string) => {
       }
 
       const apiData = await response.json();
-      const marketData = apiData[marketType] ?? [];
+      const marketData: MarketData[] = apiData[marketType] ?? [];
 
+      // Save raw
+      setRawData(marketData);
+
+      // Map to DataProps for UI
       // eslint-disable-next-line @typescript-eslint/no-explicit-any
       const mappedData: DataProps[] = marketData.map((item: any) => ({
-        slug: item.object.slug,
+        slug: item.object.slug, // 👈 add this
         name: item.object.metadata.title,
         category: item.object.category,
         subCategory: item.object.subCategory,
@@ -53,10 +94,9 @@ export const useFetchMarketData = (marketType: string) => {
     fetchMarketData();
   }, [fetchMarketData]);
 
-  // Function to manually refetch data
   const refetch = useCallback(() => {
     fetchMarketData();
   }, [fetchMarketData]);
 
-  return { data, loading, error, refetch };
+  return { data, rawData, loading, error, refetch };
 };

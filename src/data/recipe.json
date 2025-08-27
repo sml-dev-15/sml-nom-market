@@ -1,0 +1,445 @@
+[
+  {
+    "slug": "bread",
+    "title": "Bread",
+    "source": "Crafting (Bread Oven)",
+    "description": "Eat bread to restore 30 points of energy.",
+    "ingredients": [
+      { "item": "flour_wheat", "quantity": 1 },
+      { "item": "wood", "quantity": 1 }
+    ],
+    "produces": { "item": "bread", "quantity": 10 },
+    "energyRestore": 30,
+    "recipePrice": null
+  },
+  {
+    "slug": "fries",
+    "title": "French Fries",
+    "source": "Crafting (Bonfire)",
+    "description": "Eat French fries to restore 6 points of energy.",
+    "ingredients": [
+      { "item": "potato", "quantity": 3 },
+      { "item": "energy", "quantity": 1 }
+    ],
+    "produces": { "item": "fries", "quantity": 1 },
+    "energyRestore": 6,
+    "recipePrice": "50 silver"
+  },
+  {
+    "slug": "mushroom_omelette",
+    "title": "Mushroom Omelette",
+    "source": "Crafting (Bonfire)",
+    "description": "Eat Mushroom omelette to restore 45 points of energy.",
+    "ingredients": [
+      { "item": "mushroom", "quantity": 1 },
+      { "item": "egg", "quantity": 1 },
+      { "item": "energy", "quantity": 1 }
+    ],
+    "produces": { "item": "mushroom_omelette", "quantity": 1 },
+    "energyRestore": 45,
+    "recipePrice": "20 silver"
+  },
+  {
+    "slug": "mushroom_soup",
+    "title": "Mushroom Soup",
+    "source": "Crafting (Bonfire)",
+    "description": "Drink a mushroom soup to restore 30 points of energy.",
+    "ingredients": [
+      { "item": "mushroom", "quantity": 1 },
+      { "item": "potato", "quantity": 1 },
+      { "item": "energy", "quantity": 1 }
+    ],
+    "produces": { "item": "mushroom_soup", "quantity": 1 },
+    "energyRestore": 30,
+    "recipePrice": "50 silver"
+  },
+  {
+    "slug": "pumpkin_bread",
+    "title": "Pumpkin Bread",
+    "source": "Crafting (Bonfire)",
+    "description": "Eat pumpkin bread to restore 45 points of energy.",
+    "ingredients": [
+      { "item": "pumpkin", "quantity": 1 },
+      { "item": "bread", "quantity": 1 },
+      { "item": "energy", "quantity": 1 }
+    ],
+    "produces": { "item": "pumpkin_bread", "quantity": 1 },
+    "energyRestore": 45,
+    "recipePrice": "175 silver"
+  },
+  {
+    "slug": "tomato_omelette",
+    "title": "Tomato Omelette",
+    "source": "Crafting (Bonfire)",
+    "description": "Eat Tomato omelette to restore 30 points of energy.",
+    "ingredients": [
+      { "item": "tomato", "quantity": 1 },
+      { "item": "egg", "quantity": 1 },
+      { "item": "energy", "quantity": 1 }
+    ],
+    "produces": { "item": "tomato_omelette", "quantity": 1 },
+    "energyRestore": 30,
+    "recipePrice": "20 silver"
+  },
+  {
+    "slug": "salad",
+    "title": "Veggie Salad",
+    "source": "Crafting (Bonfire)",
+    "description": "Eat a salad to restore 6 points of energy.",
+    "ingredients": [
+      { "item": "cucumber", "quantity": 1 },
+      { "item": "fern", "quantity": 1 },
+      { "item": "tomato", "quantity": 1 },
+      { "item": "energy", "quantity": 1 }
+    ],
+    "produces": { "item": "salad", "quantity": 1 },
+    "energyRestore": 6,
+    "recipePrice": "5 silver"
+  },
+  {
+    "slug": "wine",
+    "title": "Wine",
+    "source": "Crafting (Barrel)",
+    "description": "Drink wine to restore 60 points of energy.",
+    "ingredients": [
+      { "item": "grape_must", "quantity": 30 }
+    ],
+    "produces": { "item": "wine", "quantity": 60 },
+    "energyRestore": 60,
+    "recipePrice": null
+  },
+  {
+    "slug": "wrapped_potato",
+    "title": "Wrapped Potato",
+    "source": "Crafting (Bonfire)",
+    "description": "Eat a wrapped potato to restore 4 points of energy.",
+    "ingredients": [
+      { "item": "fern", "quantity": 1 },
+      { "item": "potato", "quantity": 1 },
+      { "item": "energy", "quantity": 1 }
+    ],
+    "produces": { "item": "wrapped_potato", "quantity": 1 },
+    "energyRestore": 4,
+    "recipePrice": "50 silver"
+  },
+  {
+    "slug": "pillows",
+    "title": "Pillows",
+    "source": "Crafting (Workbench)",
+    "description": "Use pillows to decorate your kingdom.",
+    "ingredients": [
+      { "item": "cotton_thread_yellow", "quantity": 10 },
+      { "item": "cotton_thread_blue", "quantity": 10 },
+      { "item": "cotton_thread_red", "quantity": 10 },
+      { "item": "cotton_thread_orange", "quantity": 10 }
+    ],
+    "produces": { "item": "pillows", "quantity": 1 },
+    "energyRestore": null,
+    "recipePrice": null
+  },
+  {
+    "slug": "box",
+    "title": "Box",
+    "source": "Crafting (Workbench)",
+    "description": "Use a wooden box to decorate your kingdom.",
+    "ingredients": [
+      { "item": "wood_plank", "quantity": 10 }
+    ],
+    "produces": { "item": "box", "quantity": 1 },
+    "energyRestore": null,
+    "recipePrice": "275 silver"
+  },
+  {
+    "slug": "wood_table",
+    "title": "Wood Table",
+    "source": "Crafting (Workbench)",
+    "description": "Use wooden tables to decorate your kingdom.",
+    "ingredients": [
+      { "item": "wood_plank", "quantity": 20 }
+    ],
+    "produces": { "item": "wood_table", "quantity": 1 },
+    "energyRestore": null,
+    "recipePrice": "525 silver"
+  },
+  {
+    "slug": "sundial",
+    "title": "Sundial",
+    "source": "Crafting (Workbench)",
+    "description": "Use sundial to decorate your kingdom.",
+    "ingredients": [
+      { "item": "stone_brick", "quantity": 150 },
+      { "item": "clay_brick", "quantity": 10 }
+    ],
+    "produces": { "item": "sundial", "quantity": 1 },
+    "energyRestore": null,
+    "recipePrice": "4025 silver"
+  },
+  {
+    "slug": "pillow_red",
+    "title": "Pillow Red",
+    "source": "Crafting (Workbench)",
+    "description": "Use pillows to decorate your kingdom.",
+    "ingredients": [
+      { "item": "cotton_thread_red", "quantity": 10 }
+    ],
+    "produces": { "item": "pillow_red", "quantity": 1 },
+    "energyRestore": null,
+    "recipePrice": null
+  },
+  {
+    "slug": "pillow_yellow",
+    "title": "Pillow Yellow",
+    "source": "Crafting (Workbench)",
+    "description": "Use pillows to decorate your kingdom.",
+    "ingredients": [
+      { "item": "cotton_thread_yellow", "quantity": 10 }
+    ],
+    "produces": { "item": "pillow_yellow", "quantity": 1 },
+    "energyRestore": null,
+    "recipePrice": null
+  },
+  {
+    "slug": "pillow_orange",
+    "title": "Pillow Orange",
+    "source": "Crafting (Workbench)",
+    "description": "Use pillows to decorate your kingdom.",
+    "ingredients": [
+      { "item": "cotton_thread_orange", "quantity": 10 }
+    ],
+    "produces": { "item": "pillow_orange", "quantity": 1 },
+    "energyRestore": null,
+    "recipePrice": null
+  },
+  {
+    "slug": "pillow_grey",
+    "title": "Pillow Grey",
+    "source": "Crafting (Workbench)",
+    "description": "Use pillows to decorate your kingdom.",
+    "ingredients": [
+      { "item": "cotton_thread", "quantity": 10 }
+    ],
+    "produces": { "item": "pillow_grey", "quantity": 1 },
+    "energyRestore": null,
+    "recipePrice": null
+  },
+  {
+    "slug": "pillow_green",
+    "title": "Pillow Green",
+    "source": "Crafting (Workbench)",
+    "description": "Use pillows to decorate your kingdom.",
+    "ingredients": [
+      { "item": "cotton_thread_green", "quantity": 10 }
+    ],
+    "produces": { "item": "pillow_green", "quantity": 1 },
+    "energyRestore": null,
+    "recipePrice": null
+  },
+  {
+    "slug": "wheat_flour",
+    "title": "Wheat Flour",
+    "source": "Crafting (Mill)",
+    "description": "Processed wheat used for cooking various foods.",
+    "ingredients": [
+      { "item": "wheat", "quantity": 50 }
+    ],
+    "produces": { "item": "wheat_flour", "quantity": 10 },
+    "energyRestore": null,
+    "recipePrice": null
+  },
+  {
+    "slug": "wood_plank",
+    "title": "Wood Plank",
+    "source": "Crafting (Sawmill)",
+    "description": "Processed wood used for crafting various objects.",
+    "ingredients": [
+      { "item": "wood", "quantity": 1 }
+    ],
+    "produces": { "item": "wood_plank", "quantity": 3 },
+    "energyRestore": null,
+    "recipePrice": null
+  },
+  {
+    "slug": "stone_brick",
+    "title": "Stone Brick",
+    "source": "Crafting (Stonecutter)",
+    "description": "Processed stone used for crafting various objects.",
+    "ingredients": [
+      { "item": "stone", "quantity": 1 }
+    ],
+    "produces": { "item": "stone_brick", "quantity": 3 },
+    "energyRestore": null,
+    "recipePrice": "25 silver"
+  },
+  {
+    "slug": "soil",
+    "title": "Soil",
+    "source": "Crafting (Workbench) or Buy from Lily",
+    "description": "Use soil to plant seeds and grow crops.",
+    "ingredients": [
+      { "item": "carrot", "quantity": 5 },
+      { "item": "fern", "quantity": 5 },
+      { "item": "flower_blue", "quantity": 5 },
+      { "item": "flower_yellow", "quantity": 5 }
+    ],
+    "produces": { "item": "soil", "quantity": 1 },
+    "energyRestore": null,
+    "recipePrice": "10 silver"
+  },
+  {
+    "slug": "silver_ingot",
+    "title": "Silver Ingot",
+    "source": "Crafting (Furnace)",
+    "description": "Processed silver used for crafting various objects.",
+    "ingredients": [
+      { "item": "wood", "quantity": 1 },
+      { "item": "silver", "quantity": 1 }
+    ],
+    "produces": { "item": "silver_ingot", "quantity": 1 },
+    "energyRestore": null,
+    "recipePrice": "50 silver"
+  },
+  {
+    "slug": "grape_must",
+    "title": "Grape Must",
+    "source": "Crafting (Press)",
+    "description": "Use grape must to produce wine.",
+    "ingredients": [
+      { "item": "grapes", "quantity": 5 }
+    ],
+    "produces": { "item": "grape_must", "quantity": 10 },
+    "energyRestore": null,
+    "recipePrice": "5 silver"
+  },
+  {
+    "slug": "iron_ingot",
+    "title": "Iron Ingot",
+    "source": "Crafting (Furnace)",
+    "description": "Processed iron used for crafting various objects.",
+    "ingredients": [
+      { "item": "wood", "quantity": 1 },
+      { "item": "iron", "quantity": 1 }
+    ],
+    "produces": { "item": "iron_ingot", "quantity": 1 },
+    "energyRestore": null,
+    "recipePrice": "25 silver"
+  },
+  {
+    "slug": "gold_ingot",
+    "title": "Gold Ingot",
+    "source": "Crafting (Furnace)",
+    "description": "Processed gold used for crafting various objects.",
+    "ingredients": [
+      { "item": "wood", "quantity": 1 },
+      { "item": "gold", "quantity": 1 }
+    ],
+    "produces": { "item": "gold_ingot", "quantity": 1 },
+    "energyRestore": null,
+    "recipePrice": "1250 silver"
+  },
+  {
+    "slug": "cotton_thread_yellow",
+    "title": "Cotton Thread Yellow",
+    "source": "Crafting (Dyeing Vat)",
+    "description": "Dyed cotton thread used for crafting various objects.",
+    "ingredients": [
+      { "item": "cotton_thread", "quantity": 1 },
+      { "item": "flower_yellow", "quantity": 6 }
+    ],
+    "produces": { "item": "cotton_thread_yellow", "quantity": 1 },
+    "energyRestore": null,
+    "recipePrice": null
+  },
+  {
+    "slug": "cotton_thread_red",
+    "title": "Cotton Thread Red",
+    "source": "Crafting (Dyeing Vat)",
+    "description": "Dyed cotton thread used for crafting various objects.",
+    "ingredients": [
+      { "item": "cotton_thread", "quantity": 1 },
+      { "item": "flower_red", "quantity": 6 }
+    ],
+    "produces": { "item": "cotton_thread_red", "quantity": 1 },
+    "energyRestore": null,
+    "recipePrice": null
+  },
+  {
+    "slug": "cotton_thread_orange",
+    "title": "Cotton Thread Orange",
+    "source": "Crafting (Dyeing Vat)",
+    "description": "Dyed cotton thread used for crafting various objects.",
+    "ingredients": [
+      { "item": "cotton_thread", "quantity": 1 },
+      { "item": "flower_red", "quantity": 3 },
+      { "item": "flower_yellow", "quantity": 3 }
+    ],
+    "produces": { "item": "cotton_thread_orange", "quantity": 1 },
+    "energyRestore": null,
+    "recipePrice": null
+  },
+  {
+    "slug": "cotton_thread_green",
+    "title": "Cotton Thread Green",
+    "source": "Crafting (Dyeing Vat)",
+    "description": "Dyed cotton thread used for crafting various objects.",
+    "ingredients": [
+      { "item": "cotton_thread", "quantity": 1 },
+      { "item": "flower_blue", "quantity": 3 },
+      { "item": "flower_yellow", "quantity": 3 }
+    ],
+    "produces": { "item": "cotton_thread_green", "quantity": 1 },
+    "energyRestore": null,
+    "recipePrice": null
+  },
+  {
+    "slug": "cotton_thread_brown",
+    "title": "Cotton Thread Brown",
+    "source": "Crafting (Dyeing Vat)",
+    "description": "Dyed cotton thread used for crafting various objects.",
+    "ingredients": [
+      { "item": "cotton_thread", "quantity": 1 },
+      { "item": "flower_red", "quantity": 2 },
+      { "item": "flower_yellow", "quantity": 2 },
+      { "item": "flower_blue", "quantity": 2 }
+    ],
+    "produces": { "item": "cotton_thread_brown", "quantity": 1 },
+    "energyRestore": null,
+    "recipePrice": null
+  },
+  {
+    "slug": "cotton_thread_blue",
+    "title": "Cotton Thread Blue",
+    "source": "Crafting (Dyeing Vat)",
+    "description": "Dyed cotton thread used for crafting various objects.",
+    "ingredients": [
+      { "item": "cotton_thread", "quantity": 1 },
+      { "item": "flower_blue", "quantity": 6 }
+    ],
+    "produces": { "item": "cotton_thread_blue", "quantity": 1 },
+    "energyRestore": null,
+    "recipePrice": null
+  },
+  {
+    "slug": "cotton_thread",
+    "title": "Cotton Thread",
+    "source": "Crafting (Spinning Wheel)",
+    "description": "Processed cotton used for crafting various objects.",
+    "ingredients": [
+      { "item": "cotton", "quantity": 3 }
+    ],
+    "produces": { "item": "cotton_thread", "quantity": 1 },
+    "energyRestore": null,
+    "recipePrice": null
+  },
+  {
+    "slug": "clay_brick",
+    "title": "Clay Brick",
+    "source": "Crafting (Kiln)",
+    "description": "Processed clay used for crafting various objects.",
+    "ingredients": [
+      { "item": "clay", "quantity": 1 }
+    ],
+    "produces": { "item": "clay_brick", "quantity": 3 },
+    "energyRestore": null,
+    "recipePrice": "25 silver"
+  }
+]
