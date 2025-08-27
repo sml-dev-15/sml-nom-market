@@ -23,7 +23,7 @@ import {
 } from "@/components/ui/dialog";
 import { getSupabaseClient } from "@/lib/supabaseClient";
 import { Checkbox } from "@/components/ui/checkbox";
-import { Switch } from "@/components/ui/switch"; // Import the Switch component
+import { Switch } from "@/components/ui/switch";
 import { toast } from "sonner";
 import { industryOptions } from "@/types/land";
 
@@ -47,7 +47,8 @@ export const AddPublicLandForm = ({ setLands }: AddPublicLandFormProps) => {
   const [dialogOpen, setDialogOpen] = useState(false);
   const [searchQuery, setSearchQuery] = useState("");
   const [isSubmitting, setIsSubmitting] = useState(false);
-  const [isPinned, setIsPinned] = useState(false); // State for pinned toggle
+  const [isPinned, setIsPinned] = useState(false);
+  const [linkError, setLinkError] = useState("");
 
   const toggleIndustry = (industry: string) => {
     setSelectedIndustries((prev) => {
@@ -93,6 +94,64 @@ export const AddPublicLandForm = ({ setLands }: AddPublicLandFormProps) => {
     );
   };
 
+  // Function to check if link already exists
+  const checkLinkExists = async (link: string): Promise<boolean> => {
+    try {
+      const { data, error } = await supabase
+        .from("public_land_list")
+        .select("land_link")
+        .ilike("land_link", link)
+        .maybeSingle();
+
+      if (error) {
+        console.error("Error checking link:", error);
+        return false;
+      }
+
+      return !!data;
+    } catch (error) {
+      console.error("Error checking link:", error);
+      return false;
+    }
+  };
+
+  // Validate link format and check if it exists
+  const validateLink = async (link: string): Promise<string> => {
+    // Basic URL validation
+    try {
+      new URL(link);
+    } catch {
+      return "Please enter a valid URL";
+    }
+
+    // Check if link already exists
+    const linkExists = await checkLinkExists(link);
+    if (linkExists) {
+      return "This land link already exists in the database";
+    }
+
+    return "";
+  };
+
+  // Handle link input change with validation
+  const handleLinkChange = async (value: string) => {
+    setLandLink(value);
+    setLinkError("");
+
+    if (value.trim()) {
+      try {
+        new URL(value);
+        // Only check for duplicates if it's a valid URL
+        const error = await validateLink(value);
+        if (error) {
+          setLinkError(error);
+        }
+      } catch {
+        // Invalid URL format, error will be shown on submit
+      }
+    }
+  };
+
   const handleAddLand = async () => {
     if (!landName.trim()) {
       toast.error("Please enter a land name");
@@ -104,11 +163,18 @@ export const AddPublicLandForm = ({ setLands }: AddPublicLandFormProps) => {
       return;
     }
 
-    // Basic URL validation
+    // Validate URL format
     try {
       new URL(landLink);
     } catch {
       toast.error("Please enter a valid URL");
+      return;
+    }
+
+    // Check if link already exists (final validation)
+    const finalValidationError = await validateLink(landLink);
+    if (finalValidationError) {
+      toast.error(finalValidationError);
       return;
     }
 
@@ -127,7 +193,7 @@ export const AddPublicLandForm = ({ setLands }: AddPublicLandFormProps) => {
             land_name: landName.trim(),
             land_link: landLink.trim(),
             industry: selectedIndustries,
-            pinned: isPinned, // Include pinned status
+            pinned: isPinned,
           },
         ])
         .select();
@@ -142,7 +208,8 @@ export const AddPublicLandForm = ({ setLands }: AddPublicLandFormProps) => {
       setLandName("");
       setLandLink("");
       setSelectedIndustries([]);
-      setIsPinned(false); // Reset pinned state
+      setIsPinned(false);
+      setLinkError("");
       setDialogOpen(false);
     } catch {
       toast.error("An unexpected error occurred");
@@ -213,11 +280,16 @@ export const AddPublicLandForm = ({ setLands }: AddPublicLandFormProps) => {
                     id="landLink"
                     placeholder="https://example.com"
                     value={landLink}
-                    onChange={(e) => setLandLink(e.target.value)}
-                    className="text-foreground pl-9"
+                    onChange={(e) => handleLinkChange(e.target.value)}
+                    className={`text-foreground pl-9 ${
+                      linkError ? "border-destructive" : ""
+                    }`}
                   />
                   <Link className="absolute left-3 top-1/2 transform -translate-y-1/2 h-4 w-4 text-muted-foreground" />
                 </div>
+                {linkError && (
+                  <p className="text-destructive text-xs">{linkError}</p>
+                )}
               </div>
 
               {/* Pinned Toggle */}
@@ -402,14 +474,17 @@ export const AddPublicLandForm = ({ setLands }: AddPublicLandFormProps) => {
         <div className="flex flex-col sm:flex-row gap-2 justify-end px-6 py-4 border-t bg-muted/30">
           <Button
             variant="outline"
-            onClick={() => setDialogOpen(false)}
+            onClick={() => {
+              setDialogOpen(false);
+              setLinkError("");
+            }}
             className="order-2 sm:order-1"
           >
             Cancel
           </Button>
           <Button
             onClick={handleAddLand}
-            disabled={isSubmitting}
+            disabled={isSubmitting || !!linkError}
             className="order-1 sm:order-2 sm:ml-2"
           >
             {isSubmitting ? "Adding..." : "Add Land"}

@@ -1,0 +1,1763 @@
+{
+  "items": {
+    "base_items": [
+      {
+        "slug": "flag_ns",
+        "category": "objects",
+        "subCategory": "flags",
+        "metadata": {
+          "title": "NomStead flag",
+          "description": "Decorate your kingdom with the official NomStead flag."
+        },
+        "imageUrl": "https://nomstead.com/images/objects/flag_ns_full.png",
+        "thumbnailImageUrl": "https://nomstead.com/images/objects/flag_ns.png"
+      },
+      {
+        "slug": "iron",
+        "category": "items",
+        "subCategory": "resources",
+        "metadata": {
+          "title": "Iron",
+          "description": "Use iron to craft objects."
+        },
+        "imageUrl": "https://nomstead.com/images/objects/iron_full.png",
+        "thumbnailImageUrl": "https://nomstead.com/images/objects/iron.png"
+      },
+      {
+        "slug": "seed_flower_yellow",
+        "category": "items",
+        "subCategory": "seeds",
+        "metadata": {
+          "title": "Yellow flower seeds",
+          "description": "Use this seed bag to plant yellow flowers."
+        },
+        "imageUrl": "https://nomstead.com/images/objects/seed_flower_yellow_full.png",
+        "thumbnailImageUrl": "https://nomstead.com/images/objects/seed_flower_yellow.png"
+      },
+      {
+        "slug": "seed_flower_blue",
+        "category": "items",
+        "subCategory": "seeds",
+        "metadata": {
+          "title": "Blue flower seeds",
+          "description": "Use this seed bag to plant blue flowers."
+        },
+        "imageUrl": "https://nomstead.com/images/objects/seed_flower_blue_full.png",
+        "thumbnailImageUrl": "https://nomstead.com/images/objects/seed_flower_blue.png"
+      },
+      {
+        "slug": "seed_flower_red",
+        "category": "items",
+        "subCategory": "seeds",
+        "metadata": {
+          "title": "Red flower seeds",
+          "description": "Use this seed bag to plant red flowers."
+        },
+        "imageUrl": "https://nomstead.com/images/objects/seed_flower_red_full.png",
+        "thumbnailImageUrl": "https://nomstead.com/images/objects/seed_flower_red.png"
+      },
+      {
+        "slug": "seed_potato",
+        "category": "items",
+        "subCategory": "seeds",
+        "metadata": {
+          "title": "Potato seeds",
+          "description": "Use this seed bag to plant potatoes."
+        },
+        "imageUrl": "https://nomstead.com/images/objects/seed_potato_full.png",
+        "thumbnailImageUrl": "https://nomstead.com/images/objects/seed_potato.png"
+      },
+      {
+        "slug": "seed_fern",
+        "category": "items",
+        "subCategory": "seeds",
+        "metadata": {
+          "title": "Fern spores",
+          "description": "Use this spore bag to plant ferns."
+        },
+        "imageUrl": "https://nomstead.com/images/objects/seed_fern_full.png",
+        "thumbnailImageUrl": "https://nomstead.com/images/objects/seed_fern.png"
+      },
+      {
+        "slug": "seed_carrot",
+        "category": "items",
+        "subCategory": "seeds",
+        "metadata": {
+          "title": "Carrot seeds",
+          "description": "Use this seed bag to plant carrots."
+        },
+        "imageUrl": "https://nomstead.com/images/objects/seed_carrot_full.png",
+        "thumbnailImageUrl": "https://nomstead.com/images/objects/seed_carrot.png"
+      },
+      {
+        "slug": "seed_cucumber",
+        "category": "items",
+        "subCategory": "seeds",
+        "metadata": {
+          "title": "Cucumber seeds",
+          "description": "Use this seed bag to plant cucumbers."
+        },
+        "imageUrl": "https://nomstead.com/images/objects/seed_cucumber_full.png",
+        "thumbnailImageUrl": "https://nomstead.com/images/objects/seed_cucumber.png"
+      },
+      {
+        "slug": "seed_tomato",
+        "category": "items",
+        "subCategory": "seeds",
+        "metadata": {
+          "title": "Tomato seeds",
+          "description": "Use this seed bag to plant tomatoes."
+        },
+        "imageUrl": "https://nomstead.com/images/objects/seed_tomato_full.png",
+        "thumbnailImageUrl": "https://nomstead.com/images/objects/seed_tomato.png"
+      },
+      {
+        "slug": "seed_cotton",
+        "category": "items",
+        "subCategory": "seeds",
+        "metadata": {
+          "title": "Cotton seeds",
+          "description": "Use this seed bag to plant cottons."
+        },
+        "imageUrl": "https://nomstead.com/images/objects/seed_cotton_full.png",
+        "thumbnailImageUrl": "https://nomstead.com/images/objects/seed_cotton.png"
+      },
+      {
+        "slug": "bread",
+        "category": "items",
+        "subCategory": "food",
+        "metadata": {
+          "title": "Bread",
+          "description": "Eat bread to restore 30 points of energy."
+        },
+        "imageUrl": "https://nomstead.com/images/objects/bread_full.png",
+        "thumbnailImageUrl": "https://nomstead.com/images/objects/bread.png"
+      },
+      {
+        "slug": "anvil",
+        "category": "objects",
+        "subCategory": "tools",
+        "metadata": {
+          "title": "Anvil",
+          "description": "Use an anvil to craft metal objects."
+        },
+        "imageUrl": "https://nomstead.com/images/objects/anvil_full.png",
+        "thumbnailImageUrl": "https://nomstead.com/images/objects/anvil.png"
+      },
+      {
+        "slug": "wheat",
+        "category": "items",
+        "subCategory": "resources",
+        "metadata": {
+          "title": "Wheat",
+          "description": "Use wheat for cooking."
+        },
+        "imageUrl": "https://nomstead.com/images/objects/wheat_full.png",
+        "thumbnailImageUrl": "https://nomstead.com/images/objects/wheat.png"
+      },
+      {
+        "slug": "cotton",
+        "category": "items",
+        "subCategory": "resources",
+        "metadata": {
+          "title": "Cotton",
+          "description": "Use cotton to craft objects."
+        },
+        "imageUrl": "https://nomstead.com/images/objects/cotton_full.png",
+        "thumbnailImageUrl": "https://nomstead.com/images/objects/cotton.png"
+      },
+      {
+        "slug": "potato",
+        "category": "items",
+        "subCategory": "ingredients",
+        "metadata": {
+          "title": "Potato",
+          "description": "Use potatoes for cooking."
+        },
+        "imageUrl": "https://nomstead.com/images/objects/potato_full.png",
+        "thumbnailImageUrl": "https://nomstead.com/images/objects/potato.png"
+      },
+      {
+        "slug": "cucumber",
+        "category": "items",
+        "subCategory": "ingredients",
+        "metadata": {
+          "title": "Cucumber",
+          "description": "Use cucumbers for cooking."
+        },
+        "imageUrl": "https://nomstead.com/images/objects/cucumber_full.png",
+        "thumbnailImageUrl": "https://nomstead.com/images/objects/cucumber.png"
+      },
+      {
+        "slug": "wood",
+        "category": "items",
+        "subCategory": "resources",
+        "metadata": {
+          "title": "Wood",
+          "description": "Use wood to produce wood prank."
+        },
+        "imageUrl": "https://nomstead.com/images/objects/wood_full.png",
+        "thumbnailImageUrl": "https://nomstead.com/images/objects/wood.png"
+      },
+      {
+        "slug": "snow",
+        "category": "items",
+        "subCategory": "resources",
+        "metadata": {
+          "title": "Snowflake",
+          "description": "Use snowflake to craft objects."
+        },
+        "imageUrl": "https://nomstead.com/images/objects/snow_full.png",
+        "thumbnailImageUrl": "https://nomstead.com/images/objects/snow.png"
+      },
+      {
+        "slug": "flour_wheat",
+        "category": "items",
+        "subCategory": "resources",
+        "metadata": {
+          "title": "Wheat flour",
+          "description": "Use wheat flour for cooking."
+        },
+        "imageUrl": "https://nomstead.com/images/objects/flour_wheat_full.png",
+        "thumbnailImageUrl": "https://nomstead.com/images/objects/flour_wheat.png"
+      },
+      {
+        "slug": "salad",
+        "category": "items",
+        "subCategory": "food",
+        "metadata": {
+          "title": "Veggie salad",
+          "description": "Eat a salad to restore 6 points of energy."
+        },
+        "imageUrl": "https://nomstead.com/images/objects/salad_full.png",
+        "thumbnailImageUrl": "https://nomstead.com/images/objects/salad.png"
+      },
+      {
+        "slug": "cotton_thread_red",
+        "category": "items",
+        "subCategory": "resources",
+        "metadata": {
+          "title": "Cotton thread red",
+          "description": "Use cotton thread red to craft objects."
+        },
+        "imageUrl": "https://nomstead.com/images/objects/cotton_thread_red_full.png",
+        "thumbnailImageUrl": "https://nomstead.com/images/objects/cotton_thread_red.png"
+      },
+      {
+        "slug": "cotton_thread_green",
+        "category": "items",
+        "subCategory": "resources",
+        "metadata": {
+          "title": "Cotton thread green",
+          "description": "Use cotton thread green to craft objects."
+        },
+        "imageUrl": "https://nomstead.com/images/objects/cotton_thread_green_full.png",
+        "thumbnailImageUrl": "https://nomstead.com/images/objects/cotton_thread_green.png"
+      },
+      {
+        "slug": "cotton_thread_blue",
+        "category": "items",
+        "subCategory": "resources",
+        "metadata": {
+          "title": "Cotton thread blue",
+          "description": "Use cotton thread blue to craft objects."
+        },
+        "imageUrl": "https://nomstead.com/images/objects/cotton_thread_blue_full.png",
+        "thumbnailImageUrl": "https://nomstead.com/images/objects/cotton_thread_blue.png"
+      },
+      {
+        "slug": "cotton_thread_brown",
+        "category": "items",
+        "subCategory": "resources",
+        "metadata": {
+          "title": "Cotton thread brown",
+          "description": "Use cotton thread brown to craft objects."
+        },
+        "imageUrl": "https://nomstead.com/images/objects/cotton_thread_brown_full.png",
+        "thumbnailImageUrl": "https://nomstead.com/images/objects/cotton_thread_brown.png"
+      },
+      {
+        "slug": "clay_brick",
+        "category": "items",
+        "subCategory": "resources",
+        "metadata": {
+          "title": "Clay brick",
+          "description": "Use clay bricks to craft objects."
+        },
+        "imageUrl": "https://nomstead.com/images/objects/clay_brick_full.png",
+        "thumbnailImageUrl": "https://nomstead.com/images/objects/clay_brick.png"
+      },
+      {
+        "slug": "box",
+        "category": "objects",
+        "subCategory": "decoration",
+        "metadata": {
+          "title": "Box",
+          "description": "Use a wooden box to decorate your kingdom."
+        },
+        "imageUrl": "https://nomstead.com/images/objects/box_full.png",
+        "thumbnailImageUrl": "https://nomstead.com/images/objects/box.png"
+      },
+      {
+        "slug": "table",
+        "category": "objects",
+        "subCategory": "decoration",
+        "metadata": {
+          "title": "Wood table",
+          "description": "Use wooden tables to decorate your kingdom."
+        },
+        "imageUrl": "https://nomstead.com/images/objects/table_full.png",
+        "thumbnailImageUrl": "https://nomstead.com/images/objects/table.png"
+      },
+      {
+        "slug": "stone_brick",
+        "category": "items",
+        "subCategory": "resources",
+        "metadata": {
+          "title": "Stone brick",
+          "description": "Use stone bricks to craft objects."
+        },
+        "imageUrl": "https://nomstead.com/images/objects/stone_brick_full.png",
+        "thumbnailImageUrl": "https://nomstead.com/images/objects/stone_brick.png"
+      },
+      {
+        "slug": "gold",
+        "category": "items",
+        "subCategory": "gems",
+        "metadata": {
+          "title": "Pure gold ore",
+          "description": "Use gold to craft objects."
+        },
+        "imageUrl": "https://nomstead.com/images/objects/gold_full.png",
+        "thumbnailImageUrl": "https://nomstead.com/images/objects/gold.png"
+      },
+      {
+        "slug": "grape_must",
+        "category": "items",
+        "subCategory": "resources",
+        "metadata": {
+          "title": "Grape must",
+          "description": "Turn grape must into fine wine."
+        },
+        "imageUrl": "https://nomstead.com/images/objects/grape_must_full.png",
+        "thumbnailImageUrl": "https://nomstead.com/images/objects/grape_must.png"
+      },
+      {
+        "slug": "wood_plank",
+        "category": "items",
+        "subCategory": "resources",
+        "metadata": {
+          "title": "Wood plank",
+          "description": "Use wood planks to craft objects."
+        },
+        "imageUrl": "https://nomstead.com/images/objects/wood_plank_full.png",
+        "thumbnailImageUrl": "https://nomstead.com/images/objects/wood_plank.png"
+      },
+      {
+        "slug": "clay",
+        "category": "items",
+        "subCategory": "resources",
+        "metadata": {
+          "title": "Clay",
+          "description": "Use clay to produce clay bricks."
+        },
+        "imageUrl": "https://nomstead.com/images/objects/clay_full.png",
+        "thumbnailImageUrl": "https://nomstead.com/images/objects/clay.png"
+      },
+      {
+        "slug": "emerald",
+        "category": "items",
+        "subCategory": "gems",
+        "metadata": {
+          "title": "Emerald",
+          "description": "Use emerald to craft objects."
+        },
+        "imageUrl": "https://nomstead.com/images/objects/emerald_full.png",
+        "thumbnailImageUrl": "https://nomstead.com/images/objects/emerald.png"
+      },
+      {
+        "slug": "ruby",
+        "category": "items",
+        "subCategory": "gems",
+        "metadata": {
+          "title": "Ruby",
+          "description": "Use ruby to craft objects."
+        },
+        "imageUrl": "https://nomstead.com/images/objects/ruby_full.png",
+        "thumbnailImageUrl": "https://nomstead.com/images/objects/ruby.png"
+      },
+      {
+        "slug": "amethyst",
+        "category": "items",
+        "subCategory": "gems",
+        "metadata": {
+          "title": "Amethyst",
+          "description": "Use amethyst to craft objects."
+        },
+        "imageUrl": "https://nomstead.com/images/objects/amethyst_full.png",
+        "thumbnailImageUrl": "https://nomstead.com/images/objects/amethyst.png"
+      },
+      {
+        "slug": "sapphire",
+        "category": "items",
+        "subCategory": "gems",
+        "metadata": {
+          "title": "Sapphire",
+          "description": "Use sapphire to craft objects."
+        },
+        "imageUrl": "https://nomstead.com/images/objects/sapphire_full.png",
+        "thumbnailImageUrl": "https://nomstead.com/images/objects/sapphire.png"
+      },
+      {
+        "slug": "bonfire",
+        "category": "objects",
+        "subCategory": "tools",
+        "metadata": {
+          "title": "Bonfire",
+          "description": "Use a bonfire to prepare food and drinks."
+        },
+        "imageUrl": "https://nomstead.com/images/objects/bonfire_full.png",
+        "thumbnailImageUrl": "https://nomstead.com/images/objects/bonfire.png"
+      },
+      {
+        "slug": "golden_egg",
+        "category": "items",
+        "subCategory": "gems",
+        "metadata": {
+          "title": "Golden egg",
+          "description": "A mysterious and rare object, useless for now."
+        },
+        "imageUrl": "https://nomstead.com/images/objects/golden_egg_full.png",
+        "thumbnailImageUrl": "https://nomstead.com/images/objects/golden_egg.png"
+      },
+      {
+        "slug": "stone",
+        "category": "items",
+        "subCategory": "resources",
+        "metadata": {
+          "title": "Stone",
+          "description": "Use stone to produce stone bricks."
+        },
+        "imageUrl": "https://nomstead.com/images/objects/stone_full.png",
+        "thumbnailImageUrl": "https://nomstead.com/images/objects/stone.png"
+      },
+      {
+        "slug": "flower_blue",
+        "category": "items",
+        "subCategory": "resources",
+        "metadata": {
+          "title": "Blue flower",
+          "description": "Use blue flower to decorate your kingdom and craft objects."
+        },
+        "imageUrl": "https://nomstead.com/images/objects/flower_blue_full.png",
+        "thumbnailImageUrl": "https://nomstead.com/images/objects/flower_blue.png"
+      },
+      {
+        "slug": "cotton_thread_orange",
+        "category": "items",
+        "subCategory": "resources",
+        "metadata": {
+          "title": "Cotton thread orange",
+          "description": "Use cotton thread orange to craft objects."
+        },
+        "imageUrl": "https://nomstead.com/images/objects/cotton_thread_orange_full.png",
+        "thumbnailImageUrl": "https://nomstead.com/images/objects/cotton_thread_orange.png"
+      },
+      {
+        "slug": "axe_iron",
+        "category": "items",
+        "subCategory": "tools",
+        "metadata": {
+          "title": "Iron axe",
+          "description": "Use an iron axe to cut trees. The axe will break after 10 uses."
+        },
+        "imageUrl": "https://nomstead.com/images/objects/axe_iron_full.png",
+        "thumbnailImageUrl": "https://nomstead.com/images/objects/axe_iron.png"
+      },
+      {
+        "slug": "ingot_iron",
+        "category": "items",
+        "subCategory": "resources",
+        "metadata": {
+          "title": "Iron ingot",
+          "description": "Use iron ingots to craft objects."
+        },
+        "imageUrl": "https://nomstead.com/images/objects/ingot_iron_full.png",
+        "thumbnailImageUrl": "https://nomstead.com/images/objects/ingot_iron.png"
+      },
+      {
+        "slug": "pumpkin_bread",
+        "category": "items",
+        "subCategory": "food",
+        "metadata": {
+          "title": "Pumpkin bread",
+          "description": "Eat pumpkin bread to restore 45 points of energy."
+        },
+        "imageUrl": "https://nomstead.com/images/objects/pumpkin_bread_full.png",
+        "thumbnailImageUrl": "https://nomstead.com/images/objects/pumpkin_bread.png"
+      },
+      {
+        "slug": "dropbox",
+        "category": "objects",
+        "subCategory": "tools",
+        "metadata": {
+          "title": "Dropbox",
+          "description": "Use a dropbox to sell and buy items with other players."
+        },
+        "imageUrl": "https://nomstead.com/images/objects/dropbox_full.png",
+        "thumbnailImageUrl": "https://nomstead.com/images/objects/dropbox.png"
+      },
+      {
+        "slug": "potion",
+        "category": "items",
+        "subCategory": "food",
+        "metadata": {
+          "title": "Red potion",
+          "description": "Drink the red potion to craft objects and items 10 times at once."
+        },
+        "imageUrl": "https://nomstead.com/images/objects/potion_full.png",
+        "thumbnailImageUrl": "https://nomstead.com/images/objects/potion.png"
+      },
+      {
+        "slug": "potion_purple",
+        "category": "items",
+        "subCategory": "food",
+        "metadata": {
+          "title": "Purple potion",
+          "description": "Drink the purple potion to craft items 100 times at once."
+        },
+        "imageUrl": "https://nomstead.com/images/objects/potion_purple_full.png",
+        "thumbnailImageUrl": "https://nomstead.com/images/objects/potion_purple.png"
+      },
+      {
+        "slug": "bench",
+        "category": "objects",
+        "subCategory": "decoration",
+        "metadata": {
+          "title": "Bench",
+          "description": "Use benches to decorate your kingdom."
+        },
+        "imageUrl": "https://nomstead.com/images/objects/bench_full.png",
+        "thumbnailImageUrl": "https://nomstead.com/images/objects/bench.png"
+      },
+      {
+        "slug": "carpet_green",
+        "category": "objects",
+        "subCategory": "decoration",
+        "metadata": {
+          "title": "Carpet green",
+          "description": "Use carpets to decorate your kingdom."
+        },
+        "imageUrl": "https://nomstead.com/images/objects/carpet_green_full.png",
+        "thumbnailImageUrl": "https://nomstead.com/images/objects/carpet_green.png"
+      },
+      {
+        "slug": "carpet_red",
+        "category": "objects",
+        "subCategory": "decoration",
+        "metadata": {
+          "title": "Carpet red",
+          "description": "Use carpets to decorate your kingdom."
+        },
+        "imageUrl": "https://nomstead.com/images/objects/carpet_red_full.png",
+        "thumbnailImageUrl": "https://nomstead.com/images/objects/carpet_red.png"
+      },
+      {
+        "slug": "tiny_tent_white",
+        "category": "objects",
+        "subCategory": "decoration",
+        "metadata": {
+          "title": "Tiny white tent",
+          "description": "Use a tiny white tent to decorate your kingdom."
+        },
+        "imageUrl": "https://nomstead.com/images/objects/tiny_tent_white_full.png",
+        "thumbnailImageUrl": "https://nomstead.com/images/objects/tiny_tent_white.png"
+      },
+      {
+        "slug": "tent_brown",
+        "category": "objects",
+        "subCategory": "decoration",
+        "metadata": {
+          "title": "Brown tent",
+          "description": "Use a brown tent to decorate your kingdom."
+        },
+        "imageUrl": "https://nomstead.com/images/objects/tent_brown_full.png",
+        "thumbnailImageUrl": "https://nomstead.com/images/objects/tent_brown.png"
+      },
+      {
+        "slug": "big_bench",
+        "category": "objects",
+        "subCategory": "decoration",
+        "metadata": {
+          "title": "Big bench",
+          "description": "Use big benches to decorate your kingdom."
+        },
+        "imageUrl": "https://nomstead.com/images/objects/big_bench_full.png",
+        "thumbnailImageUrl": "https://nomstead.com/images/objects/big_bench.png"
+      },
+      {
+        "slug": "ice_statue_cat",
+        "category": "objects",
+        "subCategory": "decoration",
+        "metadata": {
+          "title": "Cat ice statue",
+          "description": "Use cat ice statues to decorate your kingdom."
+        },
+        "imageUrl": "https://nomstead.com/images/objects/ice_statue_cat_full.png",
+        "thumbnailImageUrl": "https://nomstead.com/images/objects/ice_statue_cat.png"
+      },
+      {
+        "slug": "ice_statue_dog",
+        "category": "objects",
+        "subCategory": "decoration",
+        "metadata": {
+          "title": "Dog ice statue",
+          "description": "Use dog ice statues to decorate your kingdom."
+        },
+        "imageUrl": "https://nomstead.com/images/objects/ice_statue_dog_full.png",
+        "thumbnailImageUrl": "https://nomstead.com/images/objects/ice_statue_dog.png"
+      },
+      {
+        "slug": "dyeing_vat",
+        "category": "objects",
+        "subCategory": "tools",
+        "metadata": {
+          "title": "Dyeing vat",
+          "description": "Use a dyeing vat to dye wool."
+        },
+        "imageUrl": "https://nomstead.com/images/objects/dyeing_vat_full.png",
+        "thumbnailImageUrl": "https://nomstead.com/images/objects/dyeing_vat.png"
+      },
+      {
+        "slug": "furnace",
+        "category": "objects",
+        "subCategory": "tools",
+        "metadata": {
+          "title": "Furnace",
+          "description": "Use a furnace to produce metal bars."
+        },
+        "imageUrl": "https://nomstead.com/images/objects/furnace_full.png",
+        "thumbnailImageUrl": "https://nomstead.com/images/objects/furnace.png"
+      },
+      {
+        "slug": "pillow_green",
+        "category": "objects",
+        "subCategory": "decoration",
+        "metadata": {
+          "title": "Pillow green",
+          "description": "Use pillows to decorate your kingdom."
+        },
+        "imageUrl": "https://nomstead.com/images/objects/pillow_green_full.png",
+        "thumbnailImageUrl": "https://nomstead.com/images/objects/pillow_green.png"
+      },
+      {
+        "slug": "pillow_orange",
+        "category": "objects",
+        "subCategory": "decoration",
+        "metadata": {
+          "title": "Pillow orange",
+          "description": "Use pillows to decorate your kingdom."
+        },
+        "imageUrl": "https://nomstead.com/images/objects/pillow_orange_full.png",
+        "thumbnailImageUrl": "https://nomstead.com/images/objects/pillow_orange.png"
+      },
+      {
+        "slug": "pillow_yellow",
+        "category": "objects",
+        "subCategory": "decoration",
+        "metadata": {
+          "title": "Pillow yellow",
+          "description": "Use pillows to decorate your kingdom."
+        },
+        "imageUrl": "https://nomstead.com/images/objects/pillow_yellow_full.png",
+        "thumbnailImageUrl": "https://nomstead.com/images/objects/pillow_yellow.png"
+      },
+      {
+        "slug": "spinning_wheel",
+        "category": "objects",
+        "subCategory": "tools",
+        "metadata": {
+          "title": "Spinning wheel",
+          "description": "Use a spinning wheel to produce wool."
+        },
+        "imageUrl": "https://nomstead.com/images/objects/spinning_wheel_full.png",
+        "thumbnailImageUrl": "https://nomstead.com/images/objects/spinning_wheel.png"
+      },
+      {
+        "slug": "pickaxe_iron",
+        "category": "items",
+        "subCategory": "tools",
+        "metadata": {
+          "title": "Iron pickaxe",
+          "description": "Use a iron pickaxe to break stones. The pickaxe will break after 10 uses."
+        },
+        "imageUrl": "https://nomstead.com/images/objects/pickaxe_iron_full.png",
+        "thumbnailImageUrl": "https://nomstead.com/images/objects/pickaxe_iron.png"
+      },
+      {
+        "slug": "christmas_tree",
+        "category": "objects",
+        "subCategory": "decoration",
+        "metadata": {
+          "title": "Christmas tree",
+          "description": "Be ready to celebrate Christmas."
+        },
+        "imageUrl": "https://nomstead.com/images/objects/christmas_tree_full.png",
+        "thumbnailImageUrl": "https://nomstead.com/images/objects/christmas_tree.png"
+      }
+    ],
+    "recipes": [
+      {
+        "slug": "wrapped_potato",
+        "category": "recipes",
+        "subCategory": "food",
+        "metadata": {
+          "title": "Wrapped potato",
+          "description": "Eat a wrapped potato to restore 4 points of energy."
+        },
+        "imageUrl": "https://nomstead.com/images/objects/wrapped_potato_full.png",
+        "thumbnailImageUrl": "https://nomstead.com/images/objects/wrapped_potato.png"
+      },
+      {
+        "slug": "fries",
+        "category": "recipes",
+        "subCategory": "food",
+        "metadata": {
+          "title": "French fries",
+          "description": "Eat French fries to restore 6 points of energy."
+        },
+        "imageUrl": "https://nomstead.com/images/objects/fries_full.png",
+        "thumbnailImageUrl": "https://nomstead.com/images/objects/fries.png"
+      },
+      {
+        "slug": "mushroom_soup",
+        "category": "recipes",
+        "subCategory": "food",
+        "metadata": {
+          "title": "Mushroom soup",
+          "description": "Drink a mushroom soup to restore 30 points of energy."
+        },
+        "imageUrl": "https://nomstead.com/images/objects/mushroom_soup_full.png",
+        "thumbnailImageUrl": "https://nomstead.com/images/objects/mushroom_soup.png"
+      },
+      {
+        "slug": "ingot_gold",
+        "category": "recipes",
+        "subCategory": "resources",
+        "metadata": {
+          "title": "Gold ingot",
+          "description": "Use gold ingots to craft objects."
+        },
+        "imageUrl": "https://nomstead.com/images/objects/ingot_gold_full.png",
+        "thumbnailImageUrl": "https://nomstead.com/images/objects/ingot_gold.png"
+      },
+      {
+        "slug": "ingot_silver",
+        "category": "recipes",
+        "subCategory": "resources",
+        "metadata": {
+          "title": "Silver ingot",
+          "description": "Use silver ingots to craft objects."
+        },
+        "imageUrl": "https://nomstead.com/images/objects/ingot_silver_full.png",
+        "thumbnailImageUrl": "https://nomstead.com/images/objects/ingot_silver.png"
+      },
+      {
+        "slug": "axe_silver",
+        "category": "recipes",
+        "subCategory": "tools",
+        "metadata": {
+          "title": "Silver axe",
+          "description": "Use an silver axe to cut trees. The axe will break after 30 uses."
+        },
+        "imageUrl": "https://nomstead.com/images/objects/axe_silver_full.png",
+        "thumbnailImageUrl": "https://nomstead.com/images/objects/axe_silver.png"
+      },
+      {
+        "slug": "axe_gold",
+        "category": "recipes",
+        "subCategory": "tools",
+        "metadata": {
+          "title": "Gold axe",
+          "description": "Use an gold axe to cut trees. The axe will break after 90 uses."
+        },
+        "imageUrl": "https://nomstead.com/images/objects/axe_gold_full.png",
+        "thumbnailImageUrl": "https://nomstead.com/images/objects/axe_gold.png"
+      },
+      {
+        "slug": "pickaxe_silver",
+        "category": "recipes",
+        "subCategory": "tools",
+        "metadata": {
+          "title": "Silver pickaxe",
+          "description": "Use a silver pickaxe to break stones. The pickaxe will break after 30 uses."
+        },
+        "imageUrl": "https://nomstead.com/images/objects/pickaxe_silver_full.png",
+        "thumbnailImageUrl": "https://nomstead.com/images/objects/pickaxe_silver.png"
+      },
+      {
+        "slug": "workbench",
+        "category": "recipes",
+        "subCategory": "tools",
+        "metadata": {
+          "title": "Workbench",
+          "description": "Use the workbench to craft new objects."
+        },
+        "imageUrl": "https://nomstead.com/images/objects/workbench_full.png",
+        "thumbnailImageUrl": "https://nomstead.com/images/objects/workbench.png"
+      },
+      {
+        "slug": "open_tent_white",
+        "category": "recipes",
+        "subCategory": "decoration",
+        "metadata": {
+          "title": "Open white tent",
+          "description": "Use a open white tent to decorate your kingdom."
+        },
+        "imageUrl": "https://nomstead.com/images/objects/open_tent_white_full.png",
+        "thumbnailImageUrl": "https://nomstead.com/images/objects/open_tent_white.png"
+      },
+      {
+        "slug": "necklace_demeter",
+        "category": "recipes",
+        "subCategory": "gems",
+        "metadata": {
+          "title": "Demeter necklace",
+          "description": "Wear the Demeter necklace to don't spend energy when farming."
+        },
+        "imageUrl": "https://nomstead.com/images/objects/necklace_demeter_full.png",
+        "thumbnailImageUrl": "https://nomstead.com/images/objects/necklace_demeter.png"
+      },
+      {
+        "slug": "statue_cat_2",
+        "category": "recipes",
+        "subCategory": "decoration",
+        "metadata": {
+          "title": "Cat statue 2",
+          "description": "Use cat statues to decorate your kingdom."
+        },
+        "imageUrl": "https://nomstead.com/images/objects/statue_cat_2_full.png",
+        "thumbnailImageUrl": "https://nomstead.com/images/objects/statue_cat_2.png"
+      },
+      {
+        "slug": "scarecrow_blue",
+        "category": "recipes",
+        "subCategory": "farm_tools",
+        "metadata": {
+          "title": "Scarecrow blue",
+          "description": "Use the blue scarecrow to grow crops 5% faster on your tile."
+        },
+        "imageUrl": "https://nomstead.com/images/objects/scarecrow_blue_full.png",
+        "thumbnailImageUrl": "https://nomstead.com/images/objects/scarecrow_blue.png"
+      },
+      {
+        "slug": "scarecrow_red",
+        "category": "recipes",
+        "subCategory": "farm_tools",
+        "metadata": {
+          "title": "Scarecrow red",
+          "description": "Use the red scarecrow to grow crops 30% faster on your tile."
+        },
+        "imageUrl": "https://nomstead.com/images/objects/scarecrow_red_full.png",
+        "thumbnailImageUrl": "https://nomstead.com/images/objects/scarecrow_red.png"
+      },
+      {
+        "slug": "mill",
+        "category": "recipes",
+        "subCategory": "tools",
+        "metadata": {
+          "title": "Mill",
+          "description": "Use a mill to produce flour."
+        },
+        "imageUrl": "https://nomstead.com/images/objects/mill_full.png",
+        "thumbnailImageUrl": "https://nomstead.com/images/objects/mill.png"
+      },
+      {
+        "slug": "bread_oven",
+        "category": "recipes",
+        "subCategory": "tools",
+        "metadata": {
+          "title": "Bread oven",
+          "description": "Use a bread oven to bake bread."
+        },
+        "imageUrl": "https://nomstead.com/images/objects/bread_oven_full.png",
+        "thumbnailImageUrl": "https://nomstead.com/images/objects/bread_oven.png"
+      },
+      {
+        "slug": "fountain",
+        "category": "recipes",
+        "subCategory": "decoration",
+        "metadata": {
+          "title": "Fountain",
+          "description": "Use fountains to decorate your kingdom."
+        },
+        "imageUrl": "https://nomstead.com/images/objects/fountain_full.png",
+        "thumbnailImageUrl": "https://nomstead.com/images/objects/fountain.png"
+      },
+      {
+        "slug": "pickaxe_gold",
+        "category": "recipes",
+        "subCategory": "tools",
+        "metadata": {
+          "title": "Gold pickaxe",
+          "description": "Use a gold pickaxe to break stones. The pickaxe will break after 90 uses."
+        },
+        "imageUrl": "https://nomstead.com/images/objects/pickaxe_gold_full.png",
+        "thumbnailImageUrl": "https://nomstead.com/images/objects/pickaxe_gold.png"
+      },
+      {
+        "slug": "path_stone",
+        "category": "recipes",
+        "subCategory": "paths",
+        "metadata": {
+          "title": "Stone path",
+          "description": "Use paths to facilitate navigation within your kingdom."
+        },
+        "imageUrl": "https://nomstead.com/images/objects/path_stone_full.png",
+        "thumbnailImageUrl": "https://nomstead.com/images/objects/path_stone.png"
+      },
+      {
+        "slug": "snowboy_blue",
+        "category": "recipes",
+        "subCategory": "farm_tools",
+        "metadata": {
+          "title": "Snowboy blue",
+          "description": "Use the blue snowboy to grow crops 5% faster on your tile during December and January."
+        },
+        "imageUrl": "https://nomstead.com/images/objects/snowboy_blue_full.png",
+        "thumbnailImageUrl": "https://nomstead.com/images/objects/snowboy_blue.png"
+      },
+      {
+        "slug": "snowboy_yellow",
+        "category": "recipes",
+        "subCategory": "farm_tools",
+        "metadata": {
+          "title": "Snowboy yellow",
+          "description": "Use the yellow snowboy to grow crops 5% faster on your tile during December and January."
+        },
+        "imageUrl": "https://nomstead.com/images/objects/snowboy_yellow_full.png",
+        "thumbnailImageUrl": "https://nomstead.com/images/objects/snowboy_yellow.png"
+      },
+      {
+        "slug": "flag_ph",
+        "category": "recipes",
+        "subCategory": "flags",
+        "metadata": {
+          "title": "Filipino flag",
+          "description": "Use flags to decorate your tile."
+        },
+        "imageUrl": "https://nomstead.com/images/objects/flag_ph_full.png",
+        "thumbnailImageUrl": "https://nomstead.com/images/objects/flag_ph.png"
+      },
+      {
+        "slug": "sawmill",
+        "category": "recipes",
+        "subCategory": "tools",
+        "metadata": {
+          "title": "Sawmill",
+          "description": "Use a sawmill to produce wood planks."
+        },
+        "imageUrl": "https://nomstead.com/images/objects/sawmill_full.png",
+        "thumbnailImageUrl": "https://nomstead.com/images/objects/sawmill.png"
+      },
+      {
+        "slug": "christmas_garland",
+        "category": "recipes",
+        "subCategory": "decoration",
+        "metadata": {
+          "title": "Christmas garland",
+          "description": "Use Christmas garlands to decorate your kingdom."
+        },
+        "imageUrl": "https://nomstead.com/images/objects/christmas_garland_full.png",
+        "thumbnailImageUrl": "https://nomstead.com/images/objects/christmas_garland.png"
+      },
+      {
+        "slug": "flag_it",
+        "category": "recipes",
+        "subCategory": "flags",
+        "metadata": {
+          "title": "Italian flag",
+          "description": "Use flags to decorate your tile."
+        },
+        "imageUrl": "https://nomstead.com/images/objects/flag_it_full.png",
+        "thumbnailImageUrl": "https://nomstead.com/images/objects/flag_it.png"
+      },
+      {
+        "slug": "arch_blue",
+        "category": "recipes",
+        "subCategory": "decoration",
+        "metadata": {
+          "title": "Arch with blue flowers",
+          "description": "Use arches to decorate your kingdom."
+        },
+        "imageUrl": "https://nomstead.com/images/objects/arch_blue_full.png",
+        "thumbnailImageUrl": "https://nomstead.com/images/objects/arch_blue.png"
+      },
+      {
+        "slug": "path_wood",
+        "category": "recipes",
+        "subCategory": "paths",
+        "metadata": {
+          "title": "Wood path",
+          "description": "Use paths to facilitate navigation within your kingdom."
+        },
+        "imageUrl": "https://nomstead.com/images/objects/path_wood_full.png",
+        "thumbnailImageUrl": "https://nomstead.com/images/objects/path_wood.png"
+      }
+    ]
+  },
+  "recipes": [
+    {
+      "slug": "bread",
+      "title": "Bread",
+      "source": "Crafting (Bread Oven)",
+      "description": "Eat bread to restore 30 points of energy.",
+      "ingredients": [
+        {
+          "item": "flour_wheat",
+          "quantity": 1
+        },
+        {
+          "item": "wood",
+          "quantity": 1
+        }
+      ],
+      "produces": {
+        "item": "bread",
+        "quantity": 10
+      },
+      "energyRestore": 30,
+      "recipePrice": null
+    },
+    {
+      "slug": "fries",
+      "title": "French Fries",
+      "source": "Crafting (Bonfire)",
+      "description": "Eat French fries to restore 6 points of energy.",
+      "ingredients": [
+        {
+          "item": "potato",
+          "quantity": 3
+        },
+        {
+          "item": "energy",
+          "quantity": 1
+        }
+      ],
+      "produces": {
+        "item": "fries",
+        "quantity": 1
+      },
+      "energyRestore": 6,
+      "recipePrice": "50 silver"
+    },
+    {
+      "slug": "mushroom_omelette",
+      "title": "Mushroom Omelette",
+      "source": "Crafting (Bonfire)",
+      "description": "Eat Mushroom omelette to restore 45 points of energy.",
+      "ingredients": [
+        {
+          "item": "mushroom",
+          "quantity": 1
+        },
+        {
+          "item": "egg",
+          "quantity": 1
+        },
+        {
+          "item": "energy",
+          "quantity": 1
+        }
+      ],
+      "produces": {
+        "item": "mushroom_omelette",
+        "quantity": 1
+      },
+      "energyRestore": 45,
+      "recipePrice": "20 silver"
+    },
+    {
+      "slug": "mushroom_soup",
+      "title": "Mushroom Soup",
+      "source": "Crafting (Bonfire)",
+      "description": "Drink a mushroom soup to restore 30 points of energy.",
+      "ingredients": [
+        {
+          "item": "mushroom",
+          "quantity": 1
+        },
+        {
+          "item": "potato",
+          "quantity": 1
+        },
+        {
+          "item": "energy",
+          "quantity": 1
+        }
+      ],
+      "produces": {
+        "item": "mushroom_soup",
+        "quantity": 1
+      },
+      "energyRestore": 30,
+      "recipePrice": "50 silver"
+    },
+    {
+      "slug": "pumpkin_bread",
+      "title": "Pumpkin Bread",
+      "source": "Crafting (Bonfire)",
+      "description": "Eat pumpkin bread to restore 45 points of energy.",
+      "ingredients": [
+        {
+          "item": "pumpkin",
+          "quantity": 1
+        },
+        {
+          "item": "bread",
+          "quantity": 1
+        },
+        {
+          "item": "energy",
+          "quantity": 1
+        }
+      ],
+      "produces": {
+        "item": "pumpkin_bread",
+        "quantity": 1
+      },
+      "energyRestore": 45,
+      "recipePrice": "175 silver"
+    },
+    {
+      "slug": "tomato_omelette",
+      "title": "Tomato Omelette",
+      "source": "Crafting (Bonfire)",
+      "description": "Eat Tomato omelette to restore 30 points of energy.",
+      "ingredients": [
+        {
+          "item": "tomato",
+          "quantity": 1
+        },
+        {
+          "item": "egg",
+          "quantity": 1
+        },
+        {
+          "item": "energy",
+          "quantity": 1
+        }
+      ],
+      "produces": {
+        "item": "tomato_omelette",
+        "quantity": 1
+      },
+      "energyRestore": 30,
+      "recipePrice": "20 silver"
+    },
+    {
+      "slug": "salad",
+      "title": "Veggie Salad",
+      "source": "Crafting (Bonfire)",
+      "description": "Eat a salad to restore 6 points of energy.",
+      "ingredients": [
+        {
+          "item": "cucumber",
+          "quantity": 1
+        },
+        {
+          "item": "fern",
+          "quantity": 1
+        },
+        {
+          "item": "tomato",
+          "quantity": 1
+        },
+        {
+          "item": "energy",
+          "quantity": 1
+        }
+      ],
+      "produces": {
+        "item": "salad",
+        "quantity": 1
+      },
+      "energyRestore": 6,
+      "recipePrice": "5 silver"
+    },
+    {
+      "slug": "wine",
+      "title": "Wine",
+      "source": "Crafting (Barrel)",
+      "description": "Drink wine to restore 60 points of energy.",
+      "ingredients": [
+        {
+          "item": "grape_must",
+          "quantity": 30
+        }
+      ],
+      "produces": {
+        "item": "wine",
+        "quantity": 60
+      },
+      "energyRestore": 60,
+      "recipePrice": null
+    },
+    {
+      "slug": "wrapped_potato",
+      "title": "Wrapped Potato",
+      "source": "Crafting (Bonfire)",
+      "description": "Eat a wrapped potato to restore 4 points of energy.",
+      "ingredients": [
+        {
+          "item": "fern",
+          "quantity": 1
+        },
+        {
+          "item": "potato",
+          "quantity": 1
+        },
+        {
+          "item": "energy",
+          "quantity": 1
+        }
+      ],
+      "produces": {
+        "item": "wrapped_potato",
+        "quantity": 1
+      },
+      "energyRestore": 4,
+      "recipePrice": "50 silver"
+    },
+    {
+      "slug": "pillows",
+      "title": "Pillows",
+      "source": "Crafting (Workbench)",
+      "description": "Use pillows to decorate your kingdom.",
+      "ingredients": [
+        {
+          "item": "cotton_thread_yellow",
+          "quantity": 10
+        },
+        {
+          "item": "cotton_thread_blue",
+          "quantity": 10
+        },
+        {
+          "item": "cotton_thread_red",
+          "quantity": 10
+        },
+        {
+          "item": "cotton_thread_orange",
+          "quantity": 10
+        }
+      ],
+      "produces": {
+        "item": "pillows",
+        "quantity": 1
+      },
+      "energyRestore": null,
+      "recipePrice": null
+    },
+    {
+      "slug": "box",
+      "title": "Box",
+      "source": "Crafting (Workbench)",
+      "description": "Use a wooden box to decorate your kingdom.",
+      "ingredients": [
+        {
+          "item": "wood_plank",
+          "quantity": 10
+        }
+      ],
+      "produces": {
+        "item": "box",
+        "quantity": 1
+      },
+      "energyRestore": null,
+      "recipePrice": "275 silver"
+    },
+    {
+      "slug": "wood_table",
+      "title": "Wood Table",
+      "source": "Crafting (Workbench)",
+      "description": "Use wooden tables to decorate your kingdom.",
+      "ingredients": [
+        {
+          "item": "wood_plank",
+          "quantity": 20
+        }
+      ],
+      "produces": {
+        "item": "wood_table",
+        "quantity": 1
+      },
+      "energyRestore": null,
+      "recipePrice": "525 silver"
+    },
+    {
+      "slug": "sundial",
+      "title": "Sundial",
+      "source": "Crafting (Workbench)",
+      "description": "Use sundial to decorate your kingdom.",
+      "ingredients": [
+        {
+          "item": "stone_brick",
+          "quantity": 150
+        },
+        {
+          "item": "clay_brick",
+          "quantity": 10
+        }
+      ],
+      "produces": {
+        "item": "sundial",
+        "quantity": 1
+      },
+      "energyRestore": null,
+      "recipePrice": "4025 silver"
+    },
+    {
+      "slug": "pillow_red",
+      "title": "Pillow Red",
+      "source": "Crafting (Workbench)",
+      "description": "Use pillows to decorate your kingdom.",
+      "ingredients": [
+        {
+          "item": "cotton_thread_red",
+          "quantity": 10
+        }
+      ],
+      "produces": {
+        "item": "pillow_red",
+        "quantity": 1
+      },
+      "energyRestore": null,
+      "recipePrice": null
+    },
+    {
+      "slug": "pillow_yellow",
+      "title": "Pillow Yellow",
+      "source": "Crafting (Workbench)",
+      "description": "Use pillows to decorate your kingdom.",
+      "ingredients": [
+        {
+          "item": "cotton_thread_yellow",
+          "quantity": 10
+        }
+      ],
+      "produces": {
+        "item": "pillow_yellow",
+        "quantity": 1
+      },
+      "energyRestore": null,
+      "recipePrice": null
+    },
+    {
+      "slug": "pillow_orange",
+      "title": "Pillow Orange",
+      "source": "Crafting (Workbench)",
+      "description": "Use pillows to decorate your kingdom.",
+      "ingredients": [
+        {
+          "item": "cotton_thread_orange",
+          "quantity": 10
+        }
+      ],
+      "produces": {
+        "item": "pillow_orange",
+        "quantity": 1
+      },
+      "energyRestore": null,
+      "recipePrice": null
+    },
+    {
+      "slug": "pillow_grey",
+      "title": "Pillow Grey",
+      "source": "Crafting (Workbench)",
+      "description": "Use pillows to decorate your kingdom.",
+      "ingredients": [
+        {
+          "item": "cotton_thread",
+          "quantity": 10
+        }
+      ],
+      "produces": {
+        "item": "pillow_grey",
+        "quantity": 1
+      },
+      "energyRestore": null,
+      "recipePrice": null
+    },
+    {
+      "slug": "pillow_green",
+      "title": "Pillow Green",
+      "source": "Crafting (Workbench)",
+      "description": "Use pillows to decorate your kingdom.",
+      "ingredients": [
+        {
+          "item": "cotton_thread_green",
+          "quantity": 10
+        }
+      ],
+      "produces": {
+        "item": "pillow_green",
+        "quantity": 1
+      },
+      "energyRestore": null,
+      "recipePrice": null
+    },
+    {
+      "slug": "wheat_flour",
+      "title": "Wheat Flour",
+      "source": "Crafting (Mill)",
+      "description": "Processed wheat used for cooking various foods.",
+      "ingredients": [
+        {
+          "item": "wheat",
+          "quantity": 50
+        }
+      ],
+      "produces": {
+        "item": "wheat_flour",
+        "quantity": 10
+      },
+      "energyRestore": null,
+      "recipePrice": null
+    },
+    {
+      "slug": "wood_plank",
+      "title": "Wood Plank",
+      "source": "Crafting (Sawmill)",
+      "description": "Processed wood used for crafting various objects.",
+      "ingredients": [
+        {
+          "item": "wood",
+          "quantity": 1
+        }
+      ],
+      "produces": {
+        "item": "wood_plank",
+        "quantity": 3
+      },
+      "energyRestore": null,
+      "recipePrice": null
+    },
+    {
+      "slug": "stone_brick",
+      "title": "Stone Brick",
+      "source": "Crafting (Stonecutter)",
+      "description": "Processed stone used for crafting various objects.",
+      "ingredients": [
+        {
+          "item": "stone",
+          "quantity": 1
+        }
+      ],
+      "produces": {
+        "item": "stone_brick",
+        "quantity": 3
+      },
+      "energyRestore": null,
+      "recipePrice": "25 silver"
+    },
+    {
+      "slug": "soil",
+      "title": "Soil",
+      "source": "Crafting (Workbench) or Buy from Lily",
+      "description": "Use soil to plant seeds and grow crops.",
+      "ingredients": [
+        {
+          "item": "carrot",
+          "quantity": 5
+        },
+        {
+          "item": "fern",
+          "quantity": 5
+        },
+        {
+          "item": "flower_blue",
+          "quantity": 5
+        },
+        {
+          "item": "flower_yellow",
+          "quantity": 5
+        }
+      ],
+      "produces": {
+        "item": "soil",
+        "quantity": 1
+      },
+      "energyRestore": null,
+      "recipePrice": "10 silver"
+    },
+    {
+      "slug": "silver_ingot",
+      "title": "Silver Ingot",
+      "source": "Crafting (Furnace)",
+      "description": "Processed silver used for crafting various objects.",
+      "ingredients": [
+        {
+          "item": "wood",
+          "quantity": 1
+        },
+        {
+          "item": "silver",
+          "quantity": 1
+        }
+      ],
+      "produces": {
+        "item": "silver_ingot",
+        "quantity": 1
+      },
+      "energyRestore": null,
+      "recipePrice": "50 silver"
+    },
+    {
+      "slug": "grape_must",
+      "title": "Grape Must",
+      "source": "Crafting (Press)",
+      "description": "Use grape must to produce wine.",
+      "ingredients": [
+        {
+          "item": "grapes",
+          "quantity": 5
+        }
+      ],
+      "produces": {
+        "item": "grape_must",
+        "quantity": 10
+      },
+      "energyRestore": null,
+      "recipePrice": "5 silver"
+    },
+    {
+      "slug": "iron_ingot",
+      "title": "Iron Ingot",
+      "source": "Crafting (Furnace)",
+      "description": "Processed iron used for crafting various objects.",
+      "ingredients": [
+        {
+          "item": "wood",
+          "quantity": 1
+        },
+        {
+          "item": "iron",
+          "quantity": 1
+        }
+      ],
+      "produces": {
+        "item": "iron_ingot",
+        "quantity": 1
+      },
+      "energyRestore": null,
+      "recipePrice": "25 silver"
+    },
+    {
+      "slug": "gold_ingot",
+      "title": "Gold Ingot",
+      "source": "Crafting (Furnace)",
+      "description": "Processed gold used for crafting various objects.",
+      "ingredients": [
+        {
+          "item": "wood",
+          "quantity": 1
+        },
+        {
+          "item": "gold",
+          "quantity": 1
+        }
+      ],
+      "produces": {
+        "item": "gold_ingot",
+        "quantity": 1
+      },
+      "energyRestore": null,
+      "recipePrice": "1250 silver"
+    },
+    {
+      "slug": "cotton_thread_yellow",
+      "title": "Cotton Thread Yellow",
+      "source": "Crafting (Dyeing Vat)",
+      "description": "Dyed cotton thread used for crafting various objects.",
+      "ingredients": [
+        {
+          "item": "cotton_thread",
+          "quantity": 1
+        },
+        {
+          "item": "flower_yellow",
+          "quantity": 6
+        }
+      ],
+      "produces": {
+        "item": "cotton_thread_yellow",
+        "quantity": 1
+      },
+      "energyRestore": null,
+      "recipePrice": null
+    },
+    {
+      "slug": "cotton_thread_red",
+      "title": "Cotton Thread Red",
+      "source": "Crafting (Dyeing Vat)",
+      "description": "Dyed cotton thread used for crafting various objects.",
+      "ingredients": [
+        {
+          "item": "cotton_thread",
+          "quantity": 1
+        },
+        {
+          "item": "flower_red",
+          "quantity": 6
+        }
+      ],
+      "produces": {
+        "item": "cotton_thread_red",
+        "quantity": 1
+      },
+      "energyRestore": null,
+      "recipePrice": null
+    },
+    {
+      "slug": "cotton_thread_orange",
+      "title": "Cotton Thread Orange",
+      "source": "Crafting (Dyeing Vat)",
+      "description": "Dyed cotton thread used for crafting various objects.",
+      "ingredients": [
+        {
+          "item": "cotton_thread",
+          "quantity": 1
+        },
+        {
+          "item": "flower_red",
+          "quantity": 3
+        },
+        {
+          "item": "flower_yellow",
+          "quantity": 3
+        }
+      ],
+      "produces": {
+        "item": "cotton_thread_orange",
+        "quantity": 1
+      },
+      "energyRestore": null,
+      "recipePrice": null
+    },
+    {
+      "slug": "cotton_thread_green",
+      "title": "Cotton Thread Green",
+      "source": "Crafting (Dyeing Vat)",
+      "description": "Dyed cotton thread used for crafting various objects.",
+      "ingredients": [
+        {
+          "item": "cotton_thread",
+          "quantity": 1
+        },
+        {
+          "item": "flower_blue",
+          "quantity": 3
+        },
+        {
+          "item": "flower_yellow",
+          "quantity": 3
+        }
+      ],
+      "produces": {
+        "item": "cotton_thread_green",
+        "quantity": 1
+      },
+      "energyRestore": null,
+      "recipePrice": null
+    },
+    {
+      "slug": "cotton_thread_brown",
+      "title": "Cotton Thread Brown",
+      "source": "Crafting (Dyeing Vat)",
+      "description": "Dyed cotton thread used for crafting various objects.",
+      "ingredients": [
+        {
+          "item": "cotton_thread",
+          "quantity": 1
+        },
+        {
+          "item": "flower_red",
+          "quantity": 2
+        },
+        {
+          "item": "flower_yellow",
+          "quantity": 2
+        },
+        {
+          "item": "flower_blue",
+          "quantity": 2
+        }
+      ],
+      "produces": {
+        "item": "cotton_thread_brown",
+        "quantity": 1
+      },
+      "energyRestore": null,
+      "recipePrice": null
+    },
+    {
+      "slug": "cotton_thread_blue",
+      "title": "Cotton Thread Blue",
+      "source": "Crafting (Dyeing Vat)",
+      "description": "Dyed cotton thread used for crafting various objects.",
+      "ingredients": [
+        {
+          "item": "cotton_thread",
+          "quantity": 1
+        },
+        {
+          "item": "flower_blue",
+          "quantity": 6
+        }
+      ],
+      "produces": {
+        "item": "cotton_thread_blue",
+        "quantity": 1
+      },
+      "energyRestore": null,
+      "recipePrice": null
+    },
+    {
+      "slug": "cotton_thread",
+      "title": "Cotton Thread",
+      "source": "Crafting (Spinning Wheel)",
+      "description": "Processed cotton used for crafting various objects.",
+      "ingredients": [
+        {
+          "item": "cotton",
+          "quantity": 3
+        }
+      ],
+      "produces": {
+        "item": "cotton_thread",
+        "quantity": 1
+      },
+      "energyRestore": null,
+      "recipePrice": null
+    },
+    {
+      "slug": "clay_brick",
+      "title": "Clay Brick",
+      "source": "Crafting (Kiln)",
+      "description": "Processed clay used for crafting various objects.",
+      "ingredients": [
+        {
+          "item": "clay",
+          "quantity": 1
+        }
+      ],
+      "produces": {
+        "item": "clay_brick",
+        "quantity": 3
+      },
+      "energyRestore": null,
+      "recipePrice": "25 silver"
+    }
+  ]
+}

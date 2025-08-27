@@ -18,6 +18,7 @@ export type DataProps = {
   owner: string;
   image: string;
   visit: string;
+  slug: string;
 };
 
 export const dataColumns = (marketType: string): ColumnDef<DataProps>[] => [
