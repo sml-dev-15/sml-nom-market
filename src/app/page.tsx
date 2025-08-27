@@ -77,8 +77,7 @@ export default function HomePage() {
                       </h1>
                     </div>
                     <p className="text-muted-foreground max-w-2xl">
-                      Calculate the estimated costs for various tasks and
-                      projects.
+                      Calculate the estimated costs for various tasks.
                     </p>
                   </div>
 
