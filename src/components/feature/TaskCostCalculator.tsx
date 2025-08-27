@@ -251,12 +251,12 @@ export default function CraftingCostComparison() {
   return (
     <div>
       <main>
-        <Card className="p-0 rounded-xl shadow-lg border-0 dark:bg-gray-800 transition-colors duration-300 ">
-          <CardHeader className="py-4 bg-gradient-to-r from-blue-50 to-indigo-50 dark:from-blue-900/30 dark:to-indigo-900/30 rounded-t-xl transition-colors duration-300">
+        <Card className="p-0 rounded-xl shadow-lg border-0  transition-colors duration-300 ">
+          <CardHeader className="py-4 bg-gradient-to-r rounded-t-xl transition-colors duration-300">
             <div className="flex flex-col md:flex-row justify-between items-start md:items-center gap-4">
               <div className="w-full flex justify-between items-center">
                 <div>
-                  <CardTitle className="flex items-center gap-2 text-xl md:text-2xl dark:text-white">
+                  <CardTitle className="flex items-center gap-2 text-xl md:text-2xl ">
                     <Calculator className="h-5 w-5 md:h-6 md:w-6" />
                     Crafting Cost Comparison
                   </CardTitle>
@@ -284,7 +284,7 @@ export default function CraftingCostComparison() {
               <div className="flex items-center justify-center p-8">
                 <div className="animate-pulse text-center">
                   <Sparkles className="h-8 w-8 mx-auto text-blue-500 dark:text-blue-400" />
-                  <p className="mt-2 text-muted-foreground dark:text-gray-400">
+                  <p className="mt-2 text-muted-foreground ">
                     Loading market data...
                   </p>
                 </div>
@@ -300,12 +300,12 @@ export default function CraftingCostComparison() {
             {!loading && !error && (
               <>
                 {rows.length === 0 ? (
-                  <div className="text-center py-12 border-2 border-dashed rounded-lg dark:border-gray-700">
+                  <div className="text-center py-12 border-2 border-dashed rounded-lg ">
                     <Calculator className="h-12 w-12 mx-auto text-muted-foreground dark:text-gray-500" />
-                    <h3 className="mt-4 text-lg font-medium dark:text-white">
+                    <h3 className="mt-4 text-lg font-medium ">
                       No items added
                     </h3>
-                    <p className="text-muted-foreground dark:text-gray-400 mb-4">
+                    <p className="text-muted-foreground  mb-4">
                       Get started by adding an item to analyze
                     </p>
                     <Button onClick={addRow} className="gap-1">
@@ -320,29 +320,29 @@ export default function CraftingCostComparison() {
                       onValueChange={setActiveTab}
                       className="w-full"
                     >
-                      <TabsList className="grid w-full grid-cols-2 bg-gray-100 dark:bg-gray-700 p-1">
+                      <TabsList className="grid w-full grid-cols-2  ">
                         <TabsTrigger
                           value="table"
-                          className="data-[state=active]:bg-white data-[state=active]:dark:bg-gray-800 transition-colors text-xs md:text-sm"
+                          className=" transition-colors text-xs md:text-sm"
                         >
                           Table View
                         </TabsTrigger>
                         <TabsTrigger
                           value="summary"
-                          className="data-[state=active]:bg-white data-[state=active]:dark:bg-gray-800 transition-colors text-xs md:text-sm"
+                          className=" transition-colors text-xs md:text-sm"
                         >
                           Summary View
                         </TabsTrigger>
                       </TabsList>
 
                       <TabsContent value="table" className="mt-4">
-                        <div className="rounded-md border dark:border-gray-700 overflow-x-auto">
+                        <div className="rounded-md border  overflow-x-auto">
                           <div className="min-w-[700px]">
                             {" "}
                             {/* Force horizontal scroll on mobile */}
                             <Table>
-                              <TableHeader className="bg-muted/50 dark:bg-gray-700/50">
-                                <TableRow className="dark:border-gray-700">
+                              <TableHeader className="bg-muted/50 ">
+                                <TableRow className="">
                                   <TableHead className="w-[40px]"></TableHead>
                                   <TableHead className="w-[200px]">
                                     Item
@@ -397,7 +397,7 @@ export default function CraftingCostComparison() {
 
                                   return (
                                     <React.Fragment key={row.id}>
-                                      <TableRow className="group align-top hover:bg-muted/30 dark:hover:bg-gray-700/30 dark:border-gray-700">
+                                      <TableRow className="group align-top hover:bg-muted/30 dark:hover:bg-gray-700/30 ">
                                         <TableCell>
                                           {isCraftable(row.item) && (
                                             <Button
@@ -431,7 +431,7 @@ export default function CraftingCostComparison() {
                                                   aria-expanded={
                                                     openPopovers[row.id]
                                                   }
-                                                  className="justify-between col-span-2 font-normal dark:bg-gray-700 dark:border-gray-600 dark:text-white text-xs md:text-sm"
+                                                  className="justify-between col-span-2 font-normal  text-xs md:text-sm"
                                                 >
                                                   <p className="truncate w-[180px] text-left">
                                                     {row.item
@@ -442,11 +442,11 @@ export default function CraftingCostComparison() {
                                                 </Button>
                                               </PopoverTrigger>
                                               <PopoverContent
-                                                className="w-[280px] p-0 dark:bg-gray-800 dark:border-gray-700"
+                                                className="w-[280px] p-0 "
                                                 align="start"
                                               >
-                                                <Command className="dark:bg-gray-800">
-                                                  <div className="flex items-center border-b px-3 dark:border-gray-700">
+                                                <Command className="">
+                                                  <div className="flex items-center border-b px-3 ">
                                                     <Search className="mr-2 h-4 w-4 shrink-0 opacity-50" />
                                                     <CommandInput
                                                       placeholder="Search item..."
@@ -454,14 +454,14 @@ export default function CraftingCostComparison() {
                                                       onValueChange={
                                                         setSearchQuery
                                                       }
-                                                      className="dark:bg-gray-800 dark:text-white"
+                                                      className=""
                                                     />
                                                   </div>
                                                   <CommandList>
                                                     <CommandEmpty>
                                                       No results found.
                                                     </CommandEmpty>
-                                                    <CommandGroup className="dark:bg-gray-800">
+                                                    <CommandGroup className="">
                                                       {filteredSlugs.map(
                                                         (slug) => (
                                                           <CommandItem
@@ -480,7 +480,7 @@ export default function CraftingCostComparison() {
                                                                 ""
                                                               );
                                                             }}
-                                                            className="flex items-center justify-between dark:hover:bg-gray-700 dark:aria-selected:bg-gray-700"
+                                                            className="flex items-center justify-between "
                                                           >
                                                             <span className="text-xs md:text-sm">
                                                               {formatSlug(slug)}
@@ -490,7 +490,7 @@ export default function CraftingCostComparison() {
                                                             ) && (
                                                               <Badge
                                                                 variant="outline"
-                                                                className="ml-2 text-xs dark:border-blue-400 dark:text-blue-400"
+                                                                className="ml-2 text-xs "
                                                               >
                                                                 Craftable
                                                               </Badge>
@@ -508,40 +508,43 @@ export default function CraftingCostComparison() {
                                                 <Button
                                                   variant="ghost"
                                                   size="icon"
-                                                  className="h-8 w-8 dark:hover:bg-gray-700"
+                                                  className="h-8 w-8"
                                                 >
                                                   <Info className="h-4 w-4 animate-pulse text-emerald-600" />
                                                 </Button>
                                               </DialogTrigger>
-                                              <DialogContent className="max-w-2xl dark:bg-gray-800 dark:text-white max-h-[80vh] overflow-y-auto">
+
+                                              <DialogContent className="w-full max-w-[95vw] sm:max-w-2xl max-h-[80vh] overflow-y-auto mx-auto">
                                                 <DialogHeader>
-                                                  <DialogTitle className="dark:text-white">
+                                                  <DialogTitle>
                                                     Ingredient Breakdown:{" "}
                                                     {formatSlug(row.item)}
                                                   </DialogTitle>
-                                                  <DialogDescription className="dark:text-gray-400">
+                                                  <DialogDescription>
                                                     Detailed cost analysis for{" "}
                                                     {row.quantity}x{" "}
                                                     {formatSlug(row.item)}
                                                   </DialogDescription>
                                                 </DialogHeader>
+
                                                 <div className="mt-4 space-y-4">
+                                                  {/* Direct Buy vs Crafting */}
                                                   <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-                                                    <Card className="dark:bg-gray-700 dark:border-gray-600">
+                                                    <Card>
                                                       <CardHeader className="py-3">
-                                                        <CardTitle className="text-sm flex items-center gap-2 dark:text-white">
+                                                        <CardTitle className="text-sm flex items-center gap-2">
                                                           <Package className="h-4 w-4" />
                                                           Buying Directly
                                                         </CardTitle>
                                                       </CardHeader>
                                                       <CardContent>
-                                                        <p className="text-2xl font-bold dark:text-white">
+                                                        <p className="text-2xl font-bold">
                                                           {row.calculated
                                                             ? directCost.toLocaleString()
                                                             : "N/A"}{" "}
                                                           gold
                                                         </p>
-                                                        <p className="text-sm text-muted-foreground dark:text-gray-400">
+                                                        <p className="text-sm text-muted-foreground">
                                                           {getLowestBuyPrice(
                                                             row.item
                                                           )?.toLocaleString() ||
@@ -550,15 +553,16 @@ export default function CraftingCostComparison() {
                                                         </p>
                                                       </CardContent>
                                                     </Card>
-                                                    <Card className="dark:bg-gray-700 dark:border-gray-600">
+
+                                                    <Card>
                                                       <CardHeader className="py-3">
-                                                        <CardTitle className="text-sm flex items-center gap-2 dark:text-white">
+                                                        <CardTitle className="text-sm flex items-center gap-2">
                                                           <Calculator className="h-4 w-4" />
                                                           Crafting
                                                         </CardTitle>
                                                       </CardHeader>
                                                       <CardContent>
-                                                        <p className="text-2xl font-bold dark:text-white">
+                                                        <p className="text-2xl font-bold">
                                                           {row.calculated &&
                                                           craftCost !== null
                                                             ? `${craftCost.toLocaleString()} gold`
@@ -567,7 +571,7 @@ export default function CraftingCostComparison() {
                                                         {row.calculated &&
                                                           craftCost !==
                                                             null && (
-                                                            <p className="text-sm text-muted-foreground dark:text-gray-400">
+                                                            <p className="text-sm text-muted-foreground">
                                                               {(
                                                                 craftCost /
                                                                 row.quantity
@@ -579,30 +583,31 @@ export default function CraftingCostComparison() {
                                                     </Card>
                                                   </div>
 
+                                                  {/* Ingredients Breakdown */}
                                                   {row.calculated &&
                                                     breakdown && (
-                                                      <Card className="dark:bg-gray-700 dark:border-gray-600">
+                                                      <Card className="w-[306px] md:w-full">
                                                         <CardHeader className="py-3">
-                                                          <CardTitle className="text-sm dark:text-white">
+                                                          <CardTitle className="text-sm">
                                                             Crafting Ingredients
                                                             Required
                                                           </CardTitle>
                                                         </CardHeader>
                                                         <CardContent>
                                                           <div className="overflow-x-auto">
-                                                            <Table>
+                                                            <Table className="min-w-full md:min-w-[500px]">
                                                               <TableHeader>
-                                                                <TableRow className="dark:border-gray-600">
-                                                                  <TableHead className="dark:text-gray-300">
+                                                                <TableRow>
+                                                                  <TableHead>
                                                                     Ingredient
                                                                   </TableHead>
-                                                                  <TableHead className="text-right dark:text-gray-300">
+                                                                  <TableHead className="text-right">
                                                                     Quantity
                                                                   </TableHead>
-                                                                  <TableHead className="text-right dark:text-gray-300">
+                                                                  <TableHead className="text-right">
                                                                     Unit Price
                                                                   </TableHead>
-                                                                  <TableHead className="text-right dark:text-gray-300">
+                                                                  <TableHead className="text-right">
                                                                     Total Cost
                                                                   </TableHead>
                                                                 </TableRow>
@@ -617,20 +622,20 @@ export default function CraftingCostComparison() {
                                                                       key={idx}
                                                                       className="dark:border-gray-600"
                                                                     >
-                                                                      <TableCell className="dark:text-white">
+                                                                      <TableCell className="max-w-[120px] md:max-w-none truncate md:whitespace-normal">
                                                                         {formatSlug(
                                                                           ing.item
                                                                         )}
                                                                       </TableCell>
-                                                                      <TableCell className="text-right dark:text-white">
+                                                                      <TableCell className="text-right">
                                                                         {ing.quantity.toFixed(
                                                                           2
                                                                         )}
                                                                       </TableCell>
-                                                                      <TableCell className="text-right dark:text-white">
+                                                                      <TableCell className="text-right">
                                                                         {ing.unitPrice.toLocaleString()}
                                                                       </TableCell>
-                                                                      <TableCell className="text-right dark:text-white">
+                                                                      <TableCell className="text-right">
                                                                         {ing.totalCost.toLocaleString()}
                                                                       </TableCell>
                                                                     </TableRow>
@@ -649,7 +654,7 @@ export default function CraftingCostComparison() {
                                         </TableCell>
 
                                         {/* Floor Price Column */}
-                                        <TableCell className="font-mono dark:text-white text-sm">
+                                        <TableCell className="font-mono  text-sm">
                                           {floorPrice
                                             ? floorPrice.toLocaleString()
                                             : "N/A"}
@@ -667,7 +672,7 @@ export default function CraftingCostComparison() {
                                                 Number(e.target.value)
                                               )
                                             }
-                                            className="w-16 md:w-20 dark:bg-gray-700 dark:border-gray-600 dark:text-white text-sm"
+                                            className="w-16 md:w-20 text-sm"
                                           />
                                         </TableCell>
                                         <TableCell>
@@ -682,12 +687,12 @@ export default function CraftingCostComparison() {
                                                 Number(e.target.value)
                                               )
                                             }
-                                            className="w-20 md:w-28 dark:bg-gray-700 dark:border-gray-600 dark:text-white text-sm"
+                                            className="w-20 md:w-28 text-sm"
                                           />
                                         </TableCell>
 
                                         {/* Best Cost */}
-                                        <TableCell className="font-mono dark:text-white text-sm">
+                                        <TableCell className="font-mono  text-sm">
                                           <div className="flex flex-col">
                                             <span>
                                               {row.calculated
@@ -752,10 +757,10 @@ export default function CraftingCostComparison() {
 
                                       {/* Expanded row for ingredient breakdown */}
                                       {isExpanded && breakdown && (
-                                        <TableRow className="bg-muted/20 dark:bg-gray-700/20">
+                                        <TableRow className="bg-muted/20">
                                           <TableCell colSpan={9}>
                                             <div className="p-4">
-                                              <h4 className="font-medium mb-2 flex items-center gap-2 dark:text-white text-sm md:text-base">
+                                              <h4 className="font-medium mb-2 flex items-center gap-2  text-sm md:text-base">
                                                 <Package className="h-4 w-4" />
                                                 Crafting Ingredients for{" "}
                                                 {row.quantity}x{" "}
@@ -765,7 +770,7 @@ export default function CraftingCostComparison() {
                                                 {breakdown.map((ing, idx) => (
                                                   <div
                                                     key={idx}
-                                                    className="flex justify-between items-center text-xs md:text-sm dark:text-white"
+                                                    className="flex justify-between items-center text-xs md:text-sm "
                                                   >
                                                     <span className="truncate max-w-[220px]">
                                                       {formatSlug(ing.item)}
@@ -789,10 +794,10 @@ export default function CraftingCostComparison() {
                                                   </div>
                                                 ))}
                                                 <div className="flex justify-between items-center pt-2 border-t mt-2 dark:border-gray-600">
-                                                  <span className="font-medium dark:text-white text-sm md:text-base">
+                                                  <span className="font-medium  text-sm md:text-base">
                                                     Total Crafting Cost
                                                   </span>
-                                                  <span className="font-mono font-bold dark:text-white text-sm md:text-base">
+                                                  <span className="font-mono font-bold  text-sm md:text-base">
                                                     {row.calculated && craftCost
                                                       ? craftCost.toLocaleString()
                                                       : "N/A"}{" "}
@@ -835,15 +840,12 @@ export default function CraftingCostComparison() {
                             const floorPrice = getLowestBuyPrice(row.item);
 
                             return (
-                              <Card
-                                key={row.id}
-                                className="relative dark:bg-gray-700 dark:border-gray-600"
-                              >
+                              <Card key={row.id} className="relative ">
                                 <CardHeader className="py-3 pr-16">
-                                  <CardTitle className="text-base dark:text-white">
+                                  <CardTitle className="text-base ">
                                     {formatSlug(row.item)}
                                   </CardTitle>
-                                  <CardDescription className="dark:text-gray-400">
+                                  <CardDescription className="">
                                     {row.quantity} ×{" "}
                                     {floorPrice?.toLocaleString() || "N/A"} gold
                                     (floor price)
@@ -852,18 +854,18 @@ export default function CraftingCostComparison() {
                                 <CardContent>
                                   <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
                                     <div className="text-center">
-                                      <p className="text-sm text-muted-foreground dark:text-gray-400">
+                                      <p className="text-sm text-muted-foreground ">
                                         Floor Price
                                       </p>
-                                      <p className="text-lg font-bold dark:text-white">
+                                      <p className="text-lg font-bold ">
                                         {floorPrice?.toLocaleString() || "N/A"}
                                       </p>
                                     </div>
                                     <div className="text-center">
-                                      <p className="text-sm text-muted-foreground dark:text-gray-400">
+                                      <p className="text-sm text-muted-foreground ">
                                         Cost
                                       </p>
-                                      <p className="text-lg font-bold dark:text-white">
+                                      <p className="text-lg font-bold ">
                                         {row.calculated
                                           ? bestOption.cost.toLocaleString()
                                           : "N/A"}
@@ -878,15 +880,15 @@ export default function CraftingCostComparison() {
                                       )}
                                     </div>
                                     <div className="text-center">
-                                      <p className="text-sm text-muted-foreground dark:text-gray-400">
+                                      <p className="text-sm text-muted-foreground ">
                                         Reward
                                       </p>
-                                      <p className="text-lg font-bold dark:text-white">
+                                      <p className="text-lg font-bold ">
                                         {row.reward.toLocaleString()}
                                       </p>
                                     </div>
                                     <div className="text-center">
-                                      <p className="text-sm text-muted-foreground dark:text-gray-400">
+                                      <p className="text-sm text-muted-foreground ">
                                         Profit
                                       </p>
                                       <p
@@ -918,7 +920,7 @@ export default function CraftingCostComparison() {
                                 <Button
                                   variant="ghost"
                                   size="icon"
-                                  className="absolute top-3 right-3 h-8 w-8 dark:hover:bg-gray-600"
+                                  className="absolute top-3 right-3 h-8 w-8 "
                                   onClick={() => removeRow(row.id)}
                                 >
                                   <Trash2 className="h-4 w-4" />
@@ -931,33 +933,33 @@ export default function CraftingCostComparison() {
                     </Tabs>
 
                     {/* Summary */}
-                    <Card className="bg-gradient-to-r from-blue-50 to-indigo-50 dark:from-blue-900/30 dark:to-indigo-900/30 dark:border-gray-700">
+                    <Card className="">
                       <CardHeader className="py-4">
-                        <CardTitle className="text-lg flex items-center gap-2 dark:text-white">
+                        <CardTitle className="text-lg flex items-center gap-2 ">
                           <TrendingUp className="h-5 w-5" />
                           Summary (Best Option per item)
                         </CardTitle>
                       </CardHeader>
                       <CardContent>
                         <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
-                          <div className="flex flex-col items-center p-4 bg-white/50 dark:bg-gray-800/50 rounded-lg shadow-sm dark:shadow-none">
-                            <span className="text-sm text-muted-foreground dark:text-gray-400 flex items-center gap-1">
+                          <div className="flex flex-col items-center p-4 border rounded-lg shadow-sm dark:shadow-none">
+                            <span className="text-sm text-muted-foreground  flex items-center gap-1">
                               <Package className="h-4 w-4" />
                               Total Cost
                             </span>
-                            <span className="text-2xl font-bold dark:text-white">
+                            <span className="text-2xl font-bold ">
                               {shouldCalculate
                                 ? totals.totalCost.toLocaleString()
                                 : "N/A"}{" "}
                               gold
                             </span>
                           </div>
-                          <div className="flex flex-col items-center p-4 bg-white/50 dark:bg-gray-800/50 rounded-lg shadow-sm dark:shadow-none">
-                            <span className="text-sm text-muted-foreground dark:text-gray-400 flex items-center gap-1">
+                          <div className="flex flex-col items-center p-4 border rounded-lg shadow-sm dark:shadow-none">
+                            <span className="text-sm text-muted-foreground  flex items-center gap-1">
                               <Coins className="h-4 w-4" />
                               Total Reward
                             </span>
-                            <span className="text-2xl font-bold dark:text-white">
+                            <span className="text-2xl font-bold ">
                               {shouldCalculate
                                 ? totals.totalReward.toLocaleString()
                                 : "N/A"}{" "}
@@ -971,7 +973,7 @@ export default function CraftingCostComparison() {
                                 : "bg-red-100/50 dark:bg-red-900/30"
                             }`}
                           >
-                            <span className="text-sm text-muted-foreground dark:text-gray-400 flex items-center gap-1">
+                            <span className="text-sm text-muted-foreground  flex items-center gap-1">
                               <TrendingUp className="h-4 w-4" />
                               Total Profit
                             </span>
@@ -988,7 +990,7 @@ export default function CraftingCostComparison() {
                               gold
                             </span>
                             {shouldCalculate && totals.totalReward > 0 && (
-                              <span className="text-sm mt-1 dark:text-gray-400">
+                              <span className="text-sm mt-1 ">
                                 {(
                                   (totals.totalProfit / totals.totalReward) *
                                   100
