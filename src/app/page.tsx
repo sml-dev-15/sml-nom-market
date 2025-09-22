@@ -4,7 +4,8 @@ import PublicLandsTable from "@/components/feature/admin/PublicLandTable";
 import { Footer } from "@/components/feature/Footer";
 import { Hero } from "@/components/feature/Hero";
 import { Navbar } from "@/components/feature/Navbar";
-import CraftingCostComparison from "@/components/feature/TaskCostCalculator";
+import { TaskCalculator } from "@/components/feature/TaskCalculator";
+// import CraftingCostComparison from "@/components/feature/TaskCostCalculator";
 import { Container } from "@/components/ui/container";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { Map, Calculator } from "lucide-react"; // Added Calculator icon
@@ -32,7 +33,7 @@ export default function HomePage() {
             className="w-full"
           >
             <TabsList className="grid w-full max-w-md mx-auto grid-cols-3">
-              <TabsTrigger value="hero">Overview</TabsTrigger>
+              <TabsTrigger value="hero">Market</TabsTrigger>
               <TabsTrigger value="lands">Public Lands</TabsTrigger>
               <TabsTrigger value="calculator">Calculator</TabsTrigger>{" "}
             </TabsList>
@@ -83,7 +84,8 @@ export default function HomePage() {
 
                   {/* Add your calculator component here */}
                   <div className="rounded-2xl border border-border">
-                    <CraftingCostComparison />
+                    {/* <CraftingCostComparison /> */}
+                    <TaskCalculator />
                   </div>
                 </Container>
               </div>
