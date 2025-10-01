@@ -17,12 +17,12 @@ export type Land = {
 };
 
 export const industryOptions = [
-  "Oven",
+  "Bakery - oven",
   "Mill",
-  "Mine",
+  "Mining",
   "Forestry",
-  "Farm",
+  "Farming",
   "Sawmill",
-  "Barrel",
-  "Wine press",
+  "Winery - barrel",
+  "Fishery",
 ] as const;
