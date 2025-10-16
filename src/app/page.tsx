@@ -5,14 +5,27 @@ import { Footer } from "@/components/feature/Footer";
 import { Hero } from "@/components/feature/Hero";
 import { Navbar } from "@/components/feature/Navbar";
 import { TaskCalculator } from "@/components/feature/TaskCalculator";
-// import CraftingCostComparison from "@/components/feature/TaskCostCalculator";
 import { Container } from "@/components/ui/container";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
-import { Map, Calculator } from "lucide-react"; // Added Calculator icon
-import { useState } from "react";
+import { Map, Calculator } from "lucide-react";
+import { useState, useEffect } from "react";
 
 export default function HomePage() {
   const [activeTab, setActiveTab] = useState("hero");
+
+  // Sync tab state with URL hash
+  useEffect(() => {
+    const hash = window.location.hash.replace("#", "");
+    if (hash && ["hero", "lands", "calculator"].includes(hash)) {
+      setActiveTab(hash);
+    }
+  }, []);
+
+  // Update URL when tab changes
+  const handleTabChange = (value: string) => {
+    setActiveTab(value);
+    window.history.replaceState(null, "", `#${value}`);
+  };
 
   return (
     <div className="min-h-screen w-full flex flex-col bg-gradient-to-br from-background via-background/95 to-muted/50">
@@ -29,13 +42,13 @@ export default function HomePage() {
         <div className="container mx-auto max-w-7xl">
           <Tabs
             value={activeTab}
-            onValueChange={setActiveTab}
+            onValueChange={handleTabChange}
             className="w-full"
           >
             <TabsList className="grid w-full max-w-md mx-auto grid-cols-3">
               <TabsTrigger value="hero">Market</TabsTrigger>
               <TabsTrigger value="lands">Public Lands</TabsTrigger>
-              <TabsTrigger value="calculator">Calculator</TabsTrigger>{" "}
+              <TabsTrigger value="calculator">Calculator</TabsTrigger>
             </TabsList>
 
             <TabsContent value="hero">
@@ -64,7 +77,6 @@ export default function HomePage() {
               </div>
             </TabsContent>
 
-            {/* New Task Cost Calculator Tab */}
             <TabsContent value="calculator">
               <div className="w-full rounded-2xl py-8">
                 <Container className="relative z-20">
@@ -74,17 +86,15 @@ export default function HomePage() {
                         <Calculator className="h-6 w-6 text-primary-foreground" />
                       </div>
                       <h1 className="text-3xl font-bold tracking-tight text-accent-foreground">
-                        Task Cost Calculator
+                        Energy Cost Calculator
                       </h1>
                     </div>
                     <p className="text-muted-foreground max-w-2xl">
-                      Calculate the estimated costs for various tasks.
+                      Calculate the estimated costs for various items.
                     </p>
                   </div>
 
-                  {/* Add your calculator component here */}
                   <div className="rounded-2xl border border-border">
-                    {/* <CraftingCostComparison /> */}
                     <TaskCalculator />
                   </div>
                 </Container>
