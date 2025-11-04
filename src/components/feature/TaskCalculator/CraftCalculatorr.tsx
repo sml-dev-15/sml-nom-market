@@ -1,8 +1,8 @@
-// import { TaskComparison } from "./NewTaskCalculator";
+import React from "react";
 import { useFetchMarketData } from "@/hooks/data-fetch";
-import { EnergyVsPriceCalculator } from "./EnergyVsPriceCalculator";
+import { CraftingCostComparator } from "./BuildingCalculator";
 
-export const TaskCalculator = () => {
+export const CraftCalculator = () => {
   const { data } = useFetchMarketData("toBuy");
 
   const transformedData =
@@ -27,8 +27,7 @@ export const TaskCalculator = () => {
 
   return (
     <div>
-      {/* <TaskComparison marketData={transformedData} /> */}
-      <EnergyVsPriceCalculator marketData={transformedData} />
+      <CraftingCostComparator marketData={transformedData} />
     </div>
   );
 };

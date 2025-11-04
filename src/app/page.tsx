@@ -1,13 +1,14 @@
 "use client";
 
-import PublicLandsTable from "@/components/feature/admin/PublicLandTable";
+// import PublicLandsTable from "@/components/feature/admin/PublicLandTable";
 import { Footer } from "@/components/feature/Footer";
 import { Hero } from "@/components/feature/Hero";
 import { Navbar } from "@/components/feature/Navbar";
 import { TaskCalculator } from "@/components/feature/TaskCalculator";
+import { CraftCalculator } from "@/components/feature/TaskCalculator/CraftCalculatorr";
 import { Container } from "@/components/ui/container";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
-import { Map, Calculator } from "lucide-react";
+import { Calculator } from "lucide-react";
 import { useState, useEffect } from "react";
 
 export default function HomePage() {
@@ -47,15 +48,16 @@ export default function HomePage() {
           >
             <TabsList className="grid w-full max-w-md mx-auto grid-cols-3">
               <TabsTrigger value="hero">Market</TabsTrigger>
-              <TabsTrigger value="lands">Public Lands</TabsTrigger>
-              <TabsTrigger value="calculator">Calculator</TabsTrigger>
+              {/* <TabsTrigger value="lands">Public Lands</TabsTrigger> */}
+              <TabsTrigger value="craft">Crafting Calc</TabsTrigger>
+              <TabsTrigger value="calculator">Energy Calc</TabsTrigger>
             </TabsList>
 
             <TabsContent value="hero">
               <Hero />
             </TabsContent>
 
-            <TabsContent value="lands">
+            {/* <TabsContent value="lands">
               <div className="w-full rounded-2xl py-8">
                 <Container className="relative z-20">
                   <div className="flex flex-col gap-4 mb-8">
@@ -75,8 +77,31 @@ export default function HomePage() {
                   <PublicLandsTable />
                 </Container>
               </div>
-            </TabsContent>
+            </TabsContent> */}
 
+            <TabsContent value="craft">
+              <div className="w-full rounded-2xl py-8">
+                <Container className="relative z-20">
+                  <div className="flex flex-col gap-4 mb-8">
+                    <div className="flex items-center gap-3">
+                      <div className="p-2 bg-primary rounded-lg">
+                        <Calculator className="h-6 w-6 text-primary-foreground" />
+                      </div>
+                      <h1 className="text-3xl font-bold tracking-tight text-accent-foreground">
+                        Building Cost Calculator
+                      </h1>
+                    </div>
+                    <p className="text-muted-foreground max-w-2xl">
+                      Calculate the estimated costs for various buildings.
+                    </p>
+                  </div>
+
+                  <div className="rounded-2xl border border-border">
+                    <CraftCalculator />
+                  </div>
+                </Container>
+              </div>
+            </TabsContent>
             <TabsContent value="calculator">
               <div className="w-full rounded-2xl py-8">
                 <Container className="relative z-20">
