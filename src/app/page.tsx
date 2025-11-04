@@ -17,7 +17,7 @@ export default function HomePage() {
   // Sync tab state with URL hash
   useEffect(() => {
     const hash = window.location.hash.replace("#", "");
-    if (hash && ["hero", "lands", "calculator"].includes(hash)) {
+    if (hash && ["hero", "craft", "calculator"].includes(hash)) {
       setActiveTab(hash);
     }
   }, []);
