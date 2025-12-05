@@ -218,46 +218,48 @@ export function GuildMarketListings({ marketData }: GuildMarketProps) {
   return (
     <Card className="bg-card border-border shadow-lg">
       <CardHeader className="bg-muted/10 pb-4">
-        <CardTitle className="flex items-center justify-between font-mono">
-          <div className="flex items-center gap-3">
-            <div className="p-2 bg-primary/10 rounded-lg">
-              <Users className="h-6 w-6 text-primary" />
-            </div>
-            <div>
-              <div className="text-xl font-bold">Guild Market Listings</div>
-              <div className="text-sm text-muted-foreground font-sans">
-                Track trading opportunities with guild members
+        <CardTitle className="font-mono">
+          <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4">
+            <div className="flex items-center gap-3">
+              <div className="p-2 bg-primary/10 rounded-lg shrink-0">
+                <Users className="h-5 w-5 sm:h-6 sm:w-6 text-primary" />
+              </div>
+              <div className="min-w-0">
+                <div className="text-lg sm:text-xl font-bold truncate">Guild Market Listings</div>
+                <div className="text-xs sm:text-sm text-muted-foreground font-sans">
+                  Track trading opportunities with guild members
+                </div>
               </div>
             </div>
-          </div>
-          <div className="flex items-center gap-3">
-            <div className="flex gap-2">
-              <Button
-                variant="outline"
-                size="sm"
-                onClick={expandAll}
-                className="flex items-center gap-1 font-mono text-xs"
+            <div className="flex items-center gap-2 sm:gap-3 flex-wrap">
+              <div className="flex gap-2">
+                <Button
+                  variant="outline"
+                  size="sm"
+                  onClick={expandAll}
+                  className="flex items-center gap-1 font-mono text-xs h-8"
+                >
+                  <ChevronDown className="h-3 w-3" />
+                  <span className="hidden xs:inline">Expand</span>
+                </Button>
+                <Button
+                  variant="outline"
+                  size="sm"
+                  onClick={collapseAll}
+                  className="flex items-center gap-1 font-mono text-xs h-8"
+                >
+                  <ChevronUp className="h-3 w-3" />
+                  <span className="hidden xs:inline">Collapse</span>
+                </Button>
+              </div>
+              <Badge
+                variant="secondary"
+                className="flex items-center gap-1 font-mono"
               >
-                <ChevronDown className="h-3 w-3" />
-                Expand All
-              </Button>
-              <Button
-                variant="outline"
-                size="sm"
-                onClick={collapseAll}
-                className="flex items-center gap-1 font-mono text-xs"
-              >
-                <ChevronUp className="h-3 w-3" />
-                Collapse All
-              </Button>
+                <Store className="h-3 w-3" />
+                {guildListings.length}
+              </Badge>
             </div>
-            <Badge
-              variant="secondary"
-              className="flex items-center gap-1 font-mono"
-            >
-              <Store className="h-3 w-3" />
-              {guildListings.length}
-            </Badge>
           </div>
         </CardTitle>
       </CardHeader>
@@ -331,7 +333,7 @@ export function GuildMarketListings({ marketData }: GuildMarketProps) {
                     placeholder="Type to search..."
                     value={searchTerm}
                     onChange={(e) => setSearchTerm(e.target.value)}
-                    className="font-mono pr-8"
+                    className="font-mono pr-8 w-full"
                   />
                   <Search className="absolute right-2 top-2.5 h-4 w-4 text-muted-foreground" />
                 </div>
@@ -345,7 +347,7 @@ export function GuildMarketListings({ marketData }: GuildMarketProps) {
                   value={selectedMember}
                   onValueChange={setSelectedMember}
                 >
-                  <SelectTrigger className="font-mono">
+                  <SelectTrigger className="font-mono w-full">
                     <SelectValue placeholder="All members" />
                   </SelectTrigger>
                   <SelectContent>
@@ -370,7 +372,7 @@ export function GuildMarketListings({ marketData }: GuildMarketProps) {
                   Order Type
                 </Label>
                 <Select value={selectedType} onValueChange={setSelectedType}>
-                  <SelectTrigger className="font-mono">
+                  <SelectTrigger className="font-mono w-full">
                     <SelectValue placeholder="All types" />
                   </SelectTrigger>
                   <SelectContent>
@@ -395,7 +397,7 @@ export function GuildMarketListings({ marketData }: GuildMarketProps) {
                   value={selectedCategory}
                   onValueChange={handleCategoryChange}
                 >
-                  <SelectTrigger className="font-mono">
+                  <SelectTrigger className="font-mono w-full">
                     <SelectValue placeholder="All categories" />
                   </SelectTrigger>
                   <SelectContent>
@@ -420,7 +422,7 @@ export function GuildMarketListings({ marketData }: GuildMarketProps) {
                   onValueChange={setSelectedSubCategory}
                   disabled={selectedCategory === "all"}
                 >
-                  <SelectTrigger className="font-mono">
+                  <SelectTrigger className="font-mono w-full">
                     <SelectValue
                       placeholder={
                         selectedCategory === "all"

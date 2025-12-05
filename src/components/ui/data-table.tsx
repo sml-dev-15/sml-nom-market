@@ -87,8 +87,15 @@ export function DataTable<TData, TValue>({
   const [columnFilters, setColumnFilters] = React.useState<ColumnFiltersState>(
     []
   );
+  // Hide category and subcategory on mobile by default
   const [columnVisibility, setColumnVisibility] =
     React.useState<VisibilityState>({});
+
+  React.useEffect(() => {
+    if (window.innerWidth < 768) {
+      setColumnVisibility({ category: false, subCategory: false });
+    }
+  }, []);
   const [rowSelection, setRowSelection] = React.useState({});
   const { marketType, setMarketType } = useMarketStore();
   const [selectedCategory, setSelectedCategory] = React.useState("any");
@@ -230,8 +237,8 @@ export function DataTable<TData, TValue>({
         </div>
       </div>
 
-      <div className="max-h-[300px] md:max-h-[550px] overflow-y-auto w-full">
-        <Table>
+      <div className="max-h-[300px] md:max-h-[550px] overflow-auto w-full rounded-md border">
+        <Table className="min-w-[600px]">
           <TableHeader className="">
             {table.getHeaderGroups().map((headerGroup) => (
               <TableRow key={headerGroup.id}>

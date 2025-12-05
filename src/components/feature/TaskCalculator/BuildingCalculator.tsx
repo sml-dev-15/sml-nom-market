@@ -5,6 +5,13 @@ import { Label } from "@/components/ui/label";
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
 import {
+  Select,
+  SelectContent,
+  SelectItem,
+  SelectTrigger,
+  SelectValue,
+} from "@/components/ui/select";
+import {
   Table,
   TableBody,
   TableCell,
@@ -808,17 +815,17 @@ export function CraftingCostComparator({
 
     if (row.recommendation === "Craft") {
       return (
-        <Badge className="bg-chart-2 text-primary-foreground flex items-center gap-1">
-          <Hammer className="h-3 w-3" />
-          Craft (Save {savingsAmount})
+        <Badge className="bg-chart-2 text-primary-foreground flex items-center gap-1 max-w-full">
+          <Hammer className="h-3 w-3 shrink-0" />
+          <span className="truncate">Craft (Save {savingsAmount})</span>
         </Badge>
       );
     }
     if (row.recommendation === "Buy") {
       return (
-        <Badge className="bg-chart-1 text-primary-foreground flex items-center gap-1">
-          <Store className="h-3 w-3" />
-          Buy (Save {savingsAmount})
+        <Badge className="bg-chart-1 text-primary-foreground flex items-center gap-1 max-w-full">
+          <Store className="h-3 w-3 shrink-0" />
+          <span className="truncate">Buy (Save {savingsAmount})</span>
         </Badge>
       );
     }
@@ -999,22 +1006,6 @@ export function CraftingCostComparator({
           </div>
 
           <div className="space-y-2">
-            <Label htmlFor="qty" className="font-mono text-sm">
-              Quantity ({qty})
-            </Label>
-            <Input
-              id="qty"
-              type="range"
-              min={1}
-              max={100}
-              step={1}
-              value={qty}
-              onChange={(e) => setQty(Number(e.target.value))}
-              className="font-mono"
-            />
-          </div>
-
-          <div className="space-y-2">
             <Label htmlFor="maxBuy" className="font-mono text-sm">
               Max Buy Cost ({isFinite(maxBuyCost) ? fmtGold(maxBuyCost) : "∞"})
             </Label>
@@ -1035,18 +1026,37 @@ export function CraftingCostComparator({
             <Label htmlFor="station" className="font-mono text-sm">
               Crafting Station
             </Label>
-            <select
-              id="station"
+            <Select
               value={selectedStation}
-              onChange={(e) => setSelectedStation(e.target.value)}
-              className="flex h-10 w-full rounded-md border border-input bg-background px-3 py-2 text-sm ring-offset-background focus:outline-none focus:ring-2 focus:ring-ring focus:ring-offset-2 font-mono"
+              onValueChange={setSelectedStation}
             >
-              {stations.map((station) => (
-                <option key={station} value={station}>
-                  {station === "all" ? "All Stations" : station}
-                </option>
-              ))}
-            </select>
+              <SelectTrigger className="font-mono w-full">
+                <SelectValue placeholder="Select station" />
+              </SelectTrigger>
+              <SelectContent>
+                {stations.map((station) => (
+                  <SelectItem key={station} value={station} className="font-mono">
+                    {station === "all" ? "All Stations" : station}
+                  </SelectItem>
+                ))}
+              </SelectContent>
+            </Select>
+          </div>
+
+          <div className="space-y-2">
+            <Label htmlFor="qty" className="font-mono text-sm">
+              Quantity ({qty})
+            </Label>
+            <Input
+              id="qty"
+              type="range"
+              min={1}
+              max={100}
+              step={1}
+              value={qty}
+              onChange={(e) => setQty(Number(e.target.value))}
+              className="font-mono w-full"
+            />
           </div>
 
           <div className="space-y-2">
@@ -1061,7 +1071,7 @@ export function CraftingCostComparator({
               step="1"
               value={minSavings}
               onChange={(e) => setMinSavings(Number(e.target.value))}
-              className="font-mono"
+              className="font-mono w-full"
             />
           </div>
 
@@ -1128,11 +1138,13 @@ export function CraftingCostComparator({
                   </div>
 
                   <div className="space-y-1 text-sm font-mono">
-                    <div className="flex justify-between">
-                      <span className="text-muted-foreground">
+                    <div className="flex justify-between items-center gap-2">
+                      <span className="text-muted-foreground shrink-0">
                         Recommendation:
                       </span>
-                      <span className="font-semibold">{getBadge(r)}</span>
+                      <span className="font-semibold min-w-0 flex justify-end">
+                        {getBadge(r)}
+                      </span>
                     </div>
                     <div className="flex justify-between">
                       <span className="text-muted-foreground">Buy-All:</span>
@@ -1316,8 +1328,10 @@ export function CraftingCostComparator({
                             </>
                           )}
                         </TableCell>
-                        <TableCell className="text-center">
-                          {getBadge(r)}
+                        <TableCell className="text-center max-w-[200px]">
+                          <div className="flex justify-center">
+                            {getBadge(r)}
+                          </div>
                         </TableCell>
                         <TableCell className="text-center font-mono">
                           {r.recommendation === "Insufficient"
