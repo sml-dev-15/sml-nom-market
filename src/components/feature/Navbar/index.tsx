@@ -161,7 +161,7 @@ export const Navbar = () => {
             </span>
           )}
 
-          {isLoggedIn ? (
+          {isLoggedIn && (
             <>
               <Button
                 variant="outline"
@@ -232,15 +232,6 @@ export const Navbar = () => {
                 </SheetContent>
               </Sheet>
             </>
-          ) : (
-            <Button
-              variant="default"
-              size="sm"
-              onClick={() => router.push("/login")}
-              className="flex"
-            >
-              Login
-            </Button>
           )}
         </div>
       </div>

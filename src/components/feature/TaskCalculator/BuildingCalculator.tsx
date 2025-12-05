@@ -1,4 +1,4 @@
-import { useMemo, useState } from "react";
+import { Fragment, useMemo, useState } from "react";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
@@ -1241,9 +1241,8 @@ export function CraftingCostComparator({
                 </TableHeader>
                 <TableBody>
                   {rows.map((r, i) => (
-                    <>
+                    <Fragment key={r.slug}>
                       <TableRow
-                        key={r.slug}
                         className={
                           r.recommendation === "Insufficient"
                             ? "bg-destructive/10"
@@ -1378,7 +1377,7 @@ export function CraftingCostComparator({
                           </TableCell>
                         </TableRow>
                       )}
-                    </>
+                    </Fragment>
                   ))}
                 </TableBody>
               </Table>

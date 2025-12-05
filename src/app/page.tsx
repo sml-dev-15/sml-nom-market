@@ -2,13 +2,14 @@
 
 // import PublicLandsTable from "@/components/feature/admin/PublicLandTable";
 import { Footer } from "@/components/feature/Footer";
+import { GuildList } from "@/components/feature/GuildList";
 import { Hero } from "@/components/feature/Hero";
 import { Navbar } from "@/components/feature/Navbar";
 import { TaskCalculator } from "@/components/feature/TaskCalculator";
 import { CraftCalculator } from "@/components/feature/TaskCalculator/CraftCalculatorr";
 import { Container } from "@/components/ui/container";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
-import { Calculator } from "lucide-react";
+import { Calculator, Users } from "lucide-react";
 import { useState, useEffect } from "react";
 
 export default function HomePage() {
@@ -17,7 +18,7 @@ export default function HomePage() {
   // Sync tab state with URL hash
   useEffect(() => {
     const hash = window.location.hash.replace("#", "");
-    if (hash && ["hero", "craft", "calculator"].includes(hash)) {
+    if (hash && ["hero", "guild", "craft", "calculator"].includes(hash)) {
       setActiveTab(hash);
     }
   }, []);
@@ -46,15 +47,42 @@ export default function HomePage() {
             onValueChange={handleTabChange}
             className="w-full"
           >
-            <TabsList className="grid w-full max-w-md mx-auto grid-cols-3">
+            <TabsList className="grid w-full max-w-2xl mx-auto grid-cols-4">
               <TabsTrigger value="hero">Market</TabsTrigger>
-              {/* <TabsTrigger value="lands">Public Lands</TabsTrigger> */}
+              <TabsTrigger value="guild" className="flex items-center gap-1">
+                <Users className="h-3 w-3" />
+                Guild The One
+              </TabsTrigger>
               <TabsTrigger value="craft">Crafting Calc</TabsTrigger>
               <TabsTrigger value="calculator">Energy Calc</TabsTrigger>
             </TabsList>
 
             <TabsContent value="hero">
               <Hero />
+            </TabsContent>
+
+            <TabsContent value="guild">
+              <div className="w-full rounded-2xl py-8">
+                <Container className="relative z-20">
+                  <div className="flex flex-col gap-4 mb-8">
+                    <div className="flex items-center gap-3">
+                      <div className="p-2 bg-primary rounded-lg">
+                        <Users className="h-6 w-6 text-primary-foreground" />
+                      </div>
+                      <h1 className="text-3xl font-bold tracking-tight text-accent-foreground">
+                        Guild The One
+                      </h1>
+                    </div>
+                    <p className="text-muted-foreground max-w-2xl">
+                      Browse market listings from guild members. Trade safely with trusted players.
+                    </p>
+                  </div>
+
+                  <div className="rounded-2xl border border-border">
+                    <GuildList />
+                  </div>
+                </Container>
+              </div>
             </TabsContent>
 
             {/* <TabsContent value="lands">
