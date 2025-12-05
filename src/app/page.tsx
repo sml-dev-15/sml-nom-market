@@ -1,6 +1,5 @@
 "use client";
 
-// import PublicLandsTable from "@/components/feature/admin/PublicLandTable";
 import { Footer } from "@/components/feature/Footer";
 import { GuildList } from "@/components/feature/GuildList";
 import { Hero } from "@/components/feature/Hero";
@@ -84,28 +83,6 @@ export default function HomePage() {
                 </Container>
               </div>
             </TabsContent>
-
-            {/* <TabsContent value="lands">
-              <div className="w-full rounded-2xl py-8">
-                <Container className="relative z-20">
-                  <div className="flex flex-col gap-4 mb-8">
-                    <div className="flex items-center gap-3">
-                      <div className="p-2 bg-primary rounded-lg">
-                        <Map className="h-6 w-6 text-primary-foreground" />
-                      </div>
-                      <h1 className="text-3xl font-bold tracking-tight text-accent-foreground">
-                        Land Directory
-                      </h1>
-                    </div>
-                    <p className="text-muted-foreground max-w-2xl">
-                      Explore a comprehensive list of public lands, including
-                      their names, links, and associated industries.
-                    </p>
-                  </div>
-                  <PublicLandsTable />
-                </Container>
-              </div>
-            </TabsContent> */}
 
             <TabsContent value="craft">
               <div className="w-full rounded-2xl py-8">

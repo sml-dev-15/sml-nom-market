@@ -1,4 +1,3 @@
-// import { TaskComparison } from "./NewTaskCalculator";
 import { useFetchMarketData } from "@/hooks/data-fetch";
 import { EnergyVsPriceCalculator } from "./EnergyVsPriceCalculator";
 
@@ -27,7 +26,6 @@ export const TaskCalculator = () => {
 
   return (
     <div>
-      {/* <TaskComparison marketData={transformedData} /> */}
       <EnergyVsPriceCalculator marketData={transformedData} />
     </div>
   );
