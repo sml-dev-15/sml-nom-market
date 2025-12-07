@@ -17,10 +17,8 @@ import {
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import {
   User,
-  Store,
   ShoppingCart,
   Package,
-  TrendingUp,
   ExternalLink,
   Search,
   Filter,

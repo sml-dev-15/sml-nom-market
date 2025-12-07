@@ -10,7 +10,6 @@ import { Badge } from "@/components/ui/badge";
 import { Search, User, ArrowRight } from "lucide-react";
 import { OwnerProfileView } from "@/components/feature/OwnerProfile";
 import { useFetchMarketData } from "@/hooks/data-fetch";
-import { Skeleton } from "@/components/ui/skeleton";
 
 export function ProfileSearch() {
   const [searchOwner, setSearchOwner] = useState("");

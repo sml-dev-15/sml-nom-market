@@ -283,7 +283,7 @@ export function BestDealFinder({ data }: BestDealFinderProps) {
             <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
               {bestDeals.map((deal, index) => (
                 <Card
-                  key={`${deal.group || deal.itemName}-${deal.item.slug}-${index}`}
+                  key={`${deal.group || deal.item.name}-${deal.item.slug}-${index}`}
                   className="border-border hover:border-primary/50 transition-colors"
                 >
                   <CardContent className="p-4">
@@ -303,9 +303,9 @@ export function BestDealFinder({ data }: BestDealFinderProps) {
                           </Badge>
                         )}
                         {"alternativeCount" in deal &&
-                          deal.alternativeCount > 0 && (
+                          (deal as { alternativeCount: number }).alternativeCount > 0 && (
                             <Badge variant="outline" className="font-mono text-xs">
-                              +{deal.alternativeCount} more
+                              +{(deal as { alternativeCount: number }).alternativeCount} more
                             </Badge>
                           )}
                       </div>
