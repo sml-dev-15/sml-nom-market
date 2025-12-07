@@ -1034,11 +1034,11 @@ export function CraftingCostComparator({
                 <SelectValue placeholder="Select station" />
               </SelectTrigger>
               <SelectContent>
-                {stations.map((station) => (
+              {stations.map((station) => (
                   <SelectItem key={station} value={station} className="font-mono">
-                    {station === "all" ? "All Stations" : station}
+                  {station === "all" ? "All Stations" : station}
                   </SelectItem>
-                ))}
+              ))}
               </SelectContent>
             </Select>
           </div>
@@ -1330,7 +1330,7 @@ export function CraftingCostComparator({
                         </TableCell>
                         <TableCell className="text-center max-w-[200px]">
                           <div className="flex justify-center">
-                            {getBadge(r)}
+                          {getBadge(r)}
                           </div>
                         </TableCell>
                         <TableCell className="text-center font-mono">

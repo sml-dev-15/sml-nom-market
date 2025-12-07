@@ -360,13 +360,13 @@ export function EnergyVsPriceCalculator({ marketData }: EnergyVsPriceProps) {
                 <SelectValue placeholder="Select category" />
               </SelectTrigger>
               <SelectContent>
-                {categories.map((category) => (
+              {categories.map((category) => (
                   <SelectItem key={category} value={category} className="font-mono">
-                    {category === "all"
-                      ? "All Categories"
-                      : category.charAt(0).toUpperCase() + category.slice(1)}
+                  {category === "all"
+                    ? "All Categories"
+                    : category.charAt(0).toUpperCase() + category.slice(1)}
                   </SelectItem>
-                ))}
+              ))}
               </SelectContent>
             </Select>
           </div>

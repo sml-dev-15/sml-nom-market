@@ -4,7 +4,7 @@ import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import { Button } from "@/components/ui/button";
 import { formatGold, formatNumber } from "@/lib/format";
 import { ColumnDef } from "@tanstack/react-table";
-import { ArrowUpDown, ExternalLink } from "lucide-react";
+import { ArrowUpDown, ExternalLink, User } from "lucide-react";
 import Image from "next/image";
 import Link from "next/link";
 
@@ -159,10 +159,16 @@ export const dataColumns = (marketType: string): ColumnDef<DataProps>[] => [
       );
     },
     cell: ({ row }) => {
-      const { visit: url } = row.original;
+      const owner = row.getValue("owner") as string;
+      const profileUrl = `/profile/${encodeURIComponent(owner)}`;
       return (
-        <Link href={url} target="_blank">
-          <div>{row.getValue("owner")}</div>
+        <Link
+          href={profileUrl}
+          className="flex items-center gap-2 hover:text-primary transition-colors"
+          prefetch={true}
+        >
+          <User className="size-4" />
+          <span>{owner}</span>
         </Link>
       );
     },

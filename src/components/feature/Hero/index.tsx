@@ -1,27 +1,31 @@
 "use client";
 
+import { useState } from "react";
 import { Container } from "@/components/ui/container";
 import { DataTable } from "@/components/ui/data-table";
 import { dataColumns } from "./components/Column";
+import { BestDealFinder } from "./components/BestDealFinder";
 import { useMarketStore } from "@/hooks/buy-toggle";
 import { useFetchMarketData } from "@/hooks/data-fetch";
 import { Skeleton } from "@/components/ui/skeleton";
 import { Alert, AlertDescription, AlertTitle } from "@/components/ui/alert";
 import { Card, CardContent } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
-import { Tabs, TabsList, TabsTrigger } from "@/components/ui/tabs";
+import { Tabs, TabsList, TabsTrigger, TabsContent } from "@/components/ui/tabs";
 import {
   AlertCircle,
   RefreshCw,
   TrendingUp,
   BarChart3,
   Store,
+  Sparkles,
 } from "lucide-react";
 import { Badge } from "@/components/ui/badge";
 
 export const Hero = () => {
   const { marketType, setMarketType } = useMarketStore();
   const { data, loading, error, refetch } = useFetchMarketData(marketType);
+  const [activeView, setActiveView] = useState<"table" | "deals">("table");
   type MarketType = "toBuy" | "toSell";
 
   return (
@@ -82,62 +86,124 @@ export const Hero = () => {
           </div>
         </div>
 
-        {/* Content Section */}
-        {loading ? (
-          <div className="space-y-4">
-            <div className="flex items-center justify-between">
-              <Skeleton className="h-10 w-64" />
-              <Skeleton className="h-10 w-32" />
-            </div>
-            <div className="space-y-2">
-              {[...Array(6)].map((_, i) => (
-                <Skeleton key={i} className="h-16 w-full" />
-              ))}
-            </div>
-          </div>
-        ) : error ? (
-          <Alert variant="destructive" className="mb-6">
-            <AlertCircle className="h-4 w-4" />
-            <AlertTitle>Error Loading Data</AlertTitle>
-            <AlertDescription>
-              {error}. Please try refreshing the page or check your connection.
-            </AlertDescription>
-            <div className="mt-4">
-              <Button onClick={refetch} variant="outline" size="sm">
-                <RefreshCw className="h-4 w-4 mr-2" />
-                Try Again
-              </Button>
-            </div>
-          </Alert>
-        ) : data && data.length > 0 ? (
-          <Card>
-            <CardContent className="px-5">
-              <DataTable
-                filterColumn="name"
-                columns={dataColumns(marketType)}
-                data={data}
-              />
-            </CardContent>
-          </Card>
-        ) : (
-          <Card>
-            <CardContent className="py-12 text-center">
-              <div className="mx-auto bg-muted rounded-full p-4 w-fit mb-4">
-                <BarChart3 className="h-8 w-8 text-muted-foreground" />
+        {/* View Tabs */}
+        <Tabs
+          value={activeView}
+          onValueChange={(value) => setActiveView(value as "table" | "deals")}
+          className="w-full mb-6"
+        >
+          <TabsList className="grid grid-cols-2 w-fit mb-4">
+            <TabsTrigger value="table" className="flex items-center gap-2">
+              <BarChart3 className="h-4 w-4" />
+              Market Table
+            </TabsTrigger>
+            <TabsTrigger value="deals" className="flex items-center gap-2">
+              <Sparkles className="h-4 w-4" />
+              Best Deals
+            </TabsTrigger>
+          </TabsList>
+
+          <TabsContent value="table" className="mt-0">
+            {loading ? (
+              <div className="space-y-4">
+                <div className="flex items-center justify-between">
+                  <Skeleton className="h-10 w-64" />
+                  <Skeleton className="h-10 w-32" />
+                </div>
+                <div className="space-y-2">
+                  {[...Array(6)].map((_, i) => (
+                    <Skeleton key={i} className="h-16 w-full" />
+                  ))}
+                </div>
               </div>
-              <h3 className="text-lg font-medium mb-2">
-                No market data available
-              </h3>
-              <p className="text-muted-foreground mb-4">
-                There&apos;s currently no data for the selected market type.
-              </p>
-              <Button onClick={refetch} variant="outline">
-                <RefreshCw className="h-4 w-4 mr-2" />
-                Refresh Data
-              </Button>
-            </CardContent>
-          </Card>
-        )}
+            ) : error ? (
+              <Alert variant="destructive" className="mb-6">
+                <AlertCircle className="h-4 w-4" />
+                <AlertTitle>Error Loading Data</AlertTitle>
+                <AlertDescription>
+                  {error}. Please try refreshing the page or check your connection.
+                </AlertDescription>
+                <div className="mt-4">
+                  <Button onClick={refetch} variant="outline" size="sm">
+                    <RefreshCw className="h-4 w-4 mr-2" />
+                    Try Again
+                  </Button>
+                </div>
+              </Alert>
+            ) : data && data.length > 0 ? (
+              <Card>
+                <CardContent className="px-5">
+                  <DataTable
+                    filterColumn="name"
+                    columns={dataColumns(marketType)}
+                    data={data}
+                  />
+                </CardContent>
+              </Card>
+            ) : (
+              <Card>
+                <CardContent className="py-12 text-center">
+                  <div className="mx-auto bg-muted rounded-full p-4 w-fit mb-4">
+                    <BarChart3 className="h-8 w-8 text-muted-foreground" />
+                  </div>
+                  <h3 className="text-lg font-medium mb-2">
+                    No market data available
+                  </h3>
+                  <p className="text-muted-foreground mb-4">
+                    There&apos;s currently no data for the selected market type.
+                  </p>
+                  <Button onClick={refetch} variant="outline">
+                    <RefreshCw className="h-4 w-4 mr-2" />
+                    Refresh Data
+                  </Button>
+                </CardContent>
+              </Card>
+            )}
+          </TabsContent>
+
+          <TabsContent value="deals" className="mt-0">
+            {loading ? (
+              <div className="space-y-4">
+                <Skeleton className="h-64 w-full" />
+                <Skeleton className="h-64 w-full" />
+              </div>
+            ) : error ? (
+              <Alert variant="destructive" className="mb-6">
+                <AlertCircle className="h-4 w-4" />
+                <AlertTitle>Error Loading Data</AlertTitle>
+                <AlertDescription>
+                  {error}. Please try refreshing the page or check your connection.
+                </AlertDescription>
+                <div className="mt-4">
+                  <Button onClick={refetch} variant="outline" size="sm">
+                    <RefreshCw className="h-4 w-4 mr-2" />
+                    Try Again
+                  </Button>
+                </div>
+              </Alert>
+            ) : data && data.length > 0 ? (
+              <BestDealFinder data={data} />
+            ) : (
+              <Card>
+                <CardContent className="py-12 text-center">
+                  <div className="mx-auto bg-muted rounded-full p-4 w-fit mb-4">
+                    <Sparkles className="h-8 w-8 text-muted-foreground" />
+                  </div>
+                  <h3 className="text-lg font-medium mb-2">
+                    No market data available
+                  </h3>
+                  <p className="text-muted-foreground mb-4">
+                    There&apos;s currently no data for the selected market type.
+                  </p>
+                  <Button onClick={refetch} variant="outline">
+                    <RefreshCw className="h-4 w-4 mr-2" />
+                    Refresh Data
+                  </Button>
+                </CardContent>
+              </Card>
+            )}
+          </TabsContent>
+        </Tabs>
 
         {/* Stats Footer */}
         <div className="mt-8 grid grid-cols-1 md:grid-cols-3 gap-4">

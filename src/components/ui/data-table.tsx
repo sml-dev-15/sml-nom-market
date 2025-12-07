@@ -94,7 +94,7 @@ export function DataTable<TData, TValue>({
   React.useEffect(() => {
     if (window.innerWidth < 768) {
       setColumnVisibility({ category: false, subCategory: false });
-    }
+      }
   }, []);
   const [rowSelection, setRowSelection] = React.useState({});
   const { marketType, setMarketType } = useMarketStore();

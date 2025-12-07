@@ -6,6 +6,7 @@ import { Hero } from "@/components/feature/Hero";
 import { Navbar } from "@/components/feature/Navbar";
 import { TaskCalculator } from "@/components/feature/TaskCalculator";
 import { CraftCalculator } from "@/components/feature/TaskCalculator/CraftCalculatorr";
+import { ProfileSearch } from "@/components/feature/ProfileSearch";
 import { Container } from "@/components/ui/container";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import {
@@ -14,6 +15,7 @@ import {
   Hammer,
   Zap,
   ArrowRight,
+  User,
 } from "lucide-react";
 import { useState, useEffect } from "react";
 
@@ -46,19 +48,34 @@ const TAB_CONFIG = [
     icon: Zap,
     description: "Energy cost analysis",
   },
+  {
+    id: "profile",
+    label: "Owner Profile",
+    shortLabel: "Profile",
+    icon: User,
+    description: "View owner marketplace listings",
+  },
 ];
 
 export default function HomePage() {
   const [activeTab, setActiveTab] = useState("hero");
   const [showWelcome, setShowWelcome] = useState(true);
 
+  // Filter out guild tab for now
+  const visibleTabs = TAB_CONFIG.filter((tab) => tab.id !== "guild");
+
   useEffect(() => {
     const hash = window.location.hash.replace("#", "");
-    if (hash && TAB_CONFIG.some((tab) => tab.id === hash)) {
+    if (hash && visibleTabs.some((tab) => tab.id === hash)) {
       setActiveTab(hash);
       setShowWelcome(false);
+    } else if (hash === "guild") {
+      // If someone tries to access guild tab, redirect to hero
+      setActiveTab("hero");
+      setShowWelcome(false);
+      window.history.replaceState(null, "", "#hero");
     }
-  }, []);
+  }, [visibleTabs]);
 
   const handleTabChange = (value: string) => {
     setActiveTab(value);
@@ -99,7 +116,7 @@ export default function HomePage() {
 
               {/* Quick Navigation Cards */}
               <div className="grid grid-cols-2 lg:grid-cols-4 gap-3 sm:gap-4 mb-6">
-                {TAB_CONFIG.map((tab) => (
+                {visibleTabs.map((tab) => (
                   <button
                     key={tab.id}
                     onClick={() => handleQuickNav(tab.id)}
@@ -133,8 +150,8 @@ export default function HomePage() {
             className="w-full"
           >
             <div className="sticky top-[64px] z-40 bg-background/95 backdrop-blur-sm py-2 sm:py-3 -mx-4 px-4 mb-4">
-              <TabsList className="grid w-full max-w-2xl mx-auto grid-cols-4 h-10 sm:h-12 p-1 bg-muted/80">
-                {TAB_CONFIG.map((tab) => (
+              <TabsList className="grid w-full max-w-3xl mx-auto grid-cols-4 h-10 sm:h-12 p-1 bg-muted/80">
+                {visibleTabs.map((tab) => (
                   <TabsTrigger
                     key={tab.id}
                     value={tab.id}
@@ -224,6 +241,10 @@ export default function HomePage() {
                   </div>
                 </Container>
               </div>
+            </TabsContent>
+
+            <TabsContent value="profile" className="mt-0 animate-in fade-in-50 duration-300">
+              <ProfileSearch />
             </TabsContent>
           </Tabs>
         </div>
