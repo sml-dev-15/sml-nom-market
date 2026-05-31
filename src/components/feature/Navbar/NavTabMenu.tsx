@@ -9,7 +9,7 @@ import {
 } from "./nav-tabs";
 
 type NavTabMenuProps = {
-  activeTab: NavTabId;
+  activeTab: NavTabId | null;
   onTabChange: (tabId: NavTabId) => void;
 };
 

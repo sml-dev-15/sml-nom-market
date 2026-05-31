@@ -18,7 +18,7 @@ export default function ProfilePage() {
   }
 
   return (
-    <div className="min-h-screen w-full flex flex-col bg-gradient-to-b from-background to-muted/30">
+    <div className="relative min-h-screen w-full flex flex-col">
       <header className="flex-none sticky top-0 z-50 backdrop-blur-md bg-background/90 border-b border-border/50 shadow-sm">
         <Navbar />
       </header>
