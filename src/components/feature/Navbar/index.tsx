@@ -5,6 +5,7 @@ import { Moon, Sun } from "lucide-react";
 import { useState, useEffect } from "react";
 import Link from "next/link";
 import { NavTabMenu } from "./NavTabMenu";
+import { MobileNavMenu } from "./MobileNavMenu";
 import type { NavTabId } from "./nav-tabs";
 
 type NavbarProps = {
@@ -56,7 +57,7 @@ export const Navbar = ({ activeTab, onTabChange, onGoHome }: NavbarProps) => {
 
   return (
     <nav className="sticky top-0 z-50 border-b border-border/40 bg-background/90 backdrop-blur-md">
-      <div className="relative mx-auto flex h-auto min-h-14 max-w-7xl flex-wrap items-center justify-between gap-3 px-4 py-2 sm:min-h-16 sm:px-6">
+      <div className="relative mx-auto flex h-14 max-w-7xl items-center justify-between gap-3 px-4 sm:h-16 sm:px-6">
         {onGoHome ? (
           <button
             type="button"
@@ -77,7 +78,7 @@ export const Navbar = ({ activeTab, onTabChange, onGoHome }: NavbarProps) => {
         )}
 
         {showTabs && (
-          <div className="flex w-full justify-center sm:absolute sm:left-1/2 sm:w-auto sm:-translate-x-1/2">
+          <div className="absolute left-1/2 hidden -translate-x-1/2 md:block">
             <NavTabMenu
               activeTab={activeTab ?? null}
               onTabChange={onTabChange}
@@ -85,15 +86,27 @@ export const Navbar = ({ activeTab, onTabChange, onGoHome }: NavbarProps) => {
           </div>
         )}
 
-        <Button
-          variant="ghost"
-          size="icon"
-          onClick={toggleTheme}
-          className="z-10 ml-auto shrink-0 text-foreground/80 hover:text-foreground"
-          aria-label="Toggle theme"
-        >
-          {isDark ? <Sun size={20} /> : <Moon size={20} />}
-        </Button>
+        <div className="z-10 ml-auto flex shrink-0 items-center gap-1">
+          <Button
+            variant="ghost"
+            size="icon"
+            onClick={toggleTheme}
+            className="text-foreground/80 hover:text-foreground"
+            aria-label="Toggle theme"
+          >
+            {isDark ? <Sun size={20} /> : <Moon size={20} />}
+          </Button>
+
+          {showTabs && onGoHome && (
+            <div className="md:hidden">
+              <MobileNavMenu
+                activeTab={activeTab ?? null}
+                onTabChange={onTabChange}
+                onGoHome={onGoHome}
+              />
+            </div>
+          )}
+        </div>
       </div>
     </nav>
   );
