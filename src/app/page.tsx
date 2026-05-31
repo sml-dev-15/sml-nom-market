@@ -1,98 +1,80 @@
 "use client";
 
 import { Footer } from "@/components/feature/Footer";
-import { GuildList } from "@/components/feature/GuildList";
 import { Hero } from "@/components/feature/Hero";
 import { Navbar } from "@/components/feature/Navbar";
+import {
+  ALL_NAV_TAB_IDS,
+  MAIN_NAV_TABS,
+  PROFILE_NAV_TAB,
+  type NavTabId,
+} from "@/components/feature/Navbar/nav-tabs";
 import { TaskCalculator } from "@/components/feature/TaskCalculator";
 import { CraftCalculator } from "@/components/feature/TaskCalculator/CraftCalculatorr";
 import { ProfileSearch } from "@/components/feature/ProfileSearch";
 import { Container } from "@/components/ui/container";
-import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
-import {
-  Users,
-  Store,
-  Hammer,
-  Zap,
-  ArrowRight,
-  User,
-} from "lucide-react";
-import { useState, useEffect } from "react";
+import { Hammer, Zap, ArrowRight } from "lucide-react";
+import { useState, useLayoutEffect } from "react";
 
-const TAB_CONFIG = [
-  {
-    id: "hero",
-    label: "Marketplace",
-    shortLabel: "Market",
-    icon: Store,
-    description: "Browse all market listings",
-  },
-  {
-    id: "guild",
-    label: "Guild The One",
-    shortLabel: "Guild",
-    icon: Users,
-    description: "Trusted guild trades",
-  },
-  {
-    id: "craft",
-    label: "Crafting Calculator",
-    shortLabel: "Craft",
-    icon: Hammer,
-    description: "Building cost estimates",
-  },
-  {
-    id: "calculator",
-    label: "Energy Calculator",
-    shortLabel: "Energy",
-    icon: Zap,
-    description: "Energy cost analysis",
-  },
-  {
-    id: "profile",
-    label: "Owner Profile",
-    shortLabel: "Profile",
-    icon: User,
-    description: "View owner marketplace listings",
-  },
-];
+const WELCOME_TABS = [
+  ...MAIN_NAV_TABS,
+  PROFILE_NAV_TAB,
+].map((tab) => ({
+  ...tab,
+  description:
+    tab.id === "hero"
+      ? "Browse all market listings"
+      : tab.id === "craft"
+        ? "Building cost estimates"
+        : tab.id === "calculator"
+          ? "Energy cost analysis"
+          : "View owner marketplace listings",
+}));
+const WELCOME_DISMISSED_KEY = "welcome-dismissed";
+
+function dismissWelcome() {
+  sessionStorage.setItem(WELCOME_DISMISSED_KEY, "1");
+}
 
 export default function HomePage() {
-  const [activeTab, setActiveTab] = useState("hero");
-  const [showWelcome, setShowWelcome] = useState(true);
+  const [activeTab, setActiveTab] = useState<NavTabId>("hero");
+  const [showWelcome, setShowWelcome] = useState(false);
+  const [isReady, setIsReady] = useState(false);
 
-  // Filter out guild tab for now
-  const visibleTabs = TAB_CONFIG.filter((tab) => tab.id !== "guild");
-
-  useEffect(() => {
+  useLayoutEffect(() => {
     const hash = window.location.hash.replace("#", "");
-    if (hash && visibleTabs.some((tab) => tab.id === hash)) {
-      setActiveTab(hash);
-      setShowWelcome(false);
-    } else if (hash === "guild") {
-      // If someone tries to access guild tab, redirect to hero
+
+    if (hash === "guild") {
       setActiveTab("hero");
-      setShowWelcome(false);
       window.history.replaceState(null, "", "#hero");
+    } else if (hash && ALL_NAV_TAB_IDS.includes(hash as NavTabId)) {
+      setActiveTab(hash as NavTabId);
     }
-  }, [visibleTabs]);
 
-  const handleTabChange = (value: string) => {
-    setActiveTab(value);
-    setShowWelcome(false);
-    window.history.replaceState(null, "", `#${value}`);
-  };
+    const hasHash = Boolean(hash);
+    const dismissed = sessionStorage.getItem(WELCOME_DISMISSED_KEY);
+    if (!hasHash && !dismissed) {
+      setShowWelcome(true);
+    }
 
-  const handleQuickNav = (tabId: string) => {
+    setIsReady(true);
+  }, []);
+
+  const handleTabChange = (tabId: NavTabId) => {
     setActiveTab(tabId);
+    dismissWelcome();
     setShowWelcome(false);
     window.history.replaceState(null, "", `#${tabId}`);
   };
 
+  const handleQuickNav = (tabId: NavTabId) => {
+    handleTabChange(tabId);
+  };
+
   return (
     <div className="min-h-screen w-full flex flex-col bg-gradient-to-b from-background to-muted/30">
-      <header className="flex-none sticky top-0 z-50 backdrop-blur-md bg-background/90 border-b border-border/50 shadow-sm">
-        <Navbar />
+      <header className="flex-none sticky top-0 z-50">
+        <Navbar activeTab={activeTab} onTabChange={handleTabChange} />
       </header>
 
       <main id="main-content" className="flex-grow relative">
@@ -101,8 +83,8 @@ export default function HomePage() {
         <div className="absolute inset-0 -z-10 bg-[url('data:image/svg+xml,%3Csvg%20width%3D%2260%22%20height%3D%2260%22%20viewBox%3D%220%200%2060%2060%22%20xmlns%3D%22http%3A//www.w3.org/2000/svg%22%3E%3Cg%20fill%3D%22none%22%20fill-rule%3D%22evenodd%22%3E%3Cg%20fill%3D%22%239C92AC%22%20fill-opacity%3D%220.03%22%3E%3Cpath%20d%3D%22M36%2034v-4h-2v4h-4v2h4v4h2v-4h4v-2h-4zm0-30V0h-2v4h-4v2h4v4h2V6h4V4h-4zM6%2034v-4H4v4H0v2h4v4h2v-4h4v-2H6zM6%204V0H4v4H0v2h4v4h2V6h4V4H6z%22/%3E%3C/g%3E%3C/g%3E%3C/svg%3E')] opacity-50" />
 
         <div className="container mx-auto max-w-7xl px-4 py-6">
-          {/* Welcome Section - Shows on first visit */}
-          {showWelcome && (
+          {/* Welcome Section - first visit only (after client init, no SSR flash) */}
+          {isReady && showWelcome && (
             <div className="mb-6 sm:mb-8 animate-in fade-in slide-in-from-top-4 duration-500">
               <div className="text-center mb-6 sm:mb-8">
                 <h1 className="text-2xl sm:text-4xl md:text-5xl font-bold bg-gradient-to-r from-primary via-primary/80 to-primary/60 bg-clip-text text-transparent mb-2 sm:mb-3">
@@ -116,7 +98,7 @@ export default function HomePage() {
 
               {/* Quick Navigation Cards */}
               <div className="grid grid-cols-2 lg:grid-cols-4 gap-3 sm:gap-4 mb-6">
-                {visibleTabs.map((tab) => (
+                {WELCOME_TABS.map((tab) => (
                   <button
                     key={tab.id}
                     onClick={() => handleQuickNav(tab.id)}
@@ -143,66 +125,19 @@ export default function HomePage() {
             </div>
           )}
 
-          {/* Main Tabs */}
-          <Tabs
-            value={activeTab}
-            onValueChange={handleTabChange}
-            className="w-full"
-          >
-            <div className="sticky top-[64px] z-40 bg-background/95 backdrop-blur-sm py-2 sm:py-3 -mx-4 px-4 mb-4">
-              <TabsList className="grid w-full max-w-3xl mx-auto grid-cols-4 h-10 sm:h-12 p-1 bg-muted/80">
-                {visibleTabs.map((tab) => (
-                  <TabsTrigger
-                    key={tab.id}
-                    value={tab.id}
-                    className="flex items-center justify-center gap-1 sm:gap-1.5 text-[10px] sm:text-sm font-medium data-[state=active]:bg-background data-[state=active]:shadow-sm transition-all px-1 sm:px-3"
-                  >
-                    <tab.icon className="h-3.5 w-3.5 sm:h-4 sm:w-4 shrink-0" />
-                    <span className="truncate">{tab.shortLabel}</span>
-                  </TabsTrigger>
-                ))}
-              </TabsList>
-            </div>
+          <div className="w-full animate-in fade-in-50 duration-300">
+            {activeTab === "hero" && <Hero />}
 
-            <TabsContent value="hero" className="mt-0 animate-in fade-in-50 duration-300">
-              <Hero />
-            </TabsContent>
-
-            <TabsContent value="guild" className="mt-0 animate-in fade-in-50 duration-300">
+            {activeTab === "craft" && (
               <div className="py-6">
                 <Container>
-                  <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4 mb-6">
+                  <div className="mb-6 flex flex-col justify-between gap-4 sm:flex-row sm:items-center">
                     <div className="flex items-center gap-3">
-                      <div className="p-2.5 bg-gradient-to-br from-primary to-primary/80 rounded-xl shadow-lg shadow-primary/20">
-                        <Users className="h-6 w-6 text-primary-foreground" />
-                      </div>
-                      <div>
-                        <h1 className="text-2xl sm:text-3xl font-bold text-foreground">
-                          Guild The One
-                        </h1>
-                        <p className="text-sm text-muted-foreground">
-                          Trade safely with trusted guild members
-                        </p>
-                      </div>
-                    </div>
-                  </div>
-                  <div className="rounded-xl border border-border/60 bg-card/30 overflow-hidden">
-                    <GuildList />
-                  </div>
-                </Container>
-              </div>
-            </TabsContent>
-
-            <TabsContent value="craft" className="mt-0 animate-in fade-in-50 duration-300">
-              <div className="py-6">
-                <Container>
-                  <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4 mb-6">
-                    <div className="flex items-center gap-3">
-                      <div className="p-2.5 bg-gradient-to-br from-amber-500 to-orange-500 rounded-xl shadow-lg shadow-amber-500/20">
+                      <div className="rounded-xl bg-gradient-to-br from-amber-500 to-orange-500 p-2.5 shadow-lg shadow-amber-500/20">
                         <Hammer className="h-6 w-6 text-white" />
                       </div>
                       <div>
-                        <h1 className="text-2xl sm:text-3xl font-bold text-foreground">
+                        <h1 className="text-2xl font-bold text-foreground sm:text-3xl">
                           Building Cost Calculator
                         </h1>
                         <p className="text-sm text-muted-foreground">
@@ -211,23 +146,23 @@ export default function HomePage() {
                       </div>
                     </div>
                   </div>
-                  <div className="rounded-xl border border-border/60 bg-card/30 overflow-hidden">
+                  <div className="overflow-hidden rounded-xl border border-border/60 bg-card/30">
                     <CraftCalculator />
                   </div>
                 </Container>
               </div>
-            </TabsContent>
+            )}
 
-            <TabsContent value="calculator" className="mt-0 animate-in fade-in-50 duration-300">
+            {activeTab === "calculator" && (
               <div className="py-6">
                 <Container>
-                  <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4 mb-6">
+                  <div className="mb-6 flex flex-col justify-between gap-4 sm:flex-row sm:items-center">
                     <div className="flex items-center gap-3">
-                      <div className="p-2.5 bg-gradient-to-br from-blue-500 to-cyan-500 rounded-xl shadow-lg shadow-blue-500/20">
+                      <div className="rounded-xl bg-gradient-to-br from-blue-500 to-cyan-500 p-2.5 shadow-lg shadow-blue-500/20">
                         <Zap className="h-6 w-6 text-white" />
                       </div>
                       <div>
-                        <h1 className="text-2xl sm:text-3xl font-bold text-foreground">
+                        <h1 className="text-2xl font-bold text-foreground sm:text-3xl">
                           Energy Cost Calculator
                         </h1>
                         <p className="text-sm text-muted-foreground">
@@ -236,17 +171,15 @@ export default function HomePage() {
                       </div>
                     </div>
                   </div>
-                  <div className="rounded-xl border border-border/60 bg-card/30 overflow-hidden">
+                  <div className="overflow-hidden rounded-xl border border-border/60 bg-card/30">
                     <TaskCalculator />
                   </div>
                 </Container>
               </div>
-            </TabsContent>
+            )}
 
-            <TabsContent value="profile" className="mt-0 animate-in fade-in-50 duration-300">
-              <ProfileSearch />
-            </TabsContent>
-          </Tabs>
+            {activeTab === "profile" && <ProfileSearch />}
+          </div>
         </div>
       </main>
 

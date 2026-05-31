@@ -1,58 +1,31 @@
 "use client";
 
-import { useRouter } from "next/navigation";
 import { Button } from "@/components/ui/button";
-import { LogOut, User, Home, Settings, Menu, Moon, Sun } from "lucide-react";
-import {
-  Sheet,
-  SheetContent,
-  SheetTrigger,
-  SheetHeader,
-  SheetTitle,
-} from "@/components/ui/sheet";
+import { Moon, Sun } from "lucide-react";
 import { useState, useEffect } from "react";
 import Link from "next/link";
-import { getSupabaseClient } from "@/lib/supabaseClient";
+import { NavTabMenu } from "./NavTabMenu";
+import type { NavTabId } from "./nav-tabs";
 
-export const Navbar = () => {
-  const [userEmail, setUserEmail] = useState<string | null>(null);
+type NavbarProps = {
+  activeTab?: NavTabId;
+  onTabChange?: (tabId: NavTabId) => void;
+};
+
+export const Navbar = ({ activeTab, onTabChange }: NavbarProps) => {
   const [mounted, setMounted] = useState(false);
   const [isDark, setIsDark] = useState(false);
-  const [isLoggedIn, setIsLoggedIn] = useState(false);
-  const supabase = getSupabaseClient();
-  const router = useRouter();
+  const showTabs = activeTab !== undefined && onTabChange !== undefined;
 
   useEffect(() => {
     setMounted(true);
 
-    // Check for saved theme preference
     const savedTheme = localStorage.getItem("theme");
     if (savedTheme === "dark") {
       setIsDark(true);
       document.documentElement.classList.add("dark");
     }
-
-    // Get initial session
-    const getInitialSession = async () => {
-      const {
-        data: { session },
-      } = await supabase.auth.getSession();
-      setIsLoggedIn(!!session);
-      setUserEmail(session?.user?.email || null);
-    };
-
-    getInitialSession();
-
-    // Listen for auth state changes
-    const {
-      data: { subscription },
-    } = supabase.auth.onAuthStateChange((_event, session) => {
-      setIsLoggedIn(!!session);
-      setUserEmail(session?.user?.email || null);
-    });
-
-    return () => subscription.unsubscribe();
-  }, [supabase.auth]);
+  }, []);
 
   const toggleTheme = () => {
     const newIsDark = !isDark;
@@ -67,173 +40,45 @@ export const Navbar = () => {
     }
   };
 
-  const handleLogout = async () => {
-    await supabase.auth.signOut();
-    setIsLoggedIn(false);
-    setUserEmail(null);
-    router.push("/login");
-  };
-
-  const navItems = isLoggedIn
-    ? [
-        {
-          icon: Home,
-          label: "Dashboard",
-          href: "/dashboard",
-          onClick: () => router.push("/dashboard"),
-        },
-        {
-          icon: User,
-          label: "Profile",
-          href: "/profile",
-          onClick: () => router.push("/profile"),
-        },
-        {
-          icon: Settings,
-          label: "Settings",
-          href: "/settings",
-          onClick: () => router.push("/settings"),
-        },
-      ]
-    : [];
-
-  // Avoid hydration mismatch by not rendering until mounted
   if (!mounted) {
     return (
-      <nav className="sticky top-0 z-50 backdrop-blur-sm bg-background/80 border-b border-border/40">
-        <div className="flex items-center justify-between px-6 h-16">
-          <div className="flex items-center gap-6">
-            <h1 className="text-xl font-bold text-foreground flex items-center gap-2">
-              <div className="w-2 h-2 bg-primary rounded-full animate-pulse" />
-              SML Tavern
-            </h1>
-          </div>
+      <nav className="sticky top-0 z-50 border-b border-border/40 bg-background/90 backdrop-blur-md">
+        <div className="mx-auto flex h-14 max-w-7xl items-center justify-between gap-4 px-4 sm:h-16 sm:px-6">
+          <h1 className="flex shrink-0 items-center gap-2 text-lg font-bold text-foreground sm:text-xl">
+            <span className="h-2 w-2 animate-pulse rounded-full bg-primary" />
+            SML Tavern
+          </h1>
         </div>
       </nav>
     );
   }
 
   return (
-    <nav className="sticky top-0 z-50 backdrop-blur-sm bg-background/80 border-b border-border/40">
-      <div className="flex items-center justify-between px-6 h-16">
-        <div className="flex items-center gap-6">
-          <Link
-            href="/"
-            className="text-xl font-bold text-foreground flex items-center gap-2"
-          >
-            <div className="w-2 h-2 bg-primary rounded-full animate-pulse" />
-            SML Tavern
-          </Link>
+    <nav className="sticky top-0 z-50 border-b border-border/40 bg-background/90 backdrop-blur-md">
+      <div className="relative mx-auto flex h-auto min-h-14 max-w-7xl flex-wrap items-center justify-between gap-3 px-4 py-2 sm:min-h-16 sm:px-6">
+        <Link
+          href="/"
+          className="z-10 flex shrink-0 items-center gap-2 text-lg font-bold text-foreground transition-opacity hover:opacity-90 sm:text-xl"
+        >
+          <span className="h-2 w-2 animate-pulse rounded-full bg-primary" />
+          SML Tavern
+        </Link>
 
-          {isLoggedIn && (
-            <div className="hidden md:flex items-center gap-4">
-              {navItems.map((item) => (
-                <Button
-                  key={item.label}
-                  variant="ghost"
-                  size="sm"
-                  onClick={item.onClick}
-                  className="text-foreground/80 hover:text-foreground"
-                >
-                  <item.icon className="w-4 h-4 mr-2" />
-                  {item.label}
-                </Button>
-              ))}
-            </div>
-          )}
-        </div>
+        {showTabs && (
+          <div className="flex w-full justify-center sm:absolute sm:left-1/2 sm:w-auto sm:-translate-x-1/2">
+            <NavTabMenu activeTab={activeTab} onTabChange={onTabChange} />
+          </div>
+        )}
 
-        <div className="flex items-center gap-4">
-          {/* Theme Toggle Button */}
-          <Button
-            variant="ghost"
-            size="icon"
-            onClick={toggleTheme}
-            className="text-foreground/80 hover:text-foreground"
-            aria-label="Toggle theme"
-          >
-            {isDark ? <Sun size={20} /> : <Moon size={20} />}
-          </Button>
-
-          {isLoggedIn && userEmail && (
-            <span className="text-sm text-foreground/70 hidden lg:block">
-              {userEmail}
-            </span>
-          )}
-
-          {isLoggedIn && (
-            <>
-              <Button
-                variant="outline"
-                size="sm"
-                onClick={handleLogout}
-                className="hidden md:flex text-destructive hover:text-destructive hover:bg-destructive/10 border-destructive/20"
-              >
-                <LogOut className="w-4 h-4 mr-2" />
-                Logout
-              </Button>
-
-              <Sheet>
-                <SheetTrigger asChild>
-                  <Button
-                    variant="ghost"
-                    size="icon"
-                    className="md:hidden text-foreground/80 hover:text-foreground"
-                  >
-                    <Menu className="w-5 h-5" />
-                  </Button>
-                </SheetTrigger>
-                <SheetContent side="right" className="w-64">
-                  <SheetHeader className="mb-6">
-                    <SheetTitle className="text-left">Navigation</SheetTitle>
-                  </SheetHeader>
-
-                  <div className="space-y-2">
-                    {navItems.map((item) => (
-                      <Button
-                        key={item.label}
-                        variant="ghost"
-                        className="w-full justify-start text-foreground/80 hover:text-foreground"
-                        onClick={item.onClick}
-                      >
-                        <item.icon className="w-4 h-4 mr-3" />
-                        {item.label}
-                      </Button>
-                    ))}
-
-                    {/* Theme Toggle in Mobile Menu */}
-                    <Button
-                      variant="ghost"
-                      className="w-full justify-start text-foreground/80 hover:text-foreground"
-                      onClick={toggleTheme}
-                    >
-                      {isDark ? (
-                        <>
-                          <Sun className="w-4 h-4 mr-3" />
-                          Light Mode
-                        </>
-                      ) : (
-                        <>
-                          <Moon className="w-4 h-4 mr-3" />
-                          Dark Mode
-                        </>
-                      )}
-                    </Button>
-
-                    <Button
-                      variant="outline"
-                      className="w-full justify-start text-destructive hover:text-destructive hover:bg-destructive/10 border-destructive/20 mt-4"
-                      onClick={handleLogout}
-                    >
-                      <LogOut className="w-4 h-4 mr-3" />
-                      Logout
-                    </Button>
-                  </div>
-                </SheetContent>
-              </Sheet>
-            </>
-          )}
-        </div>
+        <Button
+          variant="ghost"
+          size="icon"
+          onClick={toggleTheme}
+          className="z-10 ml-auto shrink-0 text-foreground/80 hover:text-foreground"
+          aria-label="Toggle theme"
+        >
+          {isDark ? <Sun size={20} /> : <Moon size={20} />}
+        </Button>
       </div>
     </nav>
   );
