@@ -413,7 +413,7 @@ export function OwnerProfileView({ ownerId }: OwnerProfileViewProps) {
 
   // Filter listings (sort applied separately)
   const filteredListings = useMemo(() => {
-    let listings = activeTab === "sell" ? ownerListings.sell : ownerListings.buy;
+    const listings = activeTab === "sell" ? ownerListings.sell : ownerListings.buy;
 
     return listings.filter((listing) => {
       const matchesSearch =
