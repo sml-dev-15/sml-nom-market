@@ -203,8 +203,12 @@ export function DataTable<TData, TValue>({
               <SelectValue placeholder="Market Type" />
             </SelectTrigger>
             <SelectContent>
-              <SelectItem value="toBuy">To Buy</SelectItem>
-              <SelectItem value="toSell">To Sell</SelectItem>
+              <SelectItem value="toBuy" className="font-mono">
+                For Sale
+              </SelectItem>
+              <SelectItem value="toSell" className="font-mono">
+                Wants to Buy
+              </SelectItem>
             </SelectContent>
           </Select>
           <div className="w-full min-w-[100px] lg:w-fit  md:min-w-unset">

@@ -1,6 +1,6 @@
 "use client";
 
-import { useState } from "react";
+import { useMemo, useState, type ReactNode } from "react";
 import { Container } from "@/components/ui/container";
 import { DataTable } from "@/components/ui/data-table";
 import { dataColumns } from "./components/Column";
@@ -9,246 +9,402 @@ import { useMarketStore } from "@/hooks/buy-toggle";
 import { useFetchMarketData } from "@/hooks/data-fetch";
 import { Skeleton } from "@/components/ui/skeleton";
 import { Alert, AlertDescription, AlertTitle } from "@/components/ui/alert";
-import { Card, CardContent } from "@/components/ui/card";
+import {
+  Card,
+  CardContent,
+  CardHeader,
+  CardTitle,
+} from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { Tabs, TabsList, TabsTrigger, TabsContent } from "@/components/ui/tabs";
 import {
   AlertCircle,
   RefreshCw,
-  TrendingUp,
   BarChart3,
-  Store,
   Sparkles,
+  Package,
+  ShoppingCart,
+  Users,
+  LayoutGrid,
 } from "lucide-react";
 import { Badge } from "@/components/ui/badge";
+import { cn } from "@/lib/utils";
+
+type MarketType = "toBuy" | "toSell";
+
+const MARKET_TABS = {
+  toBuy: {
+    title: "For Sale",
+    shortTitle: "Selling",
+    description: "Items listed for purchase",
+    icon: Package,
+  },
+  toSell: {
+    title: "Wants to Buy",
+    shortTitle: "Buying",
+    description: "Buy orders — sell to these players",
+    icon: ShoppingCart,
+  },
+} as const;
+
+function formatNumber(value: number): string {
+  return value.toLocaleString(undefined, { maximumFractionDigits: 0 });
+}
+
+function SummaryCard({
+  icon,
+  title,
+  value,
+  subValue,
+  accentClass,
+}: {
+  icon: ReactNode;
+  title: string;
+  value: string;
+  subValue?: string;
+  accentClass: string;
+}) {
+  return (
+    <Card
+      className={cn(
+        "border shadow-sm transition-all hover:shadow-md",
+        accentClass
+      )}
+    >
+      <CardContent className="p-4">
+        <div className="flex items-center gap-2 mb-2">
+          {icon}
+          <span className="text-xs uppercase tracking-wider text-muted-foreground font-mono">
+            {title}
+          </span>
+        </div>
+        <p className="text-lg font-bold font-mono tabular-nums">{value}</p>
+        {subValue && (
+          <p className="text-xs text-muted-foreground font-mono mt-0.5">
+            {subValue}
+          </p>
+        )}
+      </CardContent>
+    </Card>
+  );
+}
+
+function EmptyState({
+  icon: Icon,
+  title,
+  description,
+  onRefresh,
+}: {
+  icon: typeof BarChart3;
+  title: string;
+  description: string;
+  onRefresh: () => void;
+}) {
+  return (
+    <div className="p-8 text-center text-muted-foreground">
+      <Icon className="h-12 w-12 mx-auto mb-4 opacity-50" />
+      <p className="font-mono font-semibold text-foreground">{title}</p>
+      <p className="text-sm font-mono mt-1 max-w-md mx-auto">{description}</p>
+      <Button onClick={onRefresh} variant="outline" className="mt-4 font-mono">
+        <RefreshCw className="h-4 w-4 mr-2" />
+        Refresh Data
+      </Button>
+    </div>
+  );
+}
 
 export const Hero = () => {
   const { marketType, setMarketType } = useMarketStore();
-  const { data, loading, error, refetch } = useFetchMarketData(marketType);
+  const {
+    data: forSaleData,
+    loading: loadingForSale,
+    error: errorForSale,
+    refetch: refetchForSale,
+  } = useFetchMarketData("toBuy");
+  const {
+    data: buyOrderData,
+    loading: loadingBuyOrders,
+    error: errorBuyOrders,
+    refetch: refetchBuyOrders,
+  } = useFetchMarketData("toSell");
+
   const [activeView, setActiveView] = useState<"table" | "deals">("table");
-  type MarketType = "toBuy" | "toSell";
+
+  const data = marketType === "toBuy" ? forSaleData : buyOrderData;
+  const loading = marketType === "toBuy" ? loadingForSale : loadingBuyOrders;
+  const error = marketType === "toBuy" ? errorForSale : errorBuyOrders;
+
+  const refetch = () => {
+    refetchForSale();
+    refetchBuyOrders();
+  };
+
+  const marketStats = useMemo(() => {
+    const current = data ?? [];
+    const sellers = new Set(current.map((item) => item.owner).filter(Boolean));
+    const items = new Set(current.map((item) => item.slug).filter(Boolean));
+    const categories = new Set(
+      current.map((item) => item.category).filter(Boolean)
+    );
+
+    return {
+      sellers: sellers.size,
+      uniqueItems: items.size,
+      categories: categories.size,
+    };
+  }, [data]);
+
+  const MarketTabIcon = MARKET_TABS[marketType].icon;
 
   return (
-    <div className="w-full min-h-screen rounded-2xl py-8">
-      <Container className="relative z-20">
-        {/* Header Section */}
-        <div className="flex flex-col gap-4 mb-8">
-          <div className="flex items-center gap-3">
-            <div className="p-2 bg-primary rounded-lg">
-              <BarChart3 className="h-6 w-6 text-primary-foreground" />
-            </div>
-            <h1 className="text-3xl font-bold tracking-tight text-accent-foreground">
-              Market Data
-            </h1>
-          </div>
-          <p className="text-muted-foreground max-w-2xl">
-            Explore real-time market data, analyze trends, and make informed
-            decisions with our comprehensive market insights.
-          </p>
-        </div>
+    <div className="w-full py-8">
+      <Container>
+        <Card className="bg-card border-border shadow-md mb-6">
+          <CardHeader>
+            <CardTitle className="flex items-center justify-between font-mono flex-wrap gap-4">
+              <div className="flex items-center gap-2">
+                <BarChart3 className="h-5 w-5 text-primary" />
+                Marketplace
+              </div>
+              <Button
+                onClick={refetch}
+                variant="outline"
+                size="sm"
+                disabled={loadingForSale || loadingBuyOrders}
+                className="font-mono shrink-0"
+              >
+                <RefreshCw
+                  className={`h-4 w-4 mr-2 ${loading ? "animate-spin" : ""}`}
+                />
+                Refresh
+              </Button>
+            </CardTitle>
+            <p className="text-sm text-muted-foreground font-mono mt-1">
+              Browse live listings, compare prices, and find the best deals.
+            </p>
+          </CardHeader>
 
-        <div className="mb-6">
-          <Tabs
-            value={marketType}
-            onValueChange={(value: string) =>
-              setMarketType(value as MarketType)
-            }
-            className="w-full"
-          >
-            <TabsList className="grid grid-cols-2 md:grid-cols-4 lg:w-[400px] mb-4">
-              <TabsTrigger value="toBuy" className="flex items-center gap-2">
-                <Store className="h-4 w-4" />
-                To Buy
-              </TabsTrigger>
-              <TabsTrigger value="toSell" className="flex items-center gap-2">
-                <TrendingUp className="h-4 w-4" />
-                To Sell
-              </TabsTrigger>
-            </TabsList>
-          </Tabs>
-          <div className="flex items-center gap-4">
-            <Badge variant="outline" className="flex items-center gap-1">
-              <TrendingUp className="h-3 w-3" />
-              {data?.length || 0} items
-            </Badge>
-            <Button
-              onClick={refetch}
-              variant="outline"
-              size="sm"
-              disabled={loading}
-              className="flex items-center gap-2 text-black dark:text-white"
-            >
-              <RefreshCw
-                className={`h-4 w-4 ${loading ? "animate-spin" : ""}`}
+          <CardContent className="space-y-6">
+            <div className="grid grid-cols-1 sm:grid-cols-2 xl:grid-cols-4 gap-3">
+              <SummaryCard
+                icon={<Package className="h-4 w-4 text-chart-4" />}
+                title="For Sale"
+                value={formatNumber(forSaleData?.length ?? 0)}
+                subValue="Items you can purchase"
+                accentClass="border-chart-4/25 bg-chart-4/5"
               />
-              Refresh
-            </Button>
-          </div>
-        </div>
+              <SummaryCard
+                icon={<ShoppingCart className="h-4 w-4 text-chart-3" />}
+                title="Wants to Buy"
+                value={formatNumber(buyOrderData?.length ?? 0)}
+                subValue="Buy orders on the market"
+                accentClass="border-chart-3/25 bg-chart-3/5"
+              />
+              <SummaryCard
+                icon={<Users className="h-4 w-4 text-primary" />}
+                title="Active Sellers"
+                value={formatNumber(marketStats.sellers)}
+                subValue={`In current ${MARKET_TABS[marketType].title.toLowerCase()} view`}
+                accentClass="border-primary/25 bg-primary/5"
+              />
+              <SummaryCard
+                icon={<LayoutGrid className="h-4 w-4 text-blue-400" />}
+                title="Unique Items"
+                value={formatNumber(marketStats.uniqueItems)}
+                subValue={`${marketStats.categories} categories`}
+                accentClass="border-blue-500/25 bg-blue-500/5"
+              />
+            </div>
 
-        {/* View Tabs */}
-        <Tabs
-          value={activeView}
-          onValueChange={(value) => setActiveView(value as "table" | "deals")}
-          className="w-full mb-6"
-        >
-          <TabsList className="grid grid-cols-2 w-fit mb-4">
-            <TabsTrigger value="table" className="flex items-center gap-2">
-              <BarChart3 className="h-4 w-4" />
-              Market Table
-            </TabsTrigger>
-            <TabsTrigger value="deals" className="flex items-center gap-2">
-              <Sparkles className="h-4 w-4" />
-              Best Deals
-            </TabsTrigger>
-          </TabsList>
-
-          <TabsContent value="table" className="mt-0">
-            {loading ? (
-              <div className="space-y-4">
-                <div className="flex items-center justify-between">
-                  <Skeleton className="h-10 w-64" />
-                  <Skeleton className="h-10 w-32" />
-                </div>
-                <div className="space-y-2">
-                  {[...Array(6)].map((_, i) => (
-                    <Skeleton key={i} className="h-16 w-full" />
-                  ))}
-                </div>
+            {/* Market type tabs */}
+            <Tabs
+              value={marketType}
+              onValueChange={(value) => setMarketType(value as MarketType)}
+              className="w-full"
+            >
+              <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-3">
+                <TabsList className="font-mono w-full sm:w-auto grid grid-cols-2 sm:inline-flex h-auto gap-1 p-1">
+                  <TabsTrigger
+                    value="toBuy"
+                    className="gap-1 sm:gap-2 font-mono text-xs sm:text-sm min-w-0 px-2 sm:px-3 py-2"
+                  >
+                    <Package className="h-3.5 w-3.5 sm:h-4 sm:w-4 shrink-0" />
+                    <span className="truncate sm:hidden">
+                      {MARKET_TABS.toBuy.shortTitle}
+                    </span>
+                    <span className="truncate hidden sm:inline">
+                      {MARKET_TABS.toBuy.title}
+                    </span>
+                    <Badge
+                      variant="secondary"
+                      className="ml-auto sm:ml-1 font-mono text-[10px] sm:text-xs shrink-0 tabular-nums"
+                    >
+                      {forSaleData?.length ?? 0}
+                    </Badge>
+                  </TabsTrigger>
+                  <TabsTrigger
+                    value="toSell"
+                    className="gap-1 sm:gap-2 font-mono text-xs sm:text-sm min-w-0 px-2 sm:px-3 py-2"
+                  >
+                    <ShoppingCart className="h-3.5 w-3.5 sm:h-4 sm:w-4 shrink-0" />
+                    <span className="truncate sm:hidden">
+                      {MARKET_TABS.toSell.shortTitle}
+                    </span>
+                    <span className="truncate hidden sm:inline">
+                      {MARKET_TABS.toSell.title}
+                    </span>
+                    <Badge
+                      variant="secondary"
+                      className="ml-auto sm:ml-1 font-mono text-[10px] sm:text-xs shrink-0 tabular-nums"
+                    >
+                      {buyOrderData?.length ?? 0}
+                    </Badge>
+                  </TabsTrigger>
+                </TabsList>
+                <Badge variant="outline" className="font-mono text-xs w-fit shrink-0">
+                  {MARKET_TABS[marketType].description}
+                </Badge>
               </div>
-            ) : error ? (
-              <Alert variant="destructive" className="mb-6">
-                <AlertCircle className="h-4 w-4" />
-                <AlertTitle>Error Loading Data</AlertTitle>
-                <AlertDescription>
-                  {error}. Please try refreshing the page or check your connection.
-                </AlertDescription>
-                <div className="mt-4">
-                  <Button onClick={refetch} variant="outline" size="sm">
-                    <RefreshCw className="h-4 w-4 mr-2" />
-                    Try Again
-                  </Button>
-                </div>
-              </Alert>
-            ) : data && data.length > 0 ? (
-              <Card>
-                <CardContent className="px-5">
-                  <DataTable
-                    filterColumn="name"
-                    columns={dataColumns(marketType)}
-                    data={data}
-                  />
-                </CardContent>
-              </Card>
-            ) : (
-              <Card>
-                <CardContent className="py-12 text-center">
-                  <div className="mx-auto bg-muted rounded-full p-4 w-fit mb-4">
-                    <BarChart3 className="h-8 w-8 text-muted-foreground" />
+            </Tabs>
+
+            {/* View tabs */}
+            <Tabs
+              value={activeView}
+              onValueChange={(value) => setActiveView(value as "table" | "deals")}
+              className="w-full"
+            >
+              <TabsList className="font-mono w-full sm:w-auto grid grid-cols-2 sm:inline-flex h-auto gap-1 p-1">
+                <TabsTrigger
+                  value="table"
+                  className="gap-1 sm:gap-2 font-mono text-xs sm:text-sm px-2 sm:px-3 py-2"
+                >
+                  <BarChart3 className="h-3.5 w-3.5 sm:h-4 sm:w-4 shrink-0" />
+                  <span className="sm:hidden">Table</span>
+                  <span className="hidden sm:inline">Market Table</span>
+                </TabsTrigger>
+                <TabsTrigger
+                  value="deals"
+                  className="gap-1 sm:gap-2 font-mono text-xs sm:text-sm px-2 sm:px-3 py-2"
+                >
+                  <Sparkles className="h-3.5 w-3.5 sm:h-4 sm:w-4 shrink-0" />
+                  Best Deals
+                </TabsTrigger>
+              </TabsList>
+
+              <TabsContent value="table" className="mt-4">
+                <Card className="shadow-sm border-border/80">
+                  <CardContent className="p-0 sm:p-2">
+                    {loading ? (
+                      <div className="space-y-3 p-4">
+                        <Skeleton className="h-10 w-full max-w-md" />
+                        {[...Array(6)].map((_, i) => (
+                          <Skeleton key={i} className="h-14 w-full" />
+                        ))}
+                      </div>
+                    ) : error ? (
+                      <Alert variant="destructive" className="m-4">
+                        <AlertCircle className="h-4 w-4" />
+                        <AlertTitle className="font-mono">
+                          Error Loading Data
+                        </AlertTitle>
+                        <AlertDescription className="font-mono">
+                          {error}. Please try refreshing or check your connection.
+                        </AlertDescription>
+                        <Button
+                          onClick={refetch}
+                          variant="outline"
+                          size="sm"
+                          className="mt-4 font-mono"
+                        >
+                          <RefreshCw className="h-4 w-4 mr-2" />
+                          Try Again
+                        </Button>
+                      </Alert>
+                    ) : data && data.length > 0 ? (
+                      <DataTable
+                        filterColumn="name"
+                        columns={dataColumns(marketType)}
+                        data={data}
+                      />
+                    ) : (
+                      <EmptyState
+                        icon={MarketTabIcon}
+                        title="No listings available"
+                        description={`There are no ${MARKET_TABS[marketType].title.toLowerCase()} listings right now.`}
+                        onRefresh={refetch}
+                      />
+                    )}
+                  </CardContent>
+                </Card>
+              </TabsContent>
+
+              <TabsContent value="deals" className="mt-4">
+                {loading ? (
+                  <div className="space-y-4">
+                    <Skeleton className="h-48 w-full" />
+                    <Skeleton className="h-48 w-full" />
                   </div>
-                  <h3 className="text-lg font-medium mb-2">
-                    No market data available
-                  </h3>
-                  <p className="text-muted-foreground mb-4">
-                    There&apos;s currently no data for the selected market type.
-                  </p>
-                  <Button onClick={refetch} variant="outline">
-                    <RefreshCw className="h-4 w-4 mr-2" />
-                    Refresh Data
-                  </Button>
-                </CardContent>
-              </Card>
-            )}
-          </TabsContent>
+                ) : error ? (
+                  <Alert variant="destructive">
+                    <AlertCircle className="h-4 w-4" />
+                    <AlertTitle className="font-mono">Error Loading Data</AlertTitle>
+                    <AlertDescription className="font-mono">{error}</AlertDescription>
+                    <Button
+                      onClick={refetch}
+                      variant="outline"
+                      size="sm"
+                      className="mt-4 font-mono"
+                    >
+                      <RefreshCw className="h-4 w-4 mr-2" />
+                      Try Again
+                    </Button>
+                  </Alert>
+                ) : data && data.length > 0 ? (
+                  <BestDealFinder data={data} />
+                ) : (
+                  <Card className="shadow-sm border-border/80">
+                    <CardContent className="p-0">
+                      <EmptyState
+                        icon={Sparkles}
+                        title="No deals to show"
+                        description={`No ${MARKET_TABS[marketType].title.toLowerCase()} listings available for deal analysis.`}
+                        onRefresh={refetch}
+                      />
+                    </CardContent>
+                  </Card>
+                )}
+              </TabsContent>
+            </Tabs>
+          </CardContent>
+        </Card>
 
-          <TabsContent value="deals" className="mt-0">
-            {loading ? (
-              <div className="space-y-4">
-                <Skeleton className="h-64 w-full" />
-                <Skeleton className="h-64 w-full" />
-              </div>
-            ) : error ? (
-              <Alert variant="destructive" className="mb-6">
-                <AlertCircle className="h-4 w-4" />
-                <AlertTitle>Error Loading Data</AlertTitle>
-                <AlertDescription>
-                  {error}. Please try refreshing the page or check your connection.
-                </AlertDescription>
-                <div className="mt-4">
-                  <Button onClick={refetch} variant="outline" size="sm">
-                    <RefreshCw className="h-4 w-4 mr-2" />
-                    Try Again
-                  </Button>
-                </div>
-              </Alert>
-            ) : data && data.length > 0 ? (
-              <BestDealFinder data={data} />
-            ) : (
-              <Card>
-                <CardContent className="py-12 text-center">
-                  <div className="mx-auto bg-muted rounded-full p-4 w-fit mb-4">
-                    <Sparkles className="h-8 w-8 text-muted-foreground" />
-                  </div>
-                  <h3 className="text-lg font-medium mb-2">
-                    No market data available
-                  </h3>
-                  <p className="text-muted-foreground mb-4">
-                    There&apos;s currently no data for the selected market type.
-                  </p>
-                  <Button onClick={refetch} variant="outline">
-                    <RefreshCw className="h-4 w-4 mr-2" />
-                    Refresh Data
-                  </Button>
-                </CardContent>
-              </Card>
-            )}
-          </TabsContent>
-        </Tabs>
-
-        {/* Stats Footer */}
-        <div className="mt-8 grid grid-cols-1 md:grid-cols-3 gap-4">
-          <Card className="bg-gradient-to-r from-blue-50 to-indigo-50 dark:from-slate-800 dark:to-slate-700">
-            <CardContent className="p-4">
-              <div className="flex items-center gap-3">
-                <div className="p-2 bg-blue-100 dark:bg-blue-900/30 rounded-lg">
-                  <TrendingUp className="h-5 w-5 text-blue-600 dark:text-blue-400" />
-                </div>
-                <div>
-                  <p className="text-sm text-muted-foreground">Total Items</p>
-                  <p className="text-2xl font-bold">{data?.length || 0}</p>
-                </div>
-              </div>
-            </CardContent>
-          </Card>
-
-          <Card className="bg-gradient-to-r from-green-50 to-emerald-50 dark:from-slate-800 dark:to-slate-700">
-            <CardContent className="p-4">
-              <div className="flex items-center gap-3">
-                <div className="p-2 bg-green-100 dark:bg-green-900/30 rounded-lg">
-                  <Store className="h-5 w-5 text-green-600 dark:text-green-400" />
-                </div>
-                <div>
-                  <p className="text-sm text-muted-foreground">Market Type</p>
-                  <p className="text-xl font-bold capitalize">{marketType}</p>
-                </div>
-              </div>
-            </CardContent>
-          </Card>
-
-          <Card className="bg-gradient-to-r from-purple-50 to-violet-50 dark:from-slate-800 dark:to-slate-700">
-            <CardContent className="p-4">
-              <div className="flex items-center gap-3">
-                <div className="p-2 bg-purple-100 dark:bg-purple-900/30 rounded-lg">
-                  <BarChart3 className="h-5 w-5 text-purple-600 dark:text-purple-400" />
-                </div>
-                <div>
-                  <p className="text-sm text-muted-foreground">Last Updated</p>
-                  <p className="text-sm font-medium">Just now</p>
-                </div>
-              </div>
-            </CardContent>
-          </Card>
-        </div>
+        <Alert className="bg-accent/10 border-accent/20">
+          <Sparkles className="h-4 w-4 text-primary" />
+          <AlertDescription>
+            <div className="space-y-2">
+              <p className="font-semibold text-foreground font-mono">
+                Marketplace tips:
+              </p>
+              <ul className="text-sm text-muted-foreground space-y-1 font-mono">
+                <li>
+                  • <strong>For Sale</strong> — browse items you can purchase from
+                  sellers
+                </li>
+                <li>
+                  • <strong>Wants to Buy</strong> — browse buy orders where you can
+                  sell your items
+                </li>
+                <li>
+                  • Use filters in the table to narrow by category, name, or column
+                </li>
+                <li>
+                  • Switch to <strong>Best Deals</strong> to find the lowest prices
+                  per item or category
+                </li>
+              </ul>
+            </div>
+          </AlertDescription>
+        </Alert>
       </Container>
     </div>
   );

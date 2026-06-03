@@ -1,25 +1,74 @@
 "use client";
 
+import { type ReactNode } from "react";
 import { Button } from "@/components/ui/button";
-import { Card } from "@/components/ui/card";
+import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
+import { Badge } from "@/components/ui/badge";
+import { Alert, AlertDescription } from "@/components/ui/alert";
 import { FEATURES } from "@/components/feature/Navbar/nav-tabs";
 import type { NavTabId } from "@/components/feature/Navbar/nav-tabs";
-import { ArrowRight, Sparkles } from "lucide-react";
+import {
+  ArrowRight,
+  Sparkles,
+  BarChart3,
+  Zap,
+  Package,
+  ShoppingCart,
+  LayoutGrid,
+} from "lucide-react";
 import { cn } from "@/lib/utils";
 
 const ACCENT_STYLES: Record<NavTabId, string> = {
-  hero: "from-primary/20 to-primary/5 border-primary/30",
-  craft: "from-amber-500/20 to-amber-500/5 border-amber-500/30",
-  calculator: "from-blue-500/20 to-blue-500/5 border-blue-500/30",
-  profile: "from-violet-500/20 to-violet-500/5 border-violet-500/30",
+  hero: "border-primary/25 bg-primary/5",
+  craft: "border-amber-500/25 bg-amber-500/5",
+  calculator: "border-chart-2/25 bg-chart-2/5",
+  profile: "border-blue-500/25 bg-blue-500/5",
 };
 
 const ICON_STYLES: Record<NavTabId, string> = {
-  hero: "bg-primary/15 text-primary",
-  craft: "bg-amber-500/15 text-amber-600 dark:text-amber-400",
-  calculator: "bg-blue-500/15 text-blue-600 dark:text-blue-400",
-  profile: "bg-violet-500/15 text-violet-600 dark:text-violet-400",
+  hero: "text-primary",
+  craft: "text-amber-400",
+  calculator: "text-chart-2",
+  profile: "text-blue-400",
 };
+
+function SummaryCard({
+  icon,
+  title,
+  value,
+  subValue,
+  accentClass,
+}: {
+  icon: ReactNode;
+  title: string;
+  value: string;
+  subValue?: string;
+  accentClass: string;
+}) {
+  return (
+    <Card
+      className={cn(
+        "border shadow-sm transition-all hover:shadow-md",
+        accentClass
+      )}
+    >
+      <CardContent className="p-4">
+        <div className="flex items-center gap-2 mb-2">
+          {icon}
+          <span className="text-xs uppercase tracking-wider text-muted-foreground font-mono">
+            {title}
+          </span>
+        </div>
+        <p className="text-lg font-bold font-mono">{value}</p>
+        {subValue && (
+          <p className="text-xs text-muted-foreground font-mono mt-0.5">
+            {subValue}
+          </p>
+        )}
+      </CardContent>
+    </Card>
+  );
+}
 
 type LandingProps = {
   onOpenFeature: (tabId: NavTabId) => void;
@@ -27,86 +76,194 @@ type LandingProps = {
 
 export function Landing({ onOpenFeature }: LandingProps) {
   return (
-    <div className="mx-auto max-w-5xl px-2 py-8 sm:py-12">
-      <section className="mb-10 text-center sm:mb-14">
-        <div className="mb-4 inline-flex items-center gap-2 rounded-full border border-border/60 bg-muted/50 px-3 py-1 text-xs font-medium text-muted-foreground">
-          <Sparkles className="h-3.5 w-3.5 text-primary" />
-          Nomstead tools for smarter trading
-        </div>
-        <h1 className="mb-4 text-3xl font-bold tracking-tight text-foreground sm:text-5xl">
-          Welcome to{" "}
-          <span className="bg-gradient-to-r from-primary via-primary/80 to-primary/60 bg-clip-text text-transparent">
-            SML Tavern
-          </span>
-        </h1>
-        <p className="mx-auto max-w-2xl text-base text-muted-foreground sm:text-lg">
-          Your hub for marketplace analytics, crafting math, and owner lookups.
-          Pick a tool from the navigation above or explore what each feature
-          offers below.
-        </p>
-      </section>
-
-      <section aria-labelledby="features-heading">
-        <h2 id="features-heading" className="sr-only">
-          Features
-        </h2>
-        <div className="grid gap-6 sm:grid-cols-2">
-          {FEATURES.map((feature) => {
-            const Icon = feature.icon;
-
-            return (
-              <Card
-                key={feature.id}
-                className={cn(
-                  "flex h-full flex-col gap-5 border bg-gradient-to-br p-6 shadow-sm transition-shadow hover:shadow-md sm:p-7",
-                  ACCENT_STYLES[feature.id]
-                )}
+    <div className="mx-auto max-w-7xl space-y-6 py-2 sm:py-4">
+      <Card className="bg-card border-border shadow-md overflow-hidden">
+        <CardHeader className="pb-4">
+          <div className="flex flex-col gap-4 sm:flex-row sm:items-start sm:justify-between">
+            <div className="space-y-3">
+              <Badge
+                variant="outline"
+                className="font-mono text-xs border-primary/30 text-primary w-fit"
               >
-                <div className="flex items-start justify-between gap-3">
-                  <div
-                    className={cn("rounded-lg p-2.5", ICON_STYLES[feature.id])}
-                  >
-                    <Icon className="h-5 w-5" strokeWidth={1.75} />
-                  </div>
-                  <span className="shrink-0 rounded-full border border-border/60 bg-background/60 px-2.5 py-0.5 font-mono text-xs text-muted-foreground">
-                    {feature.shortLabel}
-                  </span>
-                </div>
+                <Sparkles className="h-3 w-3 mr-1.5" />
+                Nomstead marketplace tools
+              </Badge>
+              <CardTitle className="text-2xl sm:text-4xl font-bold font-mono tracking-tight">
+                Welcome to{" "}
+                <span className="text-primary">SML Tavern</span>
+              </CardTitle>
+              <p className="text-sm sm:text-base text-muted-foreground font-mono max-w-2xl leading-relaxed">
+                Browse live listings, compare craft vs buy costs, rank energy
+                efficiency, and look up any trader — all in one dark fantasy
+                marketplace hub.
+              </p>
+            </div>
+            <div className="flex flex-col sm:flex-row gap-2 shrink-0">
+              <Button
+                type="button"
+                className="font-mono gap-2"
+                onClick={() => onOpenFeature("hero")}
+              >
+                <BarChart3 className="h-4 w-4" />
+                Open Marketplace
+              </Button>
+              <Button
+                type="button"
+                variant="outline"
+                className="font-mono gap-2"
+                onClick={() => onOpenFeature("calculator")}
+              >
+                <Zap className="h-4 w-4" />
+                Energy Calculator
+              </Button>
+            </div>
+          </div>
+        </CardHeader>
+      </Card>
 
-                <div className="space-y-2">
-                  <h3 className="text-xl font-semibold leading-tight text-foreground">
-                    {feature.title}
-                  </h3>
-                  <p className="text-sm leading-relaxed text-muted-foreground">
-                    {feature.description}
-                  </p>
-                </div>
+      <div className="grid grid-cols-1 sm:grid-cols-2 xl:grid-cols-4 gap-3">
+        <SummaryCard
+          icon={<LayoutGrid className="h-4 w-4 text-primary" />}
+          title="Tools"
+          value="4"
+          subValue="Market, craft, energy, profiles"
+          accentClass="border-primary/25 bg-primary/5"
+        />
+        <SummaryCard
+          icon={<Package className="h-4 w-4 text-chart-4" />}
+          title="For Sale"
+          value="Live"
+          subValue="Browse items you can purchase"
+          accentClass="border-chart-4/25 bg-chart-4/5"
+        />
+        <SummaryCard
+          icon={<ShoppingCart className="h-4 w-4 text-chart-3" />}
+          title="Wants to Buy"
+          value="Live"
+          subValue="Find buy orders to sell into"
+          accentClass="border-chart-3/25 bg-chart-3/5"
+        />
+        <SummaryCard
+          icon={<Sparkles className="h-4 w-4 text-blue-400" />}
+          title="Real Stock"
+          value="Accurate"
+          subValue="Costs use actual market availability"
+          accentClass="border-blue-500/25 bg-blue-500/5"
+        />
+      </div>
 
-                <ul className="flex-1 space-y-2 text-sm text-muted-foreground">
-                  {feature.highlights.map((item) => (
-                    <li key={item} className="flex gap-2.5 pl-0.5">
-                      <span
-                        className="mt-2 h-1.5 w-1.5 shrink-0 rounded-full bg-primary"
-                        aria-hidden
-                      />
-                      <span>{item}</span>
-                    </li>
-                  ))}
-                </ul>
+      <Card className="shadow-sm border-border/80">
+        <CardHeader className="pb-3">
+          <CardTitle className="text-lg font-mono flex items-center gap-2">
+            <LayoutGrid className="h-5 w-5 text-primary" />
+            Explore Tools
+            <Badge variant="secondary" className="ml-1 font-mono text-xs">
+              {FEATURES.length}
+            </Badge>
+          </CardTitle>
+          <p className="text-sm text-muted-foreground font-mono mt-1">
+            Pick a tool below or use the navigation bar above.
+          </p>
+        </CardHeader>
 
-                <Button
-                  type="button"
-                  className="mt-auto w-full gap-2 sm:w-fit"
-                  onClick={() => onOpenFeature(feature.id)}
+        <CardContent>
+          <div className="grid gap-4 sm:grid-cols-2">
+            {FEATURES.map((feature) => {
+              const Icon = feature.icon;
+
+              return (
+                <Card
+                  key={feature.id}
+                  className={cn(
+                    "border shadow-sm transition-all hover:shadow-md hover:border-primary/20",
+                    ACCENT_STYLES[feature.id]
+                  )}
                 >
-                  Open {feature.shortLabel}
-                  <ArrowRight className="h-4 w-4" />
-                </Button>
-              </Card>
-            );
-          })}
-        </div>
-      </section>
+                  <CardContent className="p-5 flex flex-col h-full gap-4">
+                    <div className="flex items-start justify-between gap-3">
+                      <div className="flex items-center gap-3 min-w-0">
+                        <div
+                          className={cn(
+                            "rounded-md border border-border/50 bg-background/40 p-2 shrink-0",
+                            ICON_STYLES[feature.id]
+                          )}
+                        >
+                          <Icon className="h-4 w-4" strokeWidth={1.75} />
+                        </div>
+                        <div className="min-w-0">
+                          <h3 className="font-bold font-mono truncate">
+                            {feature.title}
+                          </h3>
+                          <Badge
+                            variant="outline"
+                            className="mt-1 font-mono text-[10px] border-border/60"
+                          >
+                            {feature.shortLabel}
+                          </Badge>
+                        </div>
+                      </div>
+                    </div>
+
+                    <p className="text-sm text-muted-foreground font-mono leading-relaxed flex-1">
+                      {feature.description}
+                    </p>
+
+                    <ul className="space-y-1.5 text-xs text-muted-foreground font-mono">
+                      {feature.highlights.map((item) => (
+                        <li key={item} className="flex gap-2">
+                          <span className="text-primary shrink-0">•</span>
+                          <span>{item}</span>
+                        </li>
+                      ))}
+                    </ul>
+
+                    <Button
+                      type="button"
+                      variant="outline"
+                      size="sm"
+                      className="w-full font-mono gap-2 mt-auto border-primary/20 hover:bg-primary/10"
+                      onClick={() => onOpenFeature(feature.id)}
+                    >
+                      Open {feature.shortLabel}
+                      <ArrowRight className="h-3.5 w-3.5" />
+                    </Button>
+                  </CardContent>
+                </Card>
+              );
+            })}
+          </div>
+        </CardContent>
+      </Card>
+
+      <Alert className="bg-accent/10 border-accent/20">
+        <Sparkles className="h-4 w-4 text-primary" />
+        <AlertDescription>
+          <div className="space-y-2">
+            <p className="font-semibold text-foreground font-mono">
+              Getting started:
+            </p>
+            <ul className="text-sm text-muted-foreground space-y-1 font-mono">
+              <li>
+                • Start with <strong>Marketplace</strong> to browse{" "}
+                <strong>For Sale</strong> and <strong>Wants to Buy</strong>{" "}
+                listings
+              </li>
+              <li>
+                • Use <strong>Energy</strong> to find the most efficient food
+                and energy items by price
+              </li>
+              <li>
+                • Use <strong>Craft</strong> to compare buying finished goods
+                vs crafting from raw materials
+              </li>
+              <li>
+                • Search any player in <strong>Profile</strong> to see their
+                full marketplace activity
+              </li>
+            </ul>
+          </div>
+        </AlertDescription>
+      </Alert>
     </div>
   );
 }

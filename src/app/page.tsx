@@ -8,8 +8,6 @@ import { ALL_NAV_TAB_IDS, type NavTabId } from "@/components/feature/Navbar/nav-
 import { TaskCalculator } from "@/components/feature/TaskCalculator";
 import { CraftCalculator } from "@/components/feature/TaskCalculator/CraftCalculatorr";
 import { ProfileSearch } from "@/components/feature/ProfileSearch";
-import { Container } from "@/components/ui/container";
-import { Hammer, Zap } from "lucide-react";
 import { useState, useLayoutEffect, useEffect, useCallback } from "react";
 
 export type PageView = "landing" | NavTabId;
@@ -74,64 +72,12 @@ export default function HomePage() {
       </header>
 
       <main id="main-content" className="relative flex-grow">
-        <div className="container mx-auto max-w-7xl px-4 py-6">
-          <div className="w-full">
-            {view === "landing" && <Landing onOpenFeature={openFeature} />}
-
-            {view === "hero" && <Hero />}
-
-            {view === "craft" && (
-              <div className="py-6">
-                <Container>
-                  <div className="mb-6 flex flex-col justify-between gap-4 sm:flex-row sm:items-center">
-                    <div className="flex items-center gap-3">
-                      <div className="rounded-xl bg-gradient-to-br from-amber-500 to-orange-500 p-2.5 shadow-lg shadow-amber-500/20">
-                        <Hammer className="h-6 w-6 text-white" />
-                      </div>
-                      <div>
-                        <h1 className="text-2xl font-bold text-foreground sm:text-3xl">
-                          Building Cost Calculator
-                        </h1>
-                        <p className="text-sm text-muted-foreground">
-                          Estimate crafting costs for buildings
-                        </p>
-                      </div>
-                    </div>
-                  </div>
-                  <div className="overflow-hidden rounded-xl border border-border/60 bg-card/30">
-                    <CraftCalculator />
-                  </div>
-                </Container>
-              </div>
-            )}
-
-            {view === "calculator" && (
-              <div className="py-6">
-                <Container>
-                  <div className="mb-6 flex flex-col justify-between gap-4 sm:flex-row sm:items-center">
-                    <div className="flex items-center gap-3">
-                      <div className="rounded-xl bg-gradient-to-br from-blue-500 to-cyan-500 p-2.5 shadow-lg shadow-blue-500/20">
-                        <Zap className="h-6 w-6 text-white" />
-                      </div>
-                      <div>
-                        <h1 className="text-2xl font-bold text-foreground sm:text-3xl">
-                          Energy Cost Calculator
-                        </h1>
-                        <p className="text-sm text-muted-foreground">
-                          Analyze energy costs for items
-                        </p>
-                      </div>
-                    </div>
-                  </div>
-                  <div className="overflow-hidden rounded-xl border border-border/60 bg-card/30">
-                    <TaskCalculator />
-                  </div>
-                </Container>
-              </div>
-            )}
-
-            {view === "profile" && <ProfileSearch />}
-          </div>
+        <div className="container mx-auto max-w-7xl px-4 py-4 sm:py-6">
+          {view === "landing" && <Landing onOpenFeature={openFeature} />}
+          {view === "hero" && <Hero />}
+          {view === "craft" && <CraftCalculator />}
+          {view === "calculator" && <TaskCalculator />}
+          {view === "profile" && <ProfileSearch />}
         </div>
       </main>
 

@@ -36,44 +36,44 @@ export const FEATURES: FeatureInfo[] = [
     ...MAIN_NAV_TABS[0],
     title: "Marketplace",
     description:
-      "Browse live Nomstead market listings, compare unit prices, and spot the best deals for items you want to buy or sell.",
+      "Browse live Nomstead listings — For Sale items you can purchase and Wants to Buy orders where you can sell.",
     highlights: [
-      "Real-time to-buy and to-sell listings",
-      "Sortable table with filters and columns",
-      "Best deals finder for quick wins",
+      "For Sale and Wants to Buy tabs with live counts",
+      "Sortable table with filters and column controls",
+      "Best Deals finder for lowest prices",
     ],
   },
   {
     ...MAIN_NAV_TABS[1],
     title: "Crafting Calculator",
     description:
-      "Estimate the full material cost of buildings and recipes before you commit resources on your farm.",
+      "Compare buy-all vs craft-from-raw costs using real stock availability before you commit resources.",
     highlights: [
-      "Building and recipe cost breakdowns",
-      "Uses current market prices where relevant",
-      "Plan upgrades without guesswork",
+      "Buy vs craft rankings with savings bars",
+      "Expandable material breakdowns per item",
+      "Filters by station, savings, and price",
     ],
   },
   {
     ...MAIN_NAV_TABS[2],
     title: "Energy Calculator",
     description:
-      "Analyze energy costs against item prices so you can decide what is worth crafting, selling, or buying.",
+      "Rank energy items by gold efficiency so you know what food and goods give the best energy per coin.",
     highlights: [
-      "Energy vs price comparisons",
-      "Supports smarter crafting choices",
-      "Built for Nomstead economy planning",
+      "Efficiency rankings with progress bars",
+      "Summary cards for best deals and averages",
+      "Filter by tier, energy, price, and seller",
     ],
   },
   {
     ...PROFILE_NAV_TAB,
     title: "Owner Profile",
     description:
-      "Look up any marketplace owner and view their active listings in one place.",
+      "Search any marketplace owner and view their For Sale and Wants to Buy listings in one place.",
     highlights: [
-      "Search by owner ID",
-      "See all listings from that player",
-      "Handy for trading and price checks",
+      "Search by owner name with popular trader shortcuts",
+      "Sortable listings with grouped tile view",
+      "Jump here from any seller name in the market table",
     ],
   },
 ];

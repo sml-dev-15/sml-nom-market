@@ -1,4 +1,11 @@
-import { Fragment, useMemo, useState } from "react";
+import {
+  Fragment,
+  useMemo,
+  useState,
+  useCallback,
+  type ReactNode,
+} from "react";
+import { cn } from "@/lib/utils";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
@@ -32,8 +39,14 @@ import {
   Store,
   ChevronDown,
   ChevronRight,
+  ChevronUp,
   Package,
   AlertTriangle,
+  Filter,
+  ArrowUp,
+  ArrowDown,
+  ArrowUpDown,
+  Trophy,
 } from "lucide-react";
 import * as XLSX from "xlsx";
 
@@ -324,6 +337,100 @@ const CRAFTABLE_TARGETS = Object.entries(RECIPES)
 
 const fmtGold = (v: number) => (isFinite(v) ? v.toFixed(4) : "—");
 
+function formatNumber(value: number): string {
+  return value.toLocaleString(undefined, { maximumFractionDigits: 0 });
+}
+
+function formatPrice(value: number): string {
+  if (!isFinite(value)) return "—";
+  if (value >= 1_000) {
+    return value.toLocaleString(undefined, {
+      minimumFractionDigits: 2,
+      maximumFractionDigits: 2,
+    });
+  }
+  return value.toFixed(2);
+}
+
+type CraftSortKey =
+  | "rank"
+  | "name"
+  | "station"
+  | "buyCost"
+  | "craftCost"
+  | "savings"
+  | "recommendation";
+type SortDirection = "asc" | "desc";
+type RecommendationFilter = "all" | "Buy" | "Craft" | "Equal" | "Insufficient";
+
+const RANK_BADGES = [
+  { label: "Top Savings", emoji: "🏆" },
+  { label: "Great Deal", emoji: "🥈" },
+  { label: "Recommended", emoji: "🥉" },
+] as const;
+
+function getRankRowStyles(rank: number, insufficient: boolean) {
+  if (insufficient) {
+    return "border-l-[3px] border-l-destructive/60 bg-destructive/5 hover:bg-destructive/10";
+  }
+  if (rank === 1) {
+    return "border-l-[3px] border-l-amber-400/80 bg-gradient-to-r from-amber-500/10 via-amber-500/5 to-transparent hover:shadow-[inset_0_0_20px_rgba(251,191,36,0.08)]";
+  }
+  if (rank === 2) {
+    return "border-l-[3px] border-l-slate-300/70 bg-gradient-to-r from-slate-400/10 via-slate-400/5 to-transparent hover:shadow-[inset_0_0_20px_rgba(148,163,184,0.08)]";
+  }
+  if (rank === 3) {
+    return "border-l-[3px] border-l-orange-400/70 bg-gradient-to-r from-orange-600/10 via-orange-600/5 to-transparent hover:shadow-[inset_0_0_20px_rgba(234,88,12,0.08)]";
+  }
+  return "hover:bg-accent/30 hover:shadow-[inset_0_0_16px_rgba(251,191,36,0.04)]";
+}
+
+function getSavingsStyles(savingsPct: number) {
+  if (savingsPct >= 50) {
+    return {
+      bar: "bg-emerald-500",
+      glow: "shadow-[0_0_8px_rgba(16,185,129,0.4)]",
+      text: "text-emerald-400",
+      badge: "bg-emerald-500/15 text-emerald-400 border-emerald-500/30",
+      label: "Excellent",
+    };
+  }
+  if (savingsPct >= 25) {
+    return {
+      bar: "bg-blue-500",
+      glow: "shadow-[0_0_8px_rgba(59,130,246,0.4)]",
+      text: "text-blue-400",
+      badge: "bg-blue-500/15 text-blue-400 border-blue-500/30",
+      label: "Good",
+    };
+  }
+  if (savingsPct >= 10) {
+    return {
+      bar: "bg-yellow-500",
+      glow: "shadow-[0_0_8px_rgba(234,179,8,0.35)]",
+      text: "text-yellow-400",
+      badge: "bg-yellow-500/15 text-yellow-400 border-yellow-500/30",
+      label: "Fair",
+    };
+  }
+  if (savingsPct > 0) {
+    return {
+      bar: "bg-zinc-400",
+      glow: "",
+      text: "text-zinc-400",
+      badge: "bg-zinc-500/15 text-zinc-400 border-zinc-500/30",
+      label: "Low",
+    };
+  }
+  return {
+    bar: "bg-muted-foreground",
+    glow: "",
+    text: "text-muted-foreground",
+    badge: "bg-muted text-muted-foreground border-border",
+    label: "None",
+  };
+}
+
 function findMarketListings(marketData: MarketplaceItem[], slug: string) {
   const matches = marketData.filter(
     (i) => i.object.slug.toLowerCase() === slug.toLowerCase()
@@ -474,6 +581,157 @@ interface ExpandedRows {
   [key: string]: boolean;
 }
 
+function SavingsBar({
+  savingsPct,
+  maxSavings,
+}: {
+  savingsPct: number;
+  maxSavings: number;
+}) {
+  const styles = getSavingsStyles(savingsPct);
+  const relativeWidth =
+    maxSavings > 0 ? Math.min(100, (savingsPct / maxSavings) * 100) : 0;
+
+  return (
+    <div className="flex flex-col items-end gap-1.5 min-w-[120px]">
+      <div className="flex items-center gap-2 w-full justify-end">
+        <span className={cn("font-bold tabular-nums text-sm", styles.text)}>
+          {savingsPct.toFixed(1)}%
+        </span>
+        <Badge
+          variant="outline"
+          className={cn(
+            "text-[10px] px-1.5 py-0 h-5 font-mono border",
+            styles.badge
+          )}
+        >
+          {styles.label}
+        </Badge>
+      </div>
+      <div
+        className="h-1.5 w-full rounded-full bg-muted/60 overflow-hidden"
+        role="progressbar"
+        aria-valuenow={Math.round(savingsPct)}
+        aria-valuemin={0}
+        aria-valuemax={Math.round(maxSavings)}
+        aria-label={`Savings ${savingsPct.toFixed(1)} percent`}
+      >
+        <div
+          className={cn(
+            "h-full rounded-full transition-all duration-500",
+            styles.bar,
+            styles.glow
+          )}
+          style={{ width: `${relativeWidth}%` }}
+        />
+      </div>
+    </div>
+  );
+}
+
+function SortableHeader({
+  label,
+  sortKey,
+  currentSort,
+  currentDirection,
+  onSort,
+  className,
+  subLabel,
+}: {
+  label: string;
+  sortKey: CraftSortKey;
+  currentSort: CraftSortKey;
+  currentDirection: SortDirection;
+  onSort: (key: CraftSortKey) => void;
+  className?: string;
+  subLabel?: string;
+}) {
+  const isActive = currentSort === sortKey;
+  const Icon = isActive
+    ? currentDirection === "asc"
+      ? ArrowUp
+      : ArrowDown
+    : ArrowUpDown;
+
+  return (
+    <TableHead className={cn("font-mono", className)}>
+      <button
+        type="button"
+        onClick={() => onSort(sortKey)}
+        className={cn(
+          "inline-flex items-center gap-1 hover:text-primary transition-colors group",
+          isActive && "text-primary"
+        )}
+        aria-sort={
+          isActive
+            ? currentDirection === "asc"
+              ? "ascending"
+              : "descending"
+            : "none"
+        }
+      >
+        <span className="flex flex-col items-start leading-tight">
+          <span>{label}</span>
+          {subLabel && (
+            <span className="text-[10px] text-muted-foreground font-normal">
+              {subLabel}
+            </span>
+          )}
+        </span>
+        <Icon
+          className={cn(
+            "h-3.5 w-3.5 shrink-0",
+            isActive ? "opacity-100" : "opacity-40 group-hover:opacity-70"
+          )}
+        />
+      </button>
+    </TableHead>
+  );
+}
+
+function SummaryCard({
+  icon,
+  title,
+  itemName,
+  value,
+  subValue,
+  accentClass,
+}: {
+  icon: ReactNode;
+  title: string;
+  itemName: string;
+  value: string;
+  subValue?: string;
+  accentClass: string;
+}) {
+  return (
+    <Card
+      className={cn(
+        "border shadow-sm transition-all hover:shadow-md",
+        accentClass
+      )}
+    >
+      <CardContent className="p-4">
+        <div className="flex items-center gap-2 mb-2">
+          {icon}
+          <span className="text-xs uppercase tracking-wider text-muted-foreground font-mono">
+            {title}
+          </span>
+        </div>
+        <p className="font-bold text-sm font-mono truncate" title={itemName}>
+          {itemName}
+        </p>
+        <p className="text-lg font-bold font-mono mt-1 tabular-nums">{value}</p>
+        {subValue && (
+          <p className="text-xs text-muted-foreground font-mono mt-0.5">
+            {subValue}
+          </p>
+        )}
+      </CardContent>
+    </Card>
+  );
+}
+
 export function CraftingCostComparator({
   marketData,
 }: {
@@ -487,8 +745,12 @@ export function CraftingCostComparator({
   const [selectedStation, setSelectedStation] = useState<string>("all");
   const [minSavings, setMinSavings] = useState<number>(0);
   const [qty, setQty] = useState<number>(1);
-  const [isCalculating, setIsCalculating] = useState(false);
   const [expandedRows, setExpandedRows] = useState<ExpandedRows>({});
+  const [filtersExpanded, setFiltersExpanded] = useState(true);
+  const [selectedRecommendation, setSelectedRecommendation] =
+    useState<RecommendationFilter>("all");
+  const [sortKey, setSortKey] = useState<CraftSortKey>("rank");
+  const [sortDirection, setSortDirection] = useState<SortDirection>("asc");
 
   const toggleRowExpansion = (slug: string) => {
     setExpandedRows((prev) => ({
@@ -513,9 +775,7 @@ export function CraftingCostComparator({
     return ["all", ...stationTypes];
   }, []);
 
-  const rows: ComparisonRow[] = useMemo(() => {
-    setIsCalculating(true);
-
+  const filteredResults: ComparisonRow[] = useMemo(() => {
     const source = CRAFTABLE_TARGETS.filter((t) =>
       includeProcessed ? true : t.category !== "Processed"
     );
@@ -710,8 +970,37 @@ export function CraftingCostComparator({
       filtered = filtered.filter((r) => r.station === selectedStation);
     }
 
-    filtered.sort((a, b) => {
-      // Sort by availability first, then savings
+    if (selectedRecommendation !== "all") {
+      filtered = filtered.filter(
+        (r) => r.recommendation === selectedRecommendation
+      );
+    }
+
+    return filtered;
+  }, [
+    searchTerm,
+    maxBuyCost,
+    includeProcessed,
+    selectedStation,
+    selectedRecommendation,
+    minSavings,
+    qty,
+    listingsCache,
+  ]);
+
+  const maxSavingsPct = useMemo(() => {
+    const valid = filteredResults.filter(
+      (r) => r.recommendation !== "Insufficient" && isFinite(r.savingsPct)
+    );
+    return valid.length > 0
+      ? Math.max(...valid.map((r) => r.savingsPct))
+      : 0;
+  }, [filteredResults]);
+
+  const displayRows = useMemo(() => {
+    const directionMultiplier = sortDirection === "asc" ? 1 : -1;
+
+    const insufficientSort = (a: ComparisonRow, b: ComparisonRow) => {
       if (
         a.recommendation === "Insufficient" &&
         b.recommendation !== "Insufficient"
@@ -722,33 +1011,83 @@ export function CraftingCostComparator({
         a.recommendation !== "Insufficient"
       )
         return -1;
+      return 0;
+    };
 
-      const s = b.savingsPct - a.savingsPct;
-      if (s !== 0) return s;
-      return (
-        (a.recommendation === "Craft" ? a.craftCost : a.buyCost) -
-        (b.recommendation === "Craft" ? b.craftCost : b.buyCost)
-      );
+    return [...filteredResults].sort((a, b) => {
+      const insufficient = insufficientSort(a, b);
+      if (insufficient !== 0) return insufficient;
+
+      switch (sortKey) {
+        case "rank":
+        case "savings":
+          return (b.savingsPct - a.savingsPct) * directionMultiplier;
+        case "name":
+          return a.name.localeCompare(b.name) * directionMultiplier;
+        case "station":
+          return a.station.localeCompare(b.station) * directionMultiplier;
+        case "buyCost":
+          return (a.buyCost - b.buyCost) * directionMultiplier;
+        case "craftCost":
+          return (a.craftCost - b.craftCost) * directionMultiplier;
+        case "recommendation":
+          return (
+            a.recommendation.localeCompare(b.recommendation) *
+            directionMultiplier
+          );
+        default:
+          return b.savingsPct - a.savingsPct;
+      }
     });
+  }, [filteredResults, sortKey, sortDirection]);
 
-    setIsCalculating(false);
-    return filtered;
-  }, [
-    searchTerm,
-    maxBuyCost,
-    includeProcessed,
-    selectedStation,
-    minSavings,
-    qty,
-    listingsCache,
-  ]);
+  const summaryStats = useMemo(() => {
+    const available = filteredResults.filter(
+      (r) => r.recommendation !== "Insufficient"
+    );
+    if (available.length === 0) return null;
 
-  const topPicks = useMemo(() => rows.slice(0, 3), [rows]);
+    const topSavings = available.reduce((best, r) =>
+      r.savingsPct > best.savingsPct ? r : best
+    );
+    const craftWins = available.filter((r) => r.recommendation === "Craft");
+    const buyWins = available.filter((r) => r.recommendation === "Buy");
+    const bestCraft =
+      craftWins.length > 0
+        ? craftWins.reduce((best, r) =>
+            r.savingsAmount > best.savingsAmount ? r : best
+          )
+        : null;
+    const bestBuy =
+      buyWins.length > 0
+        ? buyWins.reduce((best, r) =>
+            r.savingsAmount > best.savingsAmount ? r : best
+          )
+        : null;
+    const avgSavings =
+      available.reduce((sum, r) => sum + r.savingsPct, 0) / available.length;
+
+    return { topSavings, bestCraft, bestBuy, avgSavings, availableCount: available.length };
+  }, [filteredResults]);
+
+  const handleSort = useCallback(
+    (key: CraftSortKey) => {
+      if (sortKey === key) {
+        setSortDirection((prev) => (prev === "asc" ? "desc" : "asc"));
+      } else {
+        setSortKey(key);
+        setSortDirection("asc");
+      }
+    },
+    [sortKey]
+  );
+
+  const topPicks = useMemo(() => displayRows.slice(0, 3), [displayRows]);
 
   const exportToExcel = () => {
-    if (rows.length === 0) return;
+    if (displayRows.length === 0) return;
 
-    const data = rows.map((r, idx) => ({
+    const data = displayRows.map((r, idx) => ({
       Rank: idx + 1,
       Item: r.name,
       Category: r.category,
@@ -775,7 +1114,7 @@ export function CraftingCostComparator({
     const summary = [
       ["Crafting Cost Comparison", "", "", ""],
       ["Generated", new Date().toLocaleString(), "", ""],
-      ["Items Analyzed", rows.length, "", ""],
+      ["Items Analyzed", displayRows.length, "", ""],
       ["", "", "", ""],
       ["Top Picks"],
       ["Rank", "Item", "Best Option", "Savings %", "Savings Amount", "Status"],
@@ -853,7 +1192,7 @@ export function CraftingCostComparator({
         <h4 className="font-semibold text-sm font-mono flex items-center gap-2">
           <Package className="h-4 w-4" />
           {title} - Total:{" "}
-          {insufficient ? "Insufficient Stock" : `${fmtGold(totalCost)} gold`}
+          {insufficient ? "Insufficient Stock" : `${formatPrice(totalCost)}`}
         </h4>
         {insufficient && <AlertTriangle className="h-4 w-4 text-destructive" />}
       </div>
@@ -865,10 +1204,10 @@ export function CraftingCostComparator({
               Needed
             </TableHead>
             <TableHead className="text-right font-mono text-xs">
-              Unit Price
+              Unit Price (Gold)
             </TableHead>
             <TableHead className="text-right font-mono text-xs">
-              Total Cost
+              Total (Gold)
             </TableHead>
             <TableHead className="text-center font-mono text-xs">
               Status
@@ -884,22 +1223,24 @@ export function CraftingCostComparator({
               <TableCell className="font-mono text-xs">
                 {material.name}
               </TableCell>
-              <TableCell className="text-right font-mono text-xs">
-                {material.quantity}
-                {material.insufficientQty && (
+              <TableCell className="text-right font-mono text-xs tabular-nums">
+                {material.quantity > 0
+                  ? formatNumber(material.quantity)
+                  : "—"}
+                {material.insufficientQty ? (
                   <div className="text-xs text-destructive">
-                    (Missing: {material.insufficientQty})
+                    (Missing: {formatNumber(material.insufficientQty)})
                   </div>
-                )}
+                ) : null}
               </TableCell>
-              <TableCell className="text-right font-mono text-xs">
-                {material.unitPrice > 0 ? fmtGold(material.unitPrice) : "—"}
+              <TableCell className="text-right font-mono text-xs tabular-nums">
+                {material.unitPrice > 0 ? formatPrice(material.unitPrice) : "—"}
               </TableCell>
-              <TableCell className="text-right font-mono text-xs font-semibold">
+              <TableCell className="text-right font-mono text-xs font-semibold tabular-nums">
                 {material.insufficientQty ? (
                   <span className="text-destructive">Insufficient</span>
                 ) : (
-                  fmtGold(material.totalCost)
+                  formatPrice(material.totalCost)
                 )}
               </TableCell>
               <TableCell className="text-center font-mono text-xs">
@@ -970,14 +1311,14 @@ export function CraftingCostComparator({
       <CardHeader>
         <CardTitle className="flex items-center justify-between font-mono">
           <div className="flex items-center gap-2">
-            <Calculator className="h-5 w-5 text-primary" />
-            Crafting Cost Comparison (Real Stock)
+            <Hammer className="h-5 w-5 text-chart-2" />
+            Crafting Cost Comparison
           </div>
           <Button
             variant="outline"
             size="sm"
             onClick={exportToExcel}
-            disabled={rows.length === 0}
+            disabled={displayRows.length === 0}
             className="flex items-center gap-1 font-mono"
           >
             <Download className="h-4 w-4" />
@@ -987,414 +1328,603 @@ export function CraftingCostComparator({
       </CardHeader>
 
       <CardContent className="space-y-6">
-        {/* Controls */}
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-6 gap-4">
-          <div className="space-y-2">
-            <Label htmlFor="search" className="font-mono text-sm">
-              Search Items
-            </Label>
-            <div className="relative">
-              <Input
-                id="search"
-                placeholder="Search craftables..."
-                value={searchTerm}
-                onChange={(e) => setSearchTerm(e.target.value)}
-                className="pr-8 font-mono"
-              />
-              <Search className="absolute right-2 top-2.5 h-4 w-4 text-muted-foreground" />
+        {/* Filters */}
+        <div className="space-y-3">
+          <div className="flex items-center justify-between md:hidden">
+            <div className="flex items-center gap-2 text-sm font-mono text-muted-foreground">
+              <Filter className="h-4 w-4" />
+              Filters
             </div>
-          </div>
-
-          <div className="space-y-2">
-            <Label htmlFor="maxBuy" className="font-mono text-sm">
-              Max Buy Cost ({isFinite(maxBuyCost) ? fmtGold(maxBuyCost) : "∞"})
-            </Label>
-            <Input
-              id="maxBuy"
-              type="number"
-              step="0.01"
-              placeholder="No limit"
-              onChange={(e) => {
-                const v = e.target.value.trim();
-                setMaxBuyCost(v === "" ? Number.POSITIVE_INFINITY : Number(v));
-              }}
-              className="font-mono"
-            />
-          </div>
-
-          <div className="space-y-2">
-            <Label htmlFor="station" className="font-mono text-sm">
-              Crafting Station
-            </Label>
-            <Select
-              value={selectedStation}
-              onValueChange={setSelectedStation}
+            <Button
+              variant="ghost"
+              size="sm"
+              onClick={() => setFiltersExpanded((prev) => !prev)}
+              className="font-mono text-xs"
             >
-              <SelectTrigger className="font-mono w-full">
-                <SelectValue placeholder="Select station" />
-              </SelectTrigger>
-              <SelectContent>
-              {stations.map((station) => (
-                  <SelectItem key={station} value={station} className="font-mono">
-                  {station === "all" ? "All Stations" : station}
-                  </SelectItem>
-              ))}
-              </SelectContent>
-            </Select>
+              {filtersExpanded ? (
+                <>
+                  Hide <ChevronUp className="h-3 w-3 ml-1" />
+                </>
+              ) : (
+                <>
+                  Show <ChevronDown className="h-3 w-3 ml-1" />
+                </>
+              )}
+            </Button>
           </div>
 
-          <div className="space-y-2">
-            <Label htmlFor="qty" className="font-mono text-sm">
-              Quantity ({qty})
-            </Label>
-            <Input
-              id="qty"
-              type="range"
-              min={1}
-              max={100}
-              step={1}
-              value={qty}
-              onChange={(e) => setQty(Number(e.target.value))}
-              className="font-mono w-full"
-            />
-          </div>
+          <div
+            className={cn(
+              "grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-7 gap-4",
+              !filtersExpanded && "hidden md:grid"
+            )}
+          >
+            <div className="space-y-2 sm:col-span-2 lg:col-span-1">
+              <Label htmlFor="search" className="font-mono text-sm">
+                Search Items
+              </Label>
+              <div className="relative">
+                <Input
+                  id="search"
+                  placeholder="Search craftables..."
+                  value={searchTerm}
+                  onChange={(e) => setSearchTerm(e.target.value)}
+                  className="pr-8 font-mono"
+                />
+                <Search className="absolute right-2 top-2.5 h-4 w-4 text-muted-foreground pointer-events-none" />
+              </div>
+            </div>
 
-          <div className="space-y-2">
-            <Label htmlFor="minSavings" className="font-mono text-sm">
-              Min Savings ({minSavings}%)
-            </Label>
-            <Input
-              id="minSavings"
-              type="range"
-              min="0"
-              max="100"
-              step="1"
-              value={minSavings}
-              onChange={(e) => setMinSavings(Number(e.target.value))}
-              className="font-mono w-full"
-            />
-          </div>
+            <div className="space-y-2">
+              <Label htmlFor="station" className="font-mono text-sm">
+                Crafting Station
+              </Label>
+              <Select
+                value={selectedStation}
+                onValueChange={setSelectedStation}
+              >
+                <SelectTrigger className="font-mono w-full">
+                  <SelectValue placeholder="Select station" />
+                </SelectTrigger>
+                <SelectContent>
+                  {stations.map((station) => (
+                    <SelectItem
+                      key={station}
+                      value={station}
+                      className="font-mono"
+                    >
+                      {station === "all" ? "All Stations" : station}
+                    </SelectItem>
+                  ))}
+                </SelectContent>
+              </Select>
+            </div>
 
-          <div className="flex items-end">
-            <label className="flex items-center gap-2 text-sm font-mono">
-              <input
-                type="checkbox"
-                checked={includeProcessed}
-                onChange={(e) => setIncludeProcessed(e.target.checked)}
+            <div className="space-y-2">
+              <Label htmlFor="recommendation" className="font-mono text-sm">
+                Recommendation
+              </Label>
+              <Select
+                value={selectedRecommendation}
+                onValueChange={(v) =>
+                  setSelectedRecommendation(v as RecommendationFilter)
+                }
+              >
+                <SelectTrigger className="font-mono w-full">
+                  <SelectValue placeholder="All options" />
+                </SelectTrigger>
+                <SelectContent>
+                  {(
+                    [
+                      "all",
+                      "Craft",
+                      "Buy",
+                      "Equal",
+                      "Insufficient",
+                    ] as RecommendationFilter[]
+                  ).map((option) => (
+                    <SelectItem key={option} value={option} className="font-mono">
+                      {option === "all" ? "All Options" : option}
+                    </SelectItem>
+                  ))}
+                </SelectContent>
+              </Select>
+            </div>
+
+            <div className="space-y-2">
+              <Label htmlFor="maxBuy" className="font-mono text-sm">
+                Max Buy Cost
+              </Label>
+              <Input
+                id="maxBuy"
+                type="number"
+                step="0.01"
+                placeholder="No limit"
+                onChange={(e) => {
+                  const v = e.target.value.trim();
+                  setMaxBuyCost(
+                    v === "" ? Number.POSITIVE_INFINITY : Number(v)
+                  );
+                }}
+                className="font-mono"
               />
-              Show processed items
-            </label>
+            </div>
+
+            <div className="space-y-2">
+              <Label htmlFor="qty" className="font-mono text-sm">
+                Quantity ({qty})
+              </Label>
+              <Input
+                id="qty"
+                type="range"
+                min={1}
+                max={100}
+                step={1}
+                value={qty}
+                onChange={(e) => setQty(Number(e.target.value))}
+                className="font-mono w-full"
+              />
+            </div>
+
+            <div className="space-y-2">
+              <Label htmlFor="minSavings" className="font-mono text-sm">
+                Min Savings ({minSavings}%)
+              </Label>
+              <Input
+                id="minSavings"
+                type="range"
+                min="0"
+                max="100"
+                step="1"
+                value={minSavings}
+                onChange={(e) => setMinSavings(Number(e.target.value))}
+                className="font-mono w-full"
+              />
+            </div>
+
+            <div className="flex items-end pb-1">
+              <label className="flex items-center gap-2 text-sm font-mono cursor-pointer">
+                <input
+                  type="checkbox"
+                  checked={includeProcessed}
+                  onChange={(e) => setIncludeProcessed(e.target.checked)}
+                  className="rounded border-border"
+                />
+                Show processed items
+              </label>
+            </div>
           </div>
         </div>
 
-        {/* Loading State */}
-        {isCalculating && (
-          <div className="flex items-center justify-center p-4">
-            <div className="animate-spin rounded-full h-8 w-8 border-b-2 border-primary"></div>
-            <span className="ml-2 font-mono">
-              Calculating real costs based on available stock...
-            </span>
-          </div>
-        )}
-
-        {/* Top Recommendations */}
-        {topPicks.length > 0 && !isCalculating && (
-          <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
-            {topPicks.map((r, i) => (
-              <Card
-                key={r.slug}
-                className={`border-accent/20 shadow-sm ${
-                  r.recommendation === "Insufficient"
-                    ? "bg-destructive/10"
-                    : "bg-accent/10"
-                }`}
-              >
-                <CardContent className="p-4">
-                  <div className="flex items-center justify-between mb-2">
-                    <div className="flex items-center gap-2">
-                      {i === 0 && r.recommendation !== "Insufficient" && (
-                        <Crown className="h-5 w-5 text-chart-2" />
-                      )}
-                      {i === 1 && r.recommendation !== "Insufficient" && (
-                        <Award className="h-5 w-5 text-chart-1" />
-                      )}
-                      {i === 2 && r.recommendation !== "Insufficient" && (
-                        <Award className="h-5 w-5 text-chart-3" />
-                      )}
-                      {r.recommendation === "Insufficient" && (
-                        <AlertTriangle className="h-5 w-5 text-destructive" />
-                      )}
-                      <h3 className="font-bold text-lg font-mono">{r.name}</h3>
-                    </div>
-                    <Badge
-                      className={
-                        r.recommendation === "Insufficient"
-                          ? "bg-destructive text-primary-foreground font-mono"
-                          : "bg-chart-2 text-primary-foreground font-mono"
-                      }
-                    >
-                      #{i + 1}
-                    </Badge>
-                  </div>
-
-                  <div className="space-y-1 text-sm font-mono">
-                    <div className="flex justify-between items-center gap-2">
-                      <span className="text-muted-foreground shrink-0">
-                        Recommendation:
-                      </span>
-                      <span className="font-semibold min-w-0 flex justify-end">
-                        {getBadge(r)}
-                      </span>
-                    </div>
-                    <div className="flex justify-between">
-                      <span className="text-muted-foreground">Buy-All:</span>
-                      <span className="font-semibold">
-                        {r.buyInsufficient
-                          ? "Insufficient Stock"
-                          : `${fmtGold(r.buyCost)} gold`}
-                      </span>
-                    </div>
-                    <div className="flex justify-between">
-                      <span className="text-muted-foreground">
-                        Craft-from-Raw:
-                      </span>
-                      <span className="font-semibold">
-                        {r.craftInsufficient
-                          ? "Insufficient Stock"
-                          : `${fmtGold(r.craftCost)} gold`}
-                      </span>
-                    </div>
-                    {r.recommendation !== "Insufficient" && (
-                      <div className="flex justify-between">
-                        <span className="text-muted-foreground">Savings:</span>
-                        <span className="font-semibold">
-                          {r.savingsPct.toFixed(1)}%
-                        </span>
-                      </div>
-                    )}
-                    <div className="flex justify-between">
-                      <span className="text-muted-foreground">Station:</span>
-                      <span className="font-semibold">{r.station}</span>
-                    </div>
-                  </div>
-
-                  {r.bestSeller &&
-                    r.bestUrl &&
-                    !r.buyInsufficient &&
-                    !r.craftInsufficient && (
-                      <div className="mt-2 text-xs text-muted-foreground font-mono">
-                        Cheapest input:{" "}
-                        <a
-                          href={r.bestUrl}
-                          target="_blank"
-                          rel="noopener noreferrer"
-                          className="text-primary hover:underline"
-                        >
-                          {r.bestSeller}
-                        </a>
-                        {typeof r.altCount === "number" && r.altCount > 0 && (
-                          <span className="ml-1 text-accent">
-                            {" "}
-                            (+{r.altCount})
-                          </span>
-                        )}
-                      </div>
-                    )}
-                </CardContent>
-              </Card>
-            ))}
+        {/* Summary Cards */}
+        {summaryStats && (
+          <div className="grid grid-cols-1 sm:grid-cols-2 xl:grid-cols-4 gap-3">
+            <SummaryCard
+              icon={<Trophy className="h-4 w-4 text-amber-400" />}
+              title="Top Savings"
+              itemName={summaryStats.topSavings.name}
+              value={`${summaryStats.topSavings.savingsPct.toFixed(1)}%`}
+              subValue={`${summaryStats.topSavings.recommendation} · save ${formatPrice(summaryStats.topSavings.savingsAmount)} gold`}
+              accentClass="border-amber-500/25 bg-amber-500/5"
+            />
+            <SummaryCard
+              icon={<Hammer className="h-4 w-4 text-chart-2" />}
+              title="Best Craft Deal"
+              itemName={summaryStats.bestCraft?.name ?? "None available"}
+              value={
+                summaryStats.bestCraft
+                  ? formatPrice(summaryStats.bestCraft.savingsAmount)
+                  : "—"
+              }
+              subValue={
+                summaryStats.bestCraft
+                  ? `${summaryStats.bestCraft.savingsPct.toFixed(1)}% vs buy-all`
+                  : "No craft wins in filter"
+              }
+              accentClass="border-chart-2/25 bg-chart-2/5"
+            />
+            <SummaryCard
+              icon={<Store className="h-4 w-4 text-primary" />}
+              title="Best Buy Deal"
+              itemName={summaryStats.bestBuy?.name ?? "None available"}
+              value={
+                summaryStats.bestBuy
+                  ? formatPrice(summaryStats.bestBuy.savingsAmount)
+                  : "—"
+              }
+              subValue={
+                summaryStats.bestBuy
+                  ? `${summaryStats.bestBuy.savingsPct.toFixed(1)}% vs craft-from-raw`
+                  : "No buy wins in filter"
+              }
+              accentClass="border-primary/25 bg-primary/5"
+            />
+            <SummaryCard
+              icon={<TrendingUp className="h-4 w-4 text-blue-400" />}
+              title="Average Savings"
+              itemName={`Across ${summaryStats.availableCount} items`}
+              value={`${summaryStats.avgSavings.toFixed(1)}%`}
+              subValue="Buy vs craft-from-raw comparison"
+              accentClass="border-blue-500/25 bg-blue-500/5"
+            />
           </div>
         )}
 
         {/* Results Table */}
-        <Card className="shadow-sm">
+        <Card className="shadow-sm border-border/80">
           <CardHeader className="pb-3">
-            <div className="flex items-center justify-between">
+            <div className="flex items-center justify-between gap-2 flex-wrap">
               <CardTitle className="text-lg flex items-center gap-2 font-mono">
                 <Calculator className="h-5 w-5 text-primary" />
-                Buy vs Craft — Real Stock Analysis
-                <Badge variant="secondary" className="ml-2 font-mono">
-                  {rows.length} items
+                Buy vs Craft Rankings
+                <Badge variant="secondary" className="ml-1 font-mono">
+                  {displayRows.length} items
                 </Badge>
               </CardTitle>
             </div>
           </CardHeader>
 
           <CardContent className="p-0">
-            {rows.length === 0 && !isCalculating ? (
+            {displayRows.length === 0 ? (
               <div className="p-8 text-center text-muted-foreground">
-                <Calculator className="h-12 w-12 mx-auto mb-4 opacity-50" />
+                <Hammer className="h-12 w-12 mx-auto mb-4 opacity-50" />
                 <p className="font-mono">No items match your filters.</p>
+                <p className="text-sm font-mono mt-1">
+                  Try adjusting your filters or check market availability.
+                </p>
               </div>
             ) : (
-              <Table>
-                <TableHeader>
-                  <TableRow>
-                    <TableHead className="font-mono w-8"></TableHead>
-                    <TableHead className="font-mono">Rank</TableHead>
-                    <TableHead className="font-mono">Item</TableHead>
-                    <TableHead className="font-mono">Station</TableHead>
-                    <TableHead className="text-right font-mono">
-                      Buy-All
-                    </TableHead>
-                    <TableHead className="text-right font-mono">
-                      Craft-from-Raw
-                    </TableHead>
-                    <TableHead className="text-center font-mono">
-                      Best
-                    </TableHead>
-                    <TableHead className="text-center font-mono">
-                      Savings
-                    </TableHead>
-                    <TableHead className="text-center font-mono">
-                      Status
-                    </TableHead>
-                  </TableRow>
-                </TableHeader>
-                <TableBody>
-                  {rows.map((r, i) => (
-                    <Fragment key={r.slug}>
-                      <TableRow
-                        className={
-                          r.recommendation === "Insufficient"
-                            ? "bg-destructive/10"
-                            : i < 3
-                            ? "bg-accent/5"
-                            : ""
-                        }
+              <>
+                {/* Mobile cards */}
+                <div className="space-y-3 p-4 md:hidden">
+                  {displayRows.map((r, i) => {
+                    const rank = i + 1;
+                    const rankBadge = rank <= 3 ? RANK_BADGES[rank - 1] : null;
+                    const insufficient = r.recommendation === "Insufficient";
+
+                    return (
+                      <Card
+                        key={r.slug}
+                        className={cn(
+                          "overflow-hidden transition-all",
+                          getRankRowStyles(rank, insufficient)
+                        )}
                       >
-                        <TableCell className="w-8">
-                          <Button
-                            variant="ghost"
-                            size="sm"
-                            onClick={() => toggleRowExpansion(r.slug)}
-                            className="h-8 w-8 p-0"
-                          >
-                            {expandedRows[r.slug] ? (
-                              <ChevronDown className="h-4 w-4" />
-                            ) : (
-                              <ChevronRight className="h-4 w-4" />
-                            )}
-                          </Button>
-                        </TableCell>
-                        <TableCell className="font-mono font-medium">
-                          <div className="flex items-center gap-2">
-                            {i === 0 && r.recommendation !== "Insufficient" && (
-                              <Crown className="h-4 w-4 text-chart-2" />
-                            )}
-                            {i === 1 && r.recommendation !== "Insufficient" && (
-                              <Award className="h-4 w-4 text-chart-1" />
-                            )}
-                            {i === 2 && r.recommendation !== "Insufficient" && (
-                              <Award className="h-4 w-4 text-chart-3" />
-                            )}
-                            {r.recommendation === "Insufficient" && (
-                              <AlertTriangle className="h-4 w-4 text-destructive" />
-                            )}
-                            {i + 1}
-                          </div>
-                        </TableCell>
-                        <TableCell className="font-mono font-semibold">
-                          {r.name}
-                        </TableCell>
-                        <TableCell className="font-mono text-sm">
-                          {r.station}
-                        </TableCell>
-                        <TableCell className="text-right font-mono">
-                          {r.buyInsufficient ? (
-                            <span className="text-destructive">
-                              Insufficient
-                            </span>
-                          ) : (
-                            <>
-                              {fmtGold(r.buyCost)}
-                              <div className="text-xs text-muted-foreground">
-                                gold
-                              </div>
-                            </>
-                          )}
-                        </TableCell>
-                        <TableCell className="text-right font-mono">
-                          {r.craftInsufficient ? (
-                            <span className="text-destructive">
-                              Insufficient
-                            </span>
-                          ) : (
-                            <>
-                              {fmtGold(r.craftCost)}
-                              <div className="text-xs text-muted-foreground">
-                                gold
-                              </div>
-                            </>
-                          )}
-                        </TableCell>
-                        <TableCell className="text-center max-w-[200px]">
-                          <div className="flex justify-center">
-                          {getBadge(r)}
-                          </div>
-                        </TableCell>
-                        <TableCell className="text-center font-mono">
-                          {r.recommendation === "Insufficient"
-                            ? "—"
-                            : isFinite(r.savingsPct)
-                            ? `${r.savingsPct.toFixed(1)}%`
-                            : "—"}
-                        </TableCell>
-                        <TableCell className="text-center font-mono">
-                          {r.buyInsufficient && r.craftInsufficient ? (
-                            <Badge variant="destructive" className="text-xs">
-                              No Stock
-                            </Badge>
-                          ) : r.buyInsufficient ? (
-                            <Badge
-                              variant="outline"
-                              className="text-xs bg-amber-500/20"
-                            >
-                              Craft Only
-                            </Badge>
-                          ) : r.craftInsufficient ? (
-                            <Badge
-                              variant="outline"
-                              className="text-xs bg-blue-500/20"
-                            >
-                              Buy Only
-                            </Badge>
-                          ) : (
-                            <Badge
-                              variant="outline"
-                              className="text-xs bg-green-500/20"
-                            >
-                              Both Available
-                            </Badge>
-                          )}
-                        </TableCell>
-                      </TableRow>
-                      {expandedRows[r.slug] && (
-                        <TableRow>
-                          <TableCell colSpan={9} className="p-0 border-b-0">
-                            <div className="bg-muted/20 p-4">
-                              <div className="grid grid-cols-1 lg:grid-cols-2 gap-4">
-                                <MaterialBreakdownTable
-                                  materials={r.breakdown.buyMaterials}
-                                  title="Buy-All Materials"
-                                  totalCost={r.buyCost}
-                                  insufficient={r.buyInsufficient || false}
-                                />
-                                <MaterialBreakdownTable
-                                  materials={r.breakdown.craftMaterials}
-                                  title="Craft-from-Raw Materials"
-                                  totalCost={r.craftCost}
-                                  insufficient={r.craftInsufficient || false}
-                                />
+                        <CardContent className="p-4 space-y-3">
+                          <div className="flex items-start justify-between gap-2">
+                            <div className="flex items-center gap-2 min-w-0">
+                              <span
+                                className={cn(
+                                  "flex h-8 w-8 shrink-0 items-center justify-center rounded-md font-bold text-sm font-mono tabular-nums",
+                                  insufficient && "bg-destructive/20 text-destructive",
+                                  !insufficient && rank === 1 && "bg-amber-500/20 text-amber-400",
+                                  !insufficient && rank === 2 && "bg-slate-400/20 text-slate-300",
+                                  !insufficient && rank === 3 && "bg-orange-500/20 text-orange-400",
+                                  !insufficient && rank > 3 && "bg-muted text-muted-foreground"
+                                )}
+                              >
+                                {rank}
+                              </span>
+                              <div className="min-w-0">
+                                <p className="font-bold font-mono truncate">
+                                  {r.name}
+                                </p>
+                                <p className="text-xs text-muted-foreground font-mono">
+                                  {r.station}
+                                </p>
+                                {rankBadge && !insufficient && (
+                                  <Badge
+                                    variant="outline"
+                                    className="mt-1 text-[10px] font-mono border-primary/20"
+                                  >
+                                    {rankBadge.emoji} {rankBadge.label}
+                                  </Badge>
+                                )}
                               </div>
                             </div>
-                          </TableCell>
-                        </TableRow>
-                      )}
-                    </Fragment>
-                  ))}
-                </TableBody>
-              </Table>
+                            <div className="shrink-0">{getBadge(r)}</div>
+                          </div>
+
+                          <div className="grid grid-cols-2 gap-3 text-sm font-mono">
+                            <div>
+                              <span className="text-[10px] uppercase text-muted-foreground">
+                                Buy-All (Gold)
+                              </span>
+                              <p className="font-bold tabular-nums">
+                                {r.buyInsufficient
+                                  ? "Insufficient"
+                                  : formatPrice(r.buyCost)}
+                              </p>
+                            </div>
+                            <div className="text-right">
+                              <span className="text-[10px] uppercase text-muted-foreground">
+                                Craft (Gold)
+                              </span>
+                              <p className="font-bold tabular-nums">
+                                {r.craftInsufficient
+                                  ? "Insufficient"
+                                  : formatPrice(r.craftCost)}
+                              </p>
+                            </div>
+                          </div>
+
+                          {!insufficient && (
+                            <SavingsBar
+                              savingsPct={r.savingsPct}
+                              maxSavings={maxSavingsPct}
+                            />
+                          )}
+
+                          <Button
+                            variant="outline"
+                            size="sm"
+                            onClick={() => toggleRowExpansion(r.slug)}
+                            className="w-full font-mono text-xs"
+                          >
+                            {expandedRows[r.slug] ? (
+                              <>
+                                Hide breakdown{" "}
+                                <ChevronUp className="h-3 w-3 ml-1" />
+                              </>
+                            ) : (
+                              <>
+                                View breakdown{" "}
+                                <ChevronDown className="h-3 w-3 ml-1" />
+                              </>
+                            )}
+                          </Button>
+
+                          {expandedRows[r.slug] && (
+                            <div className="space-y-3 pt-2 border-t border-border/50">
+                              <MaterialBreakdownTable
+                                materials={r.breakdown.buyMaterials}
+                                title="Buy-All Materials"
+                                totalCost={r.buyCost}
+                                insufficient={r.buyInsufficient || false}
+                              />
+                              <MaterialBreakdownTable
+                                materials={r.breakdown.craftMaterials}
+                                title="Craft-from-Raw Materials"
+                                totalCost={r.craftCost}
+                                insufficient={r.craftInsufficient || false}
+                              />
+                            </div>
+                          )}
+                        </CardContent>
+                      </Card>
+                    );
+                  })}
+                </div>
+
+                {/* Desktop table */}
+                <div className="hidden md:block max-h-[min(70vh,720px)] overflow-auto">
+                  <Table>
+                    <TableHeader className="sticky top-0 z-10 bg-card shadow-[0_1px_0_0_var(--border)]">
+                      <TableRow className="hover:bg-transparent border-b border-border/80">
+                        <TableHead className="font-mono w-10 pl-3" />
+                        <SortableHeader
+                          label="Rank"
+                          sortKey="rank"
+                          currentSort={sortKey}
+                          currentDirection={sortDirection}
+                          onSort={handleSort}
+                          className="w-[100px]"
+                        />
+                        <SortableHeader
+                          label="Item"
+                          sortKey="name"
+                          currentSort={sortKey}
+                          currentDirection={sortDirection}
+                          onSort={handleSort}
+                          className="min-w-[140px]"
+                        />
+                        <SortableHeader
+                          label="Station"
+                          sortKey="station"
+                          currentSort={sortKey}
+                          currentDirection={sortDirection}
+                          onSort={handleSort}
+                          className="min-w-[100px]"
+                        />
+                        <SortableHeader
+                          label="Buy-All"
+                          subLabel="(Gold)"
+                          sortKey="buyCost"
+                          currentSort={sortKey}
+                          currentDirection={sortDirection}
+                          onSort={handleSort}
+                          className="text-right w-[100px]"
+                        />
+                        <SortableHeader
+                          label="Craft"
+                          subLabel="(Gold)"
+                          sortKey="craftCost"
+                          currentSort={sortKey}
+                          currentDirection={sortDirection}
+                          onSort={handleSort}
+                          className="text-right w-[100px]"
+                        />
+                        <SortableHeader
+                          label="Best"
+                          sortKey="recommendation"
+                          currentSort={sortKey}
+                          currentDirection={sortDirection}
+                          onSort={handleSort}
+                          className="text-center min-w-[140px]"
+                        />
+                        <TableHead className="text-right font-mono min-w-[150px] pr-4">
+                          Savings
+                        </TableHead>
+                        <TableHead className="text-center font-mono min-w-[100px]">
+                          Status
+                        </TableHead>
+                      </TableRow>
+                    </TableHeader>
+                    <TableBody>
+                      {displayRows.map((r, i) => {
+                        const rank = i + 1;
+                        const rankBadge = rank <= 3 ? RANK_BADGES[rank - 1] : null;
+                        const insufficient = r.recommendation === "Insufficient";
+
+                        return (
+                          <Fragment key={r.slug}>
+                            <TableRow
+                              className={cn(
+                                "transition-all duration-200 border-b border-border/40",
+                                getRankRowStyles(rank, insufficient)
+                              )}
+                            >
+                              <TableCell className="w-10 pl-3 py-3">
+                                <Button
+                                  variant="ghost"
+                                  size="sm"
+                                  onClick={() => toggleRowExpansion(r.slug)}
+                                  className="h-8 w-8 p-0"
+                                  aria-label={
+                                    expandedRows[r.slug]
+                                      ? "Collapse breakdown"
+                                      : "Expand breakdown"
+                                  }
+                                >
+                                  {expandedRows[r.slug] ? (
+                                    <ChevronDown className="h-4 w-4" />
+                                  ) : (
+                                    <ChevronRight className="h-4 w-4" />
+                                  )}
+                                </Button>
+                              </TableCell>
+                              <TableCell className="font-medium font-mono py-3">
+                                <div className="flex flex-col gap-1">
+                                  <div className="flex items-center gap-2">
+                                    {!insufficient && rank === 1 && (
+                                      <Crown className="h-4 w-4 text-amber-400 shrink-0" />
+                                    )}
+                                    {!insufficient && rank === 2 && (
+                                      <Award className="h-4 w-4 text-slate-300 shrink-0" />
+                                    )}
+                                    {!insufficient && rank === 3 && (
+                                      <Award className="h-4 w-4 text-orange-400 shrink-0" />
+                                    )}
+                                    {insufficient && (
+                                      <AlertTriangle className="h-4 w-4 text-destructive shrink-0" />
+                                    )}
+                                    <span className="font-bold tabular-nums">
+                                      {rank}
+                                    </span>
+                                  </div>
+                                  {rankBadge && !insufficient && (
+                                    <Badge
+                                      variant="outline"
+                                      className="text-[10px] w-fit font-mono border-primary/20 px-1.5"
+                                    >
+                                      {rankBadge.emoji} {rankBadge.label}
+                                    </Badge>
+                                  )}
+                                </div>
+                              </TableCell>
+                              <TableCell className="font-semibold font-mono py-3">
+                                {r.name}
+                              </TableCell>
+                              <TableCell className="font-mono text-sm py-3">
+                                {r.station}
+                              </TableCell>
+                              <TableCell className="text-right font-mono py-3">
+                                {r.buyInsufficient ? (
+                                  <span className="text-destructive text-sm">
+                                    Insufficient
+                                  </span>
+                                ) : (
+                                  <span className="font-bold tabular-nums">
+                                    {formatPrice(r.buyCost)}
+                                  </span>
+                                )}
+                              </TableCell>
+                              <TableCell className="text-right font-mono py-3">
+                                {r.craftInsufficient ? (
+                                  <span className="text-destructive text-sm">
+                                    Insufficient
+                                  </span>
+                                ) : (
+                                  <span className="font-bold tabular-nums">
+                                    {formatPrice(r.craftCost)}
+                                  </span>
+                                )}
+                              </TableCell>
+                              <TableCell className="text-center py-3">
+                                <div className="flex justify-center">
+                                  {getBadge(r)}
+                                </div>
+                              </TableCell>
+                              <TableCell className="text-right py-3 pr-4">
+                                {insufficient ? (
+                                  <span className="text-muted-foreground font-mono">
+                                    —
+                                  </span>
+                                ) : (
+                                  <SavingsBar
+                                    savingsPct={r.savingsPct}
+                                    maxSavings={maxSavingsPct}
+                                  />
+                                )}
+                              </TableCell>
+                              <TableCell className="text-center py-3">
+                                {r.buyInsufficient && r.craftInsufficient ? (
+                                  <Badge variant="destructive" className="text-xs">
+                                    No Stock
+                                  </Badge>
+                                ) : r.buyInsufficient ? (
+                                  <Badge
+                                    variant="outline"
+                                    className="text-xs bg-amber-500/20"
+                                  >
+                                    Craft Only
+                                  </Badge>
+                                ) : r.craftInsufficient ? (
+                                  <Badge
+                                    variant="outline"
+                                    className="text-xs bg-blue-500/20"
+                                  >
+                                    Buy Only
+                                  </Badge>
+                                ) : (
+                                  <Badge
+                                    variant="outline"
+                                    className="text-xs bg-green-500/20"
+                                  >
+                                    Both Available
+                                  </Badge>
+                                )}
+                              </TableCell>
+                            </TableRow>
+                            {expandedRows[r.slug] && (
+                              <TableRow>
+                                <TableCell colSpan={9} className="p-0 border-b-0">
+                                  <div className="bg-muted/20 p-4">
+                                    <div className="grid grid-cols-1 lg:grid-cols-2 gap-4">
+                                      <MaterialBreakdownTable
+                                        materials={r.breakdown.buyMaterials}
+                                        title="Buy-All Materials"
+                                        totalCost={r.buyCost}
+                                        insufficient={r.buyInsufficient || false}
+                                      />
+                                      <MaterialBreakdownTable
+                                        materials={r.breakdown.craftMaterials}
+                                        title="Craft-from-Raw Materials"
+                                        totalCost={r.craftCost}
+                                        insufficient={r.craftInsufficient || false}
+                                      />
+                                    </div>
+                                  </div>
+                                </TableCell>
+                              </TableRow>
+                            )}
+                          </Fragment>
+                        );
+                      })}
+                    </TableBody>
+                  </Table>
+                </div>
+              </>
             )}
           </CardContent>
         </Card>
@@ -1409,22 +1939,24 @@ export function CraftingCostComparator({
               </p>
               <ul className="text-sm text-muted-foreground space-y-1 font-mono">
                 <li>
-                  • <strong>Now considers available quantities</strong> - if
-                  there are only 734 stones at 0.15 gold, the rest will be
-                  bought at higher prices
+                  • <strong>Buy-All</strong> vs <strong>Craft-from-Raw</strong>{" "}
+                  compares buying finished materials vs buying base resources
                 </li>
                 <li>
-                  • <strong>Red badges</strong> indicate items that cannot be
-                  crafted/bought due to insufficient materials
+                  • <strong>Savings bars</strong> show relative savings — green
+                  means excellent value from the cheaper option
                 </li>
                 <li>
-                  • <strong>Detailed breakdowns</strong> show exactly which
-                  sellers and prices will be used
+                  • Click column headers to sort; top 3 rows get gold, silver,
+                  and bronze accents
                 </li>
                 <li>
-                  • Calculations now reflect{" "}
-                  <strong>real market availability</strong>, not just lowest
-                  theoretical prices
+                  • Expand any row to see the full material breakdown with real
+                  stock quantities
+                </li>
+                <li>
+                  • Calculations use <strong>actual market availability</strong>,
+                  not just lowest listed prices
                 </li>
               </ul>
             </div>
