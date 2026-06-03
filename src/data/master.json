@@ -134,6 +134,72 @@
         "thumbnailImageUrl": "https://nomstead.com/images/objects/bread.png"
       },
       {
+        "slug": "apple",
+        "category": "items",
+        "subCategory": "food",
+        "metadata": {
+          "title": "Apple",
+          "description": "Eat an apple to restore 15 points of energy."
+        },
+        "imageUrl": "https://nomstead.com/images/objects/apple_full.png",
+        "thumbnailImageUrl": "https://nomstead.com/images/objects/apple.png"
+      },
+      {
+        "slug": "cake_carrot",
+        "category": "items",
+        "subCategory": "food",
+        "metadata": {
+          "title": "Carrot cake",
+          "description": "Eat a carrot cake to restore 60 points of energy."
+        },
+        "imageUrl": "https://nomstead.com/images/objects/cake_carrot_full.png",
+        "thumbnailImageUrl": "https://nomstead.com/images/objects/cake_carrot.png"
+      },
+      {
+        "slug": "cake_grape",
+        "category": "items",
+        "subCategory": "food",
+        "metadata": {
+          "title": "Grape tart cake",
+          "description": "Eat a grape tart cake to restore 160 points of energy."
+        },
+        "imageUrl": "https://nomstead.com/images/objects/cake_grape_full.png",
+        "thumbnailImageUrl": "https://nomstead.com/images/objects/cake_grape.png"
+      },
+      {
+        "slug": "cake_potato",
+        "category": "items",
+        "subCategory": "food",
+        "metadata": {
+          "title": "Golden potato cake",
+          "description": "Eat a golden potato cake to restore 80 points of energy."
+        },
+        "imageUrl": "https://nomstead.com/images/objects/cake_potato_full.png",
+        "thumbnailImageUrl": "https://nomstead.com/images/objects/cake_potato.png"
+      },
+      {
+        "slug": "cake_pumpkin",
+        "category": "items",
+        "subCategory": "food",
+        "metadata": {
+          "title": "Pumpkin spice cake",
+          "description": "Eat a pumpkin spice cake to restore 120 points of energy."
+        },
+        "imageUrl": "https://nomstead.com/images/objects/cake_pumpkin_full.png",
+        "thumbnailImageUrl": "https://nomstead.com/images/objects/cake_pumpkin.png"
+      },
+      {
+        "slug": "cake_tomato",
+        "category": "items",
+        "subCategory": "food",
+        "metadata": {
+          "title": "Upside down tomato cake",
+          "description": "Eat an upside down tomato cake to restore 100 points of energy."
+        },
+        "imageUrl": "https://nomstead.com/images/objects/cake_tomato_full.png",
+        "thumbnailImageUrl": "https://nomstead.com/images/objects/cake_tomato.png"
+      },
+      {
         "slug": "anvil",
         "category": "objects",
         "subCategory": "tools",
@@ -227,7 +293,7 @@
         "subCategory": "food",
         "metadata": {
           "title": "Veggie salad",
-          "description": "Eat a salad to restore 6 points of energy."
+          "description": "Eat a salad to restore 15 points of energy."
         },
         "imageUrl": "https://nomstead.com/images/objects/salad_full.png",
         "thumbnailImageUrl": "https://nomstead.com/images/objects/salad.png"
@@ -491,7 +557,7 @@
         "subCategory": "food",
         "metadata": {
           "title": "Pumpkin bread",
-          "description": "Eat pumpkin bread to restore 45 points of energy."
+          "description": "Eat pumpkin bread to restore 55 points of energy."
         },
         "imageUrl": "https://nomstead.com/images/objects/pumpkin_bread_full.png",
         "thumbnailImageUrl": "https://nomstead.com/images/objects/pumpkin_bread.png"
@@ -713,7 +779,7 @@
         "subCategory": "food",
         "metadata": {
           "title": "Wrapped potato",
-          "description": "Eat a wrapped potato to restore 4 points of energy."
+          "description": "Eat a wrapped potato to restore 20 points of energy."
         },
         "imageUrl": "https://nomstead.com/images/objects/wrapped_potato_full.png",
         "thumbnailImageUrl": "https://nomstead.com/images/objects/wrapped_potato.png"
@@ -724,7 +790,7 @@
         "subCategory": "food",
         "metadata": {
           "title": "French fries",
-          "description": "Eat French fries to restore 6 points of energy."
+          "description": "Eat French fries to restore 25 points of energy."
         },
         "imageUrl": "https://nomstead.com/images/objects/fries_full.png",
         "thumbnailImageUrl": "https://nomstead.com/images/objects/fries.png"
@@ -739,6 +805,61 @@
         },
         "imageUrl": "https://nomstead.com/images/objects/mushroom_soup_full.png",
         "thumbnailImageUrl": "https://nomstead.com/images/objects/mushroom_soup.png"
+      },
+      {
+        "slug": "cake_carrot",
+        "category": "recipes",
+        "subCategory": "food",
+        "metadata": {
+          "title": "Carrot cake",
+          "description": "Eat a carrot cake to restore 60 points of energy."
+        },
+        "imageUrl": "https://nomstead.com/images/objects/cake_carrot_full.png",
+        "thumbnailImageUrl": "https://nomstead.com/images/objects/cake_carrot.png"
+      },
+      {
+        "slug": "cake_grape",
+        "category": "recipes",
+        "subCategory": "food",
+        "metadata": {
+          "title": "Grape tart cake",
+          "description": "Eat a grape tart cake to restore 160 points of energy."
+        },
+        "imageUrl": "https://nomstead.com/images/objects/cake_grape_full.png",
+        "thumbnailImageUrl": "https://nomstead.com/images/objects/cake_grape.png"
+      },
+      {
+        "slug": "cake_potato",
+        "category": "recipes",
+        "subCategory": "food",
+        "metadata": {
+          "title": "Golden potato cake",
+          "description": "Eat a golden potato cake to restore 80 points of energy."
+        },
+        "imageUrl": "https://nomstead.com/images/objects/cake_potato_full.png",
+        "thumbnailImageUrl": "https://nomstead.com/images/objects/cake_potato.png"
+      },
+      {
+        "slug": "cake_pumpkin",
+        "category": "recipes",
+        "subCategory": "food",
+        "metadata": {
+          "title": "Pumpkin spice cake",
+          "description": "Eat a pumpkin spice cake to restore 120 points of energy."
+        },
+        "imageUrl": "https://nomstead.com/images/objects/cake_pumpkin_full.png",
+        "thumbnailImageUrl": "https://nomstead.com/images/objects/cake_pumpkin.png"
+      },
+      {
+        "slug": "cake_tomato",
+        "category": "recipes",
+        "subCategory": "food",
+        "metadata": {
+          "title": "Upside down tomato cake",
+          "description": "Eat an upside down tomato cake to restore 100 points of energy."
+        },
+        "imageUrl": "https://nomstead.com/images/objects/cake_tomato_full.png",
+        "thumbnailImageUrl": "https://nomstead.com/images/objects/cake_tomato.png"
       },
       {
         "slug": "ingot_gold",
@@ -1033,7 +1154,7 @@
       "slug": "fries",
       "title": "French Fries",
       "source": "Crafting (Bonfire)",
-      "description": "Eat French fries to restore 6 points of energy.",
+      "description": "Eat French fries to restore 25 points of energy.",
       "ingredients": [
         {
           "item": "potato",
@@ -1048,7 +1169,7 @@
         "item": "fries",
         "quantity": 1
       },
-      "energyRestore": 6,
+      "energyRestore": 25,
       "recipePrice": "50 silver"
     },
     {
@@ -1107,7 +1228,7 @@
       "slug": "pumpkin_bread",
       "title": "Pumpkin Bread",
       "source": "Crafting (Bonfire)",
-      "description": "Eat pumpkin bread to restore 45 points of energy.",
+      "description": "Eat pumpkin bread to restore 55 points of energy.",
       "ingredients": [
         {
           "item": "pumpkin",
@@ -1126,7 +1247,7 @@
         "item": "pumpkin_bread",
         "quantity": 1
       },
-      "energyRestore": 45,
+      "energyRestore": 55,
       "recipePrice": "175 silver"
     },
     {
@@ -1159,7 +1280,7 @@
       "slug": "salad",
       "title": "Veggie Salad",
       "source": "Crafting (Bonfire)",
-      "description": "Eat a salad to restore 6 points of energy.",
+      "description": "Eat a salad to restore 15 points of energy.",
       "ingredients": [
         {
           "item": "cucumber",
@@ -1182,7 +1303,7 @@
         "item": "salad",
         "quantity": 1
       },
-      "energyRestore": 6,
+      "energyRestore": 15,
       "recipePrice": "5 silver"
     },
     {
@@ -1207,7 +1328,7 @@
       "slug": "wrapped_potato",
       "title": "Wrapped Potato",
       "source": "Crafting (Bonfire)",
-      "description": "Eat a wrapped potato to restore 4 points of energy.",
+      "description": "Eat a wrapped potato to restore 20 points of energy.",
       "ingredients": [
         {
           "item": "fern",
@@ -1226,8 +1347,83 @@
         "item": "wrapped_potato",
         "quantity": 1
       },
-      "energyRestore": 4,
+      "energyRestore": 20,
       "recipePrice": "50 silver"
+    },
+    {
+      "slug": "cake_carrot",
+      "title": "Carrot Cake",
+      "source": "Crafting (Bonfire)",
+      "description": "Eat a carrot cake to restore 60 points of energy.",
+      "ingredients": [
+        { "item": "carrot", "quantity": 4 },
+        { "item": "egg", "quantity": 1 },
+        { "item": "flour_wheat", "quantity": 1 },
+        { "item": "energy", "quantity": 1 }
+      ],
+      "produces": { "item": "cake_carrot", "quantity": 1 },
+      "energyRestore": 60,
+      "recipePrice": "20 silver"
+    },
+    {
+      "slug": "cake_grape",
+      "title": "Grape Tart Cake",
+      "source": "Crafting (Bonfire)",
+      "description": "Eat a grape tart cake to restore 160 points of energy.",
+      "ingredients": [
+        { "item": "grapes", "quantity": 30 },
+        { "item": "egg", "quantity": 3 },
+        { "item": "flour_wheat", "quantity": 3 },
+        { "item": "energy", "quantity": 1 }
+      ],
+      "produces": { "item": "cake_grape", "quantity": 1 },
+      "energyRestore": 160,
+      "recipePrice": "20 silver"
+    },
+    {
+      "slug": "cake_potato",
+      "title": "Golden Potato Cake",
+      "source": "Crafting (Bonfire)",
+      "description": "Eat a golden potato cake to restore 80 points of energy.",
+      "ingredients": [
+        { "item": "potato", "quantity": 8 },
+        { "item": "egg", "quantity": 1 },
+        { "item": "flour_wheat", "quantity": 1 },
+        { "item": "energy", "quantity": 1 }
+      ],
+      "produces": { "item": "cake_potato", "quantity": 1 },
+      "energyRestore": 80,
+      "recipePrice": "20 silver"
+    },
+    {
+      "slug": "cake_pumpkin",
+      "title": "Pumpkin Spice Cake",
+      "source": "Crafting (Bonfire)",
+      "description": "Eat a pumpkin spice cake to restore 120 points of energy.",
+      "ingredients": [
+        { "item": "pumpkin", "quantity": 8 },
+        { "item": "egg", "quantity": 3 },
+        { "item": "flour_wheat", "quantity": 3 },
+        { "item": "energy", "quantity": 1 }
+      ],
+      "produces": { "item": "cake_pumpkin", "quantity": 1 },
+      "energyRestore": 120,
+      "recipePrice": "20 silver"
+    },
+    {
+      "slug": "cake_tomato",
+      "title": "Upside Down Tomato Cake",
+      "source": "Crafting (Bonfire)",
+      "description": "Eat an upside down tomato cake to restore 100 points of energy.",
+      "ingredients": [
+        { "item": "tomato", "quantity": 8 },
+        { "item": "egg", "quantity": 2 },
+        { "item": "flour_wheat", "quantity": 2 },
+        { "item": "energy", "quantity": 1 }
+      ],
+      "produces": { "item": "cake_tomato", "quantity": 1 },
+      "energyRestore": 100,
+      "recipePrice": "20 silver"
     },
     {
       "slug": "pillows",

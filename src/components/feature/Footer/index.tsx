@@ -9,7 +9,7 @@ export const Footer = () => {
           </div>
 
           <p className="text-sm text-muted-foreground flex items-center gap-1">
-            <span>© 2025</span>
+            <span>© 2026</span>
             <span>•</span>
             <span>Made with</span>
             <span className="text-destructive animate-heartbeat">❤️</span>

@@ -76,21 +76,39 @@ interface EnergyVsPriceProps {
 }
 
 const ENERGY_SOURCES: EnergySource[] = [
+  {
+    slug: "cake_grape",
+    name: "Grape Tart Cake",
+    energy: 160,
+    category: "cake",
+  },
+  {
+    slug: "cake_pumpkin",
+    name: "Pumpkin Spice Cake",
+    energy: 120,
+    category: "cake",
+  },
+  {
+    slug: "cake_tomato",
+    name: "Upside Down Tomato Cake",
+    energy: 100,
+    category: "cake",
+  },
+  {
+    slug: "cake_potato",
+    name: "Golden Potato Cake",
+    energy: 80,
+    category: "cake",
+  },
   { slug: "wine", name: "Wine", energy: 60, category: "beverage" },
+  { slug: "cake_carrot", name: "Carrot Cake", energy: 60, category: "cake" },
   { slug: "bread", name: "Bread", energy: 30, category: "baked" },
   {
     slug: "pumpkin_bread",
     name: "Pumpkin Bread",
-    energy: 45,
+    energy: 55,
     category: "baked",
   },
-  {
-    slug: "mushroom_soup",
-    name: "Mushroom Soup",
-    energy: 30,
-    category: "soup",
-  },
-  { slug: "french_fries", name: "French Fries", energy: 6, category: "snack" },
   {
     slug: "mushroom_omelette",
     name: "Mushroom Omelette",
@@ -98,18 +116,26 @@ const ENERGY_SOURCES: EnergySource[] = [
     category: "meal",
   },
   {
+    slug: "mushroom_soup",
+    name: "Mushroom Soup",
+    energy: 30,
+    category: "soup",
+  },
+  {
     slug: "tomato_omelette",
     name: "Tomato Omelette",
     energy: 30,
     category: "meal",
   },
-  { slug: "veggie_salad", name: "Veggie Salad", energy: 6, category: "salad" },
+  { slug: "fries", name: "French Fries", energy: 25, category: "snack" },
   {
     slug: "wrapped_potato",
     name: "Wrapped Potato",
-    energy: 4,
+    energy: 20,
     category: "snack",
   },
+  { slug: "salad", name: "Veggie Salad", energy: 15, category: "salad" },
+  { slug: "apple", name: "Apple", energy: 15, category: "fruit" },
 ];
 
 export function EnergyVsPriceCalculator({ marketData }: EnergyVsPriceProps) {
@@ -302,10 +328,11 @@ export function EnergyVsPriceCalculator({ marketData }: EnergyVsPriceProps) {
   };
 
   const getEnergyColor = (energy: number) => {
-    if (energy >= 45) return "text-chart-2";
-    if (energy >= 30) return "text-chart-1";
-    if (energy >= 15) return "text-chart-3";
-    return "text-chart-4";
+    if (energy >= 100) return "text-chart-2";
+    if (energy >= 60) return "text-chart-1";
+    if (energy >= 30) return "text-chart-3";
+    if (energy >= 15) return "text-chart-4";
+    return "text-muted-foreground";
   };
 
   return (
